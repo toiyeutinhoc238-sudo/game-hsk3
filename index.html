@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="vi">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>HSK 3 - Phù Thủy Chế Thuốc</title>
+    <link rel="stylesheet" href="style.css?v=1.1">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;800&display=swap" rel="stylesheet">
+</head>
+
+<body>
+    <div id="app">
+        <!-- Splash Screen -->
+        <section id="splash" class="screen active">
+            <div class="mystic-orb"></div>
+            <h1 class="title">HSK 3<br><span>Phù Thủy Chế Thuốc</span></h1>
+            <p class="subtitle">Đấu trí từ vựng - Tránh xa bình độc</p>
+            <div class="splash-actions">
+                <button id="start-btn" class="mystic-btn">Bắt Đầu Nghi Lễ</button>
+                <button id="how-to-play-btn" class="mystic-btn secondary">Hướng Dẫn</button>
+            </div>
+        </section>
+
+        <!-- Lesson Selection -->
+        <section id="lesson-selection" class="screen">
+            <div class="header">
+                <button class="back-btn">← Quay lại</button>
+                <h2>Chọn Bài Học</h2>
+            </div>
+            <div class="lesson-grid">
+                <!-- Lessons will be injected here -->
+            </div>
+        </section>
+
+        <!-- Team Selection -->
+        <section id="team-selection" class="screen">
+            <div class="header">
+                <button class="back-btn">← Quay lại</button>
+                <h2>Số Lượng Đội Chơi</h2>
+            </div>
+            <div class="team-options">
+                <button class="team-btn" data-teams="1">1 Đội (Luyện tập)</button>
+                <button class="team-btn" data-teams="2">2 Đội Đối Kháng</button>
+                <button class="team-btn" data-teams="3">3 Đội Đối Kháng</button>
+                <button class="team-btn" data-teams="4">4 Đội Đối Kháng</button>
+            </div>
+        </section>
+
+        <!-- Game Screen -->
+        <section id="game-screen" class="screen">
+            <div class="game-header">
+                <div class="lesson-info">
+                    <span id="current-lesson-title">Bài 1</span>
+                    <h3 id="current-lesson-name">...</h3>
+                </div>
+                <div class="game-controls">
+                    <button id="setup-auto-btn" class="small-btn">Tự Động Giấu Độc</button>
+                    <button id="setup-manual-btn" class="small-btn">Giáo Viên Giấu Độc</button>
+                    <button id="reset-game-btn" class="small-btn danger">Chơi Lại</button>
+                    <button id="exit-btn" class="small-btn">Thoát</button>
+                </div>
+            </div>
+
+            <div class="game-layout">
+                <div class="teams-sidebar" id="teams-sidebar">
+                    <!-- Teams info -->
+                </div>
+
+                <div class="main-stage">
+                    <div id="phase-indicator" class="phase-banner">
+                        Nhắm mắt lại: Phù thủy đang chế thuốc...
+                    </div>
+
+                    <div class="action-bar">
+                        <button id="start-phase-btn" class="huge-btn hidden">Trời Sáng - Bắt Đầu!</button>
+                    </div>
+
+                    <div id="timer-container" class="timer-container hidden">
+                        <div class="timer-icon">⏳</div>
+                        <div id="timer-bar" class="timer-bar">
+                            <div id="timer-progress" class="timer-progress"></div>
+                        </div>
+                        <div id="timer-val" class="timer-val">30</div>
+                    </div>
+
+                    <div id="word-grid" class="word-grid">
+                        <!-- Tiles injected here -->
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Modals -->
+        <div id="modal-overlay" class="modal-overlay">
+            <div class="modal card">
+                <div id="modal-content"></div>
+                <button id="modal-close" class="mystic-btn">Đã Hiểu</button>
+            </div>
+        </div>
+
+        <!-- Instruction Modal -->
+        <div id="how-to-play-modal" class="modal-overlay">
+            <div class="modal instruction-card">
+                <h2>📜 Cách Chế Thuốc Độc</h2>
+                <div class="instruction-steps">
+                    <div class="step">
+                        <div class="step-num">1</div>
+                        <div class="step-text"><b>Chuẩn bị:</b> Chọn bài học và số lượng đội (1-4 đội).</div>
+                    </div>
+                    <div class="step">
+                        <div class="step-num">2</div>
+                        <div class="step-text"><b>Giấu Độc (Trời Tối):</b> <br>AI sẽ tự động giấu 3-4 bình độc, hoặc
+                            Giáo viên có thể tự chọn ô để giấu.</div>
+                    </div>
+                    <div class="step">
+                        <div class="step-num">3</div>
+                        <div class="step-text"><b>Đối Kháng (Trời Sáng):</b> <br>Các đội lần lượt chọn ô chữ Hán. Ô
+                            <b>An Toàn</b> (+10đ), ô <b>Bình Độc</b> (-5đ & Thua ngay).</div>
+                    </div>
+                </div>
+                <button id="close-how-to-btn" class="mystic-btn">Đã Hiểu</button>
+            </div>
+        </div>
+
+        <!-- Result Modal -->
+        <div id="result-modal" class="modal-overlay full">
+            <div class="result-card">
+                <h2 id="winner-text">Chiến Thắng!</h2>
+                <div class="review-section">
+                    <h3>Ôn tập từ vựng:</h3>
+                    <div id="review-list" class="review-list"></div>
+                </div>
+                <div class="result-actions">
+                    <button id="play-again-btn" class="mystic-btn">Chơi Lại</button>
+                    <button id="main-menu-btn" class="mystic-btn secondary">Về Menu</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Potion Bubble Background -->
+    <div class="potion-bg">
+        <div class="bubble"></div>
+        <div class="bubble"></div>
+        <div class="bubble"></div>
+        <div class="bubble"></div>
+        <div class="bubble"></div>
+    </div>
+
+    <script src="data.js"></script>
+    <script src="script.js?v=1.1"></script>
+    <script>
+        console.log("HSK 3 Mystery Game: Version 1.1 Loaded (Timer implemented)");
+    </script>
+</body>
+
+</html>
