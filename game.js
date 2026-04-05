@@ -14,19 +14,16 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // --- DOM Elements ---
     const screens = {
-        splash: document.getElementById('splash'),
-        lessons: document.getElementById('lesson-selection'),
         teams: document.getElementById('team-selection'),
         game: document.getElementById('game-screen')
     };
 
-    const lessonGrid = document.querySelector('.lesson-grid');
     const wordGrid = document.getElementById('word-grid');
     const teamsSidebar = document.getElementById('teams-sidebar');
     const phaseIndicator = document.getElementById('phase-indicator');
     const startPhaseBtn = document.getElementById('start-phase-btn');
 
-    // --- Sounds (Logic only, actual files would name these) ---
+    // --- Sounds ---
     const sounds = {
         correct: new Audio('https://assets.mixkit.co/active_storage/sfx/2016/2016-preview.mp3'),
         wrong: new Audio('https://assets.mixkit.co/active_storage/sfx/256/256-preview.mp3'),
@@ -40,45 +37,32 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     }
 
-    // --- Navigation ---
     function showScreen(screenId) {
-        Object.values(screens).forEach(s => s.classList.remove('active'));
-        screens[screenId].classList.add('active');
+        Object.values(screens).forEach(s => {
+            if (s) s.classList.remove('active');
+        });
+        if (screens[screenId]) screens[screenId].classList.add('active');
     }
 
-    // --- Initialization ---
     function init() {
-        // Build lesson selection
-        hsk3Data.forEach((lesson, index) => {
-            const card = document.createElement('div');
-            card.className = 'lesson-card';
-            card.innerHTML = `
-                <div class="num">Bài ${lesson.lesson}</div>
-                <div class="title">${lesson.title}</div>
-            `;
-            card.onclick = () => {
-                currentLesson = index;
-                showScreen('teams');
-            };
-            lessonGrid.appendChild(card);
-        });
+        // Read lesson from URL
+        const params = new URLSearchParams(window.location.search);
+        const lessonNum = parseInt(params.get('lesson'));
+
+        if (isNaN(lessonNum) || lessonNum < 1 || lessonNum > hsk3Data.length) {
+            // Redirect back if lesson is invalid
+            window.location.href = 'index.html';
+            return;
+        }
+
+        currentLesson = lessonNum - 1; // Convert back to 0-indexed for data access
+        showScreen('teams');
 
         // Event Listeners
-        document.getElementById('start-btn').onclick = () => showScreen('lessons');
-        
-        document.getElementById('how-to-play-btn').onclick = () => {
-            document.getElementById('how-to-play-modal').classList.add('active');
-        };
-
-        document.getElementById('close-how-to-btn').onclick = () => {
-            document.getElementById('how-to-play-modal').classList.remove('active');
-        };
-        
         document.querySelectorAll('.back-btn').forEach(btn => {
             btn.onclick = () => {
-                if (screens.game.classList.contains('active')) showScreen('lessons');
-                else if (screens.teams.classList.contains('active')) showScreen('lessons');
-                else if (screens.lessons.classList.contains('active')) showScreen('splash');
+                if (screens.game.classList.contains('active')) showScreen('teams');
+                else window.location.href = 'index.html';
             };
         });
 
@@ -94,14 +78,14 @@ document.addEventListener('DOMContentLoaded', () => {
         document.getElementById('setup-manual-btn').onclick = () => startPhase('TEACHER');
         document.getElementById('start-phase-btn').onclick = startPlaying;
         document.getElementById('reset-game-btn').onclick = initGame;
-        document.getElementById('exit-btn').onclick = () => showScreen('lessons');
-        document.getElementById('main-menu-btn').onclick = () => {
-            document.getElementById('result-modal').classList.remove('active');
-            showScreen('lessons');
-        };
+        document.getElementById('exit-btn').onclick = () => window.location.href = 'index.html';
+        document.getElementById('main-menu-btn').onclick = () => window.location.href = 'index.html';
         document.getElementById('play-again-btn').onclick = () => {
             document.getElementById('result-modal').classList.remove('active');
             initGame();
+        };
+        document.getElementById('modal-close').onclick = () => {
+            document.getElementById('modal-overlay').classList.remove('active');
         };
     }
 
@@ -152,29 +136,27 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
-    // --- Timer System ---
     function startTimer(seconds, onEnd) {
-        console.log("Timer Starting:", seconds, "seconds");
         stopTimer();
         const container = document.getElementById('timer-container');
         const progressBar = document.getElementById('timer-progress');
         const valDisplay = document.getElementById('timer-val');
         
+        if (!container) return;
+
         container.classList.remove('hidden', 'warning');
         timeLeft = seconds;
         valDisplay.textContent = timeLeft;
         progressBar.style.width = '100%';
         progressBar.style.transition = 'none';
-        void progressBar.offsetWidth; // Trigger reflow
+        void progressBar.offsetWidth;
         progressBar.style.transition = 'width 1s linear';
 
         timerInterval = setInterval(() => {
             timeLeft--;
             valDisplay.textContent = timeLeft;
             progressBar.style.width = `${(timeLeft / seconds) * 100}%`;
-
             if (timeLeft <= 5) container.classList.add('warning');
-
             if (timeLeft <= 0) {
                 stopTimer();
                 if (onEnd) onEnd();
@@ -183,23 +165,21 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     function stopTimer() {
-        console.log("Timer Stopped / Hidden");
         clearInterval(timerInterval);
         const container = document.getElementById('timer-container');
         if (container) container.classList.add('hidden');
     }
 
     function startPhase(selectedMode) {
-        console.log("Starting Phase:", selectedMode);
         mode = selectedMode;
         stage = 'POISONING';
         poisonIndices = [];
         revealedIndices.clear();
-        renderGrid(); // Clear previous visuals
+        renderGrid();
         
         if (mode === 'AI') {
             const words = hsk3Data[currentLesson].words;
-            const poisonCount = Math.max(1, Math.floor(words.length / 5)); // ~3-4 poisons
+            const poisonCount = Math.max(1, Math.floor(words.length / 5));
             while (poisonIndices.length < poisonCount) {
                 const rand = Math.floor(Math.random() * words.length);
                 if (!poisonIndices.includes(rand)) poisonIndices.push(rand);
@@ -208,13 +188,10 @@ document.addEventListener('DOMContentLoaded', () => {
             startPhaseBtn.classList.remove('hidden');
             playSound('magic');
         } else {
-            phaseIndicator.textContent = "Giáo viên: Hãy chọn các ô làm bình độc (Click vào ô).";
+            phaseIndicator.textContent = "Giáo viên: Chọn các ô làm bình độc.";
             startPhaseBtn.classList.remove('hidden');
             startPhaseBtn.textContent = "Xong! Bắt đầu chơi";
-            
-            // Start 30s timer for teacher
             startTimer(30, () => {
-                // If teacher doesn't pick any, pick random ones
                 if (poisonIndices.length === 0) {
                     const words = hsk3Data[currentLesson].words;
                     const poisonCount = Math.max(1, Math.floor(words.length / 5));
@@ -237,7 +214,6 @@ document.addEventListener('DOMContentLoaded', () => {
         stage = 'PLAYING';
         startPhaseBtn.classList.add('hidden');
         phaseIndicator.textContent = `Lượt của Đội ${currentTurn + 1}`;
-        // Hide teacher markers if any
         document.querySelectorAll('.tile').forEach(t => t.classList.remove('poisoned-hidden'));
         playSound('magic');
         startTimer(15, nextTurn);
@@ -245,7 +221,6 @@ document.addEventListener('DOMContentLoaded', () => {
 
     function handleTileClick(index) {
         if (isGameOver) return;
-
         const tile = document.querySelector(`.tile[data-index="${index}"]`);
         
         if (stage === 'POISONING') {
@@ -262,10 +237,8 @@ document.addEventListener('DOMContentLoaded', () => {
             return;
         }
 
-        // --- Playing Stage ---
         if (revealedIndices.has(index)) return;
         stopTimer();
-
         revealedIndices.add(index);
         const word = hsk3Data[currentLesson].words[index];
         const isPoison = poisonIndices.includes(index);
@@ -280,7 +253,6 @@ document.addEventListener('DOMContentLoaded', () => {
                 </div>
             `;
             playSound('wrong');
-            // Current team loses point or gets eliminated
             scores[currentTurn] = Math.max(0, scores[currentTurn] - 5);
             updateScores();
             endGame(`Đội ${currentTurn + 1} đã trúng độc!`);
@@ -296,8 +268,6 @@ document.addEventListener('DOMContentLoaded', () => {
             playSound('correct');
             scores[currentTurn] += 10;
             updateScores();
-            
-            // Check if all safe tiles are revealed
             const words = hsk3Data[currentLesson].words;
             if (revealedIndices.size === words.length - poisonIndices.length) {
                 endGame("Tất cả bình an! Nhiệm vụ hoàn thành.");
@@ -314,10 +284,7 @@ document.addEventListener('DOMContentLoaded', () => {
             c.classList.toggle('active', i === currentTurn);
         });
         phaseIndicator.textContent = `Lượt của Đội ${currentTurn + 1}`;
-        
-        if (!isGameOver) {
-            startTimer(15, nextTurn);
-        }
+        if (!isGameOver) startTimer(15, nextTurn);
     }
 
     function updateScores() {
@@ -331,8 +298,6 @@ document.addEventListener('DOMContentLoaded', () => {
         stopTimer();
         isGameOver = true;
         document.getElementById('winner-text').textContent = msg;
-        
-        // Build review list
         const reviewList = document.getElementById('review-list');
         reviewList.innerHTML = '';
         hsk3Data[currentLesson].words.forEach(w => {
@@ -345,7 +310,6 @@ document.addEventListener('DOMContentLoaded', () => {
             `;
             reviewList.appendChild(item);
         });
-
         setTimeout(() => {
             document.getElementById('result-modal').classList.add('active');
         }, 1500);
