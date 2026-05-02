@@ -13,6 +13,7 @@ document.addEventListener('DOMContentLoaded', () => {
     let poisoningTeamIndex = 0;
     let timerInterval = null;
     let timeLeft = 0;
+    let isProcessing = false;
 
     // --- DOM Elements ---
     const screens = {
@@ -112,6 +113,7 @@ document.addEventListener('DOMContentLoaded', () => {
         poisonIndices = [];
         revealedIndices.clear();
         eliminatedTeams.clear();
+        isProcessing = false;
         
         const themeData = hsk3Data[currentLesson];
         document.getElementById('current-lesson-title').textContent = `Chủ đề ${currentLesson + 1}`;
@@ -247,7 +249,7 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     function handleTileClick(index) {
-        if (isGameOver) return;
+        if (isGameOver || isProcessing) return;
         const tile = document.querySelector(`.tile[data-index="${index}"]`);
         
         if (stage === 'POISONING') {
@@ -270,6 +272,9 @@ document.addEventListener('DOMContentLoaded', () => {
         }
 
         if (revealedIndices.has(index)) return;
+        
+        // Start processing the click
+        isProcessing = true;
         stopTimer();
         revealedIndices.add(index);
         const word = this.gameWords[index];
@@ -304,7 +309,18 @@ document.addEventListener('DOMContentLoaded', () => {
                         break;
                     }
                 }
-                endGame(`Đội ${currentTurn + 1} trúng độc! Chúc mừng Đội ${winnerIdx + 1} là người sống sót cuối cùng và đã chiến thắng!`);
+
+                // Format list of eliminated teams
+                const eliminatedList = Array.from(eliminatedTeams).sort((a, b) => a - b).map(idx => `Đội ${idx + 1}`);
+                let eliminatedStr = "";
+                if (eliminatedList.length === 1) {
+                    eliminatedStr = eliminatedList[0];
+                } else {
+                    const last = eliminatedList.pop();
+                    eliminatedStr = `${eliminatedList.join(', ')} và ${last}`;
+                }
+
+                endGame(`${eliminatedStr} trúng độc! Chúc mừng Đội ${winnerIdx + 1} là người sống sót cuối cùng và đã chiến thắng!`);
             } else if (activeTeamsCount === 0) {
                 // Everyone hit poison (could happen if last 2 hit simultaneously in some logic, but here it's sequential)
                 endGame(`Tất cả các đội đều đã trúng độc! Không có người chiến thắng.`);
@@ -314,8 +330,9 @@ document.addEventListener('DOMContentLoaded', () => {
                 phaseIndicator.style.background = "var(--danger)";
                 setTimeout(() => {
                     phaseIndicator.style.background = "var(--primary)";
+                    isProcessing = false;
                     nextTurn();
-                }, 2000);
+                }, 3000);
             }
         } else {
             tile.classList.add('revealed-safe');
@@ -336,6 +353,10 @@ document.addEventListener('DOMContentLoaded', () => {
             scores[currentTurn] += 10;
             updateScores();
             
+            // Feedback to user
+            phaseIndicator.textContent = `CHÍNH XÁC! Đội ${currentTurn + 1} an toàn và nhận +10 điểm!`;
+            phaseIndicator.style.background = "#27ae60"; // Success green
+
             const totalTiles = this.gameWords.length;
             const safeTilesCount = totalTiles - poisonIndices.length;
             
@@ -358,7 +379,11 @@ document.addEventListener('DOMContentLoaded', () => {
                 
                 endGame(winMsg);
             } else {
-                nextTurn();
+                setTimeout(() => {
+                    phaseIndicator.style.background = "var(--primary)";
+                    isProcessing = false;
+                    nextTurn();
+                }, 3000);
             }
         }
     }
