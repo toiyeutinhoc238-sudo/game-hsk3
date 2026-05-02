@@ -6,6 +6,7 @@ document.addEventListener('DOMContentLoaded', () => {
     let currentTurn = 0;
     let poisonIndices = [];
     let revealedIndices = new Set();
+    let eliminatedTeams = new Set();
     let isGameOver = false;
     let stage = 'POISONING'; // 'POISONING', 'PLAYING'
     let mode = 'AI'; // 'AI', 'TEACHER'
@@ -28,7 +29,8 @@ document.addEventListener('DOMContentLoaded', () => {
     const sounds = {
         correct: new Audio('https://assets.mixkit.co/active_storage/sfx/2016/2016-preview.mp3'),
         wrong: new Audio('https://assets.mixkit.co/active_storage/sfx/256/256-preview.mp3'),
-        magic: new Audio('https://assets.mixkit.co/active_storage/sfx/2026/2026-preview.mp3')
+        magic: new Audio('https://assets.mixkit.co/active_storage/sfx/2026/2026-preview.mp3'),
+        win: new Audio('nhac_nen/chienthang.mp3')
     };
 
     function playSound(type) {
@@ -100,12 +102,16 @@ document.addEventListener('DOMContentLoaded', () => {
     function initGame() {
         stopTimer();
         isGameOver = false;
+        if (window.gameAudio && !window.gameAudio.isMuted) {
+            window.gameAudio.music.play().catch(e => console.log("Music play failed"));
+        }
         stage = 'POISONING';
         scores = new Array(teamCount).fill(0);
         currentTurn = 0;
         poisoningTeamIndex = 0;
         poisonIndices = [];
         revealedIndices.clear();
+        eliminatedTeams.clear();
         
         const themeData = hsk3Data[currentLesson];
         document.getElementById('current-lesson-title').textContent = `Chủ đề ${currentLesson + 1}`;
@@ -131,7 +137,7 @@ document.addEventListener('DOMContentLoaded', () => {
         teamsSidebar.innerHTML = '';
         for (let i = 0; i < teamCount; i++) {
             const card = document.createElement('div');
-            card.className = `team-card t${i} ${i === currentTurn ? 'active' : ''}`;
+            card.className = `team-card t${i} ${i === currentTurn ? 'active' : ''} ${eliminatedTeams.has(i) ? 'eliminated' : ''}`;
             card.innerHTML = `
                 <div class="name">Đội ${i + 1}</div>
                 <div class="score" id="score-team-${i}">${scores[i]}</div>
@@ -279,12 +285,38 @@ document.addEventListener('DOMContentLoaded', () => {
                 </div>
             `;
             playSound('wrong');
-            // Thua ngay lập tức, không trừ điểm
-            let winMsg = `Đội ${currentTurn + 1} trúng độc và đã thua cuộc!`;
-            if (teamCount > 1) {
-                winMsg += ` Xin chúc mừng các đội còn lại!`;
+            
+            // Elimination Logic
+            eliminatedTeams.add(currentTurn);
+            renderTeams(); // Update UI to show elimination
+
+            const activeTeamsCount = teamCount - eliminatedTeams.size;
+
+            if (teamCount === 1) {
+                // Single player mode
+                endGame(`Bạn đã trúng độc! Thật đáng tiếc.`);
+            } else if (activeTeamsCount === 1) {
+                // Only one team left
+                let winnerIdx = -1;
+                for (let i = 0; i < teamCount; i++) {
+                    if (!eliminatedTeams.has(i)) {
+                        winnerIdx = i;
+                        break;
+                    }
+                }
+                endGame(`Đội ${currentTurn + 1} trúng độc! Chúc mừng Đội ${winnerIdx + 1} là người sống sót cuối cùng và đã chiến thắng!`);
+            } else if (activeTeamsCount === 0) {
+                // Everyone hit poison (could happen if last 2 hit simultaneously in some logic, but here it's sequential)
+                endGame(`Tất cả các đội đều đã trúng độc! Không có người chiến thắng.`);
+            } else {
+                // Game continues for remaining teams
+                phaseIndicator.textContent = `ĐỘI ${currentTurn + 1} TRÚNG ĐỘC VÀ BỊ LOẠI!`;
+                phaseIndicator.style.background = "var(--danger)";
+                setTimeout(() => {
+                    phaseIndicator.style.background = "var(--primary)";
+                    nextTurn();
+                }, 2000);
             }
-            endGame(winMsg);
         } else {
             tile.classList.add('revealed-safe');
             tile.innerHTML += `
@@ -332,13 +364,24 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     function nextTurn() {
+        if (isGameOver) return;
         stopTimer();
-        currentTurn = (currentTurn + 1) % teamCount;
+        
+        // Find next non-eliminated team
+        let nextIdx = (currentTurn + 1) % teamCount;
+        let attempts = 0;
+        while (eliminatedTeams.has(nextIdx) && attempts < teamCount) {
+            nextIdx = (nextIdx + 1) % teamCount;
+            attempts++;
+        }
+        
+        currentTurn = nextIdx;
+        
         document.querySelectorAll('.team-card').forEach((c, i) => {
             c.classList.toggle('active', i === currentTurn);
         });
         phaseIndicator.textContent = `Lượt của Đội ${currentTurn + 1}`;
-        if (!isGameOver) startTimer(15, nextTurn);
+        startTimer(15, nextTurn);
     }
 
     function updateScores() {
@@ -379,6 +422,10 @@ document.addEventListener('DOMContentLoaded', () => {
         });
 
         setTimeout(() => {
+            if (window.gameAudio && !window.gameAudio.isMuted) {
+                window.gameAudio.music.pause();
+            }
+            playSound('win');
             document.getElementById('result-modal').classList.add('active');
         }, 1500);
     }

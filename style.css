@@ -424,6 +424,20 @@ body {
 .team-card .name { font-weight: 600; font-size: 0.9rem; }
 .team-card .score { font-size: 1.5rem; font-weight: 800; }
 
+.team-card.eliminated {
+    opacity: 0.4;
+    filter: grayscale(0.8);
+    pointer-events: none;
+    background: rgba(255, 77, 77, 0.05);
+    border-left-color: var(--text-dim) !important;
+}
+
+.team-card.eliminated .name::after {
+    content: ' (LOẠI)';
+    color: var(--danger);
+    font-weight: 800;
+}
+
 .main-stage {
     display: flex;
     flex-direction: column;
