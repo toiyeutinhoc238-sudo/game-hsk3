@@ -1,436 +1,3409 @@
 const hsk3Data = [
   {
-    lesson: 1,
-    title: "周末你有什么打算？",
-    words: [
-      { hz: "周末", py: "zhōumò", pos: "Danh từ", mn: "ngày cuối tuần", ex: "周末你有什么打算？" },
-      { hz: "打算", py: "dǎsuàn", pos: "DT, ĐT", mn: "kế hoạch, dự định", ex: "我打算明天去爬山。" },
-      { hz: "啊", py: "a", pos: "Trợ từ", mn: "a, à, nhé", ex: "是啊" },
-      { hz: "跟", py: "gēn", pos: "Giới từ", mn: "cùng, với", ex: "我还没想好要不要跟你去呢。" },
-      { hz: "一直", py: "yìzhí", pos: "Phó từ", mn: "suốt, liên tục", ex: "你一直玩电脑游戏，作业写完了吗？" },
-      { hz: "游戏", py: "yóuxì", pos: "Danh từ", mn: "trò chơi", ex: "我喜欢电脑游戏。" },
-      { hz: "作业", py: "zuòyè", pos: "Danh từ", mn: "bài tập về nhà", ex: "你们的作业做得很好。" },
-      { hz: "着急", py: "zháojí", pos: "Tính từ", mn: "lo lắng, vội", ex: "明天不是有考试吗？你怎么一点儿也不着急？" },
-      { hz: "复习", py: "fùxí", pos: "Động từ", mn: "ôn tập", ex: "我早就复习好了。" },
-      { hz: "南方", py: "nánfāng", pos: "Danh từ", mn: "phía Nam", ex: "南方的气候比北方湿润。" },
-      { hz: "北方", py: "běifāng", pos: "Danh từ", mn: "phía Bắc", ex: "南方太热，北方好一些。" },
-      { hz: "面包", py: "miànbāo", pos: "Danh từ", mn: "bánh mỳ", ex: "妈妈让我去商店买面包。" },
-      { hz: "带", py: "dài", pos: "Động từ", mn: "mang theo", ex: "再多带几件衣服吧。" },
-      { hz: "地图", py: "dìtú", pos: "Danh từ", mn: "bản đồ", ex: "手机，电脑，地图，一个也不能少。" },
-      { hz: "搬", py: "bān", pos: "Động từ", mn: "dọn, dời, chuyển", ex: "我们是去旅游，不是搬家..." }
+    "theme": "Con người & Các mối quan hệ",
+    "words": [
+      {
+        "hz": "阿姨",
+        "py": "ā' yí",
+        "pos": "Danh từ",
+        "mn": "Dì",
+        "ex": ""
+      },
+      {
+        "hz": "大人",
+        "py": "dàren",
+        "pos": "Danh từ",
+        "mn": "người lớn",
+        "ex": ""
+      },
+      {
+        "hz": "夫妻",
+        "py": "fūqī",
+        "pos": "Danh từ",
+        "mn": "vợ chồng",
+        "ex": ""
+      },
+      {
+        "hz": "画家",
+        "py": "huàjiā",
+        "pos": "Danh từ",
+        "mn": "họa sĩ",
+        "ex": ""
+      },
+      {
+        "hz": "姐妹",
+        "py": "jiěmèi",
+        "pos": "Danh từ",
+        "mn": "chị em",
+        "ex": ""
+      },
+      {
+        "hz": "客人",
+        "py": "kèrén",
+        "pos": "Danh từ",
+        "mn": "Khách, khách khứa",
+        "ex": ""
+      },
+      {
+        "hz": "课文",
+        "py": "kèwén",
+        "pos": "Danh từ",
+        "mn": "Bài đọc, bài văn trong giáo trình",
+        "ex": ""
+      },
+      {
+        "hz": "老人",
+        "py": "lǎorén",
+        "pos": "Danh từ",
+        "mn": "Người già",
+        "ex": ""
+      },
+      {
+        "hz": "留学生",
+        "py": "liúxuésheng",
+        "pos": "Danh từ",
+        "mn": "Du học sinh",
+        "ex": ""
+      },
+      {
+        "hz": "名人",
+        "py": "míngrén",
+        "pos": "Danh từ",
+        "mn": "Người nổi tiếng",
+        "ex": ""
+      },
+      {
+        "hz": "男生",
+        "py": "nánshēng",
+        "pos": "Danh từ",
+        "mn": "Nam sinh, bạn nam",
+        "ex": ""
+      },
+      {
+        "hz": "女生",
+        "py": "nǚshēng",
+        "pos": "Danh từ",
+        "mn": "Nữ sinh, bạn nữ",
+        "ex": ""
+      },
+      {
+        "hz": "叔叔",
+        "py": "shūshu",
+        "pos": "Danh từ",
+        "mn": "Chú",
+        "ex": ""
+      },
+      {
+        "hz": "游客",
+        "py": "yóukè",
+        "pos": "Danh từ",
+        "mn": "Khách du lịch",
+        "ex": ""
+      }
     ]
   },
   {
-    lesson: 2,
-    title: "他什么时候回来",
-    words: [
-      { hz: "腿", py: "tuǐ", pos: "Danh từ", mn: "chân", ex: "我的腿很酸。" },
-      { hz: "疼", py: "téng", pos: "Tính từ", mn: "đau, nhức", ex: "我的伤口很疼。" },
-      { hz: "脚", py: "jiǎo", pos: "Danh từ", mn: "bàn chân", ex: "我现在腿很疼，脚 cũng đau nữa." },
-      { hz: "树", py: "shù", pos: "Danh từ", mn: "cây", ex: "那边树多，我们过去坐一下吧。" },
-      { hz: "容易", py: "róngyì", pos: "Tính từ", mn: "dễ", ex: "这道题很容易，你自己做吧。" },
-      { hz: "难", py: "nán", pos: "Tính từ", mn: "khó", ex: "这道题太难了，我不会做。" },
-      { hz: "太太", py: "tàitai", pos: "Danh từ", mn: "bà, phu nhân, vợ", ex: "王太太，每天 đều gọi điện cho tôi." },
-      { hz: "秘书", py: "mìshū", pos: "Danh từ", mn: "thư ký", ex: "秘书帮老板做事。" },
-      { hz: "经理", py: "jīnglǐ", pos: "Danh từ", mn: "giám đốc", ex: "他是这家公司的经理。" },
-      { hz: "办公室", py: "bàngōngshì", pos: "Danh từ", mn: "văn phòng", ex: "他在办公室工作。" },
-      { hz: "辆", py: "liàng", pos: "Lượng từ", mn: "chiếc (xe cộ)", ex: "那几辆自行车都是新的。" },
-      { hz: "楼", py: "lóu", pos: "Danh từ", mn: "tòa nhà, lầu", ex: "我上楼给你拿把伞。" },
-      { hz: "拿", py: "ná", pos: "Động từ", mn: "cầm, lấy", ex: "请你拿这杯水给他。" },
-      { hz: "把", py: "bǎ", pos: "Lượng từ", mn: "cây, chiếc (có cán)", ex: "他有一把刀。" },
-      { hz: "伞", py: "sǎn", pos: "Danh từ", mn: "chiếc ô", ex: "他带着一把伞了。" },
-      { hz: "胖", py: "pàng", pos: "Tính từ", mn: "mập, béo", ex: "他最近有点胖。" },
-      { hz: "其实", py: "qíshí", pos: "Phó từ", mn: "thực ra", ex: "其实我每天都运动。" },
-      { hz: "瘦", py: "shòu", pos: "Tính từ", mn: "gầy", ex: "女人都想瘦。" }
+    "theme": "Cơ thể & Sức khỏe",
+    "words": [
+      {
+        "hz": "病人",
+        "py": "bìngrén",
+        "pos": "Danh từ",
+        "mn": "bệnh nhân",
+        "ex": ""
+      },
+      {
+        "hz": "查",
+        "py": "chá",
+        "pos": "Động từ",
+        "mn": "kiểm tra, tra cứu",
+        "ex": ""
+      },
+      {
+        "hz": "发烧",
+        "py": "fāshāo",
+        "pos": "Động từ",
+        "mn": "sốt",
+        "ex": ""
+      },
+      {
+        "hz": "感到",
+        "py": "gǎndào",
+        "pos": "Động từ",
+        "mn": "cảm thấy",
+        "ex": ""
+      },
+      {
+        "hz": "感冒",
+        "py": "gǎnmào",
+        "pos": "Danh từ, Động từ",
+        "mn": "cảm cúm",
+        "ex": ""
+      },
+      {
+        "hz": "健康",
+        "py": "jiànkāng",
+        "pos": "Tính từ",
+        "mn": "khỏe mạnh",
+        "ex": ""
+      },
+      {
+        "hz": "脚",
+        "py": "jiǎo",
+        "pos": "Danh từ",
+        "mn": "bàn chân",
+        "ex": ""
+      },
+      {
+        "hz": "年轻",
+        "py": "niánqīng",
+        "pos": "Tính từ",
+        "mn": "Trẻ trung, trẻ tuổi",
+        "ex": ""
+      },
+      {
+        "hz": "头发",
+        "py": "tóufa",
+        "pos": "Danh từ",
+        "mn": "Tóc",
+        "ex": ""
+      },
+      {
+        "hz": "腿",
+        "py": "tuǐ",
+        "pos": "Danh từ",
+        "mn": "Chân",
+        "ex": ""
+      },
+      {
+        "hz": "羽毛球",
+        "py": "yǔmáoqiú",
+        "pos": "Danh từ",
+        "mn": "Cầu lông",
+        "ex": ""
+      },
+      {
+        "hz": "嘴",
+        "py": "zuǐ",
+        "pos": "Danh từ",
+        "mn": "Miệng",
+        "ex": ""
+      }
     ]
   },
   {
-    lesson: 3,
-    title: "桌子上放着很多饮料",
-    words: [
-      { hz: "还是", py: "háishi", pos: "Liên từ", mn: "hay là (câu hỏi)", ex: "明天是晴天还是阴天？" },
-      { hz: "爬山", py: "páshān", pos: "Động từ", mn: "leo núi", ex: "我们明天要去爬山。" },
-      { hz: "小心", py: "xiǎoxīn", pos: "Tính từ", mn: "cẩn thận", ex: "爬山时候要小心点。" },
-      { hz: "条", py: "tiáo", pos: "Lượng từ", mn: "cái, con, dòng (dài)", ex: "你觉得这条裤子怎么样？" },
-      { hz: "裤子", py: "kùzi", pos: "Danh từ", mn: "quần", ex: "这条黑色的裤子多少钱？" },
-      { hz: "记得", py: "jìde", pos: "Động từ", mn: "nhớ", ex: "我记得你已经有两条这样的裤子了。" },
-      { hz: "衬衫", py: "chènshān", pos: "Danh từ", mn: "áo sơ mi", ex: "我买了一件新衬衫。" },
-      { hz: "元", py: "yuán", pos: "Lượng từ", mn: "đồng (tiền)", ex: "这上面写着320元。" },
-      { hz: "新鲜", py: "xīnxiān", pos: "Tính từ", mn: "tươi, mới", ex: "这些水果真新鲜。" },
-      { hz: "甜", py: "tián", pos: "Tính từ", mn: "ngọt", ex: "西瓜不甜不要钱。" },
-      { hz: "只", py: "zhǐ", pos: "Phó từ", mn: "chỉ", ex: "今天晚上只吃水果不吃饭。" },
-      { hz: "放", py: "fàng", pos: "Động từ", mn: "đặt, để", ex: "我把书放在桌子上。" },
-      { hz: "饮料", py: "yǐnliào", pos: "Danh từ", mn: "đồ uống", ex: "桌子上放着很多饮料。" },
-      { hz: "或者", py: "huòzhě", pos: "Liên từ", mn: "hoặc (câu trần thuật)", ex: "茶或者咖啡都可以。" },
-      { hz: "舒服", py: "shūfu", pos: "Tính từ", mn: "thoải mái, dễ chịu", ex: "喝一杯茶会很舒服。" },
-      { hz: "花", py: "huā", pos: "Danh từ", mn: "hoa", ex: "这种花很好看。" },
-      { hz: "绿", py: "lǜ", pos: "Tính từ", mn: "màu xanh lá", ex: "她穿了一件绿衣服。" }
+    "theme": "Cảm xúc & Thái độ",
+    "words": [
+      {
+        "hz": "担心",
+        "py": "dānxīn",
+        "pos": "Động từ",
+        "mn": "lo lắng",
+        "ex": ""
+      },
+      {
+        "hz": "放心",
+        "py": "fàngxīn",
+        "pos": "Động từ",
+        "mn": "yên tâm",
+        "ex": ""
+      },
+      {
+        "hz": "感兴趣",
+        "py": "gǎn xìngqù",
+        "pos": "",
+        "mn": "cảm thấy hứng thú",
+        "ex": ""
+      },
+      {
+        "hz": "关系",
+        "py": "guānxì",
+        "pos": "Danh từ, Động từ",
+        "mn": "quan hệ",
+        "ex": ""
+      },
+      {
+        "hz": "哈哈",
+        "py": "hāhā",
+        "pos": "",
+        "mn": "ha ha (tiếng cười)",
+        "ex": ""
+      },
+      {
+        "hz": "害怕",
+        "py": "hàipà",
+        "pos": "Động từ",
+        "mn": "sợ hãi",
+        "ex": ""
+      },
+      {
+        "hz": "开心",
+        "py": "kāixīn",
+        "pos": "Tính từ",
+        "mn": "Vui vẻ",
+        "ex": ""
+      },
+      {
+        "hz": "看来",
+        "py": "kànlái",
+        "pos": "Động từ",
+        "mn": "Xem ra, có vẻ như",
+        "ex": ""
+      },
+      {
+        "hz": "可爱",
+        "py": "kě'ài",
+        "pos": "Tính từ",
+        "mn": "Đáng yêu, dễ thương",
+        "ex": ""
+      },
+      {
+        "hz": "哭",
+        "py": "kū",
+        "pos": "Động từ",
+        "mn": "Khóc",
+        "ex": ""
+      },
+      {
+        "hz": "难过",
+        "py": "nánguò",
+        "pos": "Tính từ",
+        "mn": "Buồn bã, khó chịu, khó qua khỏi",
+        "ex": ""
+      },
+      {
+        "hz": "生气",
+        "py": "shēngqì",
+        "pos": "Động từ",
+        "mn": "Tức giận",
+        "ex": ""
+      },
+      {
+        "hz": "喜爱",
+        "py": "xǐ'ài",
+        "pos": "Động từ",
+        "mn": "Yêu thích",
+        "ex": ""
+      },
+      {
+        "hz": "新闻",
+        "py": "xīnwén",
+        "pos": "Danh từ",
+        "mn": "Tin tức",
+        "ex": ""
+      },
+      {
+        "hz": "兴趣",
+        "py": "xìngqù",
+        "pos": "Danh từ",
+        "mn": "Hứng thú",
+        "ex": ""
+      },
+      {
+        "hz": "要求",
+        "py": "yāoqiú",
+        "pos": "Danh từ",
+        "mn": "Yêu cầu",
+        "ex": ""
+      },
+      {
+        "hz": "一般",
+        "py": "yìbān",
+        "pos": "Tính từ",
+        "mn": "Thông thường",
+        "ex": ""
+      },
+      {
+        "hz": "着急",
+        "py": "zháojí",
+        "pos": "Tính từ",
+        "mn": "Lo lắng",
+        "ex": ""
+      },
+      {
+        "hz": "真正",
+        "py": "zhēnzhèng",
+        "pos": "Tính từ",
+        "mn": "Chân chính, thực sự",
+        "ex": ""
+      },
+      {
+        "hz": "重要",
+        "py": "zhòngyào",
+        "pos": "Tính từ",
+        "mn": "Quan trọng",
+        "ex": ""
+      }
     ]
   },
   {
-    lesson: 4,
-    title: "她总是笑着跟客人说话",
-    words: [
-      { hz: "比赛", py: "bǐsài", pos: "Danh từ", mn: "cuộc thi, trận đấu", ex: "他们正在参加足球比赛。" },
-      { hz: "照片", py: "zhàopiàn", pos: "Danh từ", mn: "bức ảnh", ex: "我很喜欢拍照片。" },
-      { hz: "年级", py: "niánjí", pos: "Danh từ", mn: "lớp, khối lớp", ex: "我们都是一个年级的。" },
-      { hz: "又", py: "yòu", pos: "Phó từ", mn: "vừa... vừa...", ex: "那个又高又漂亮的女孩儿是二年级的。" },
-      { hz: "聪明", py: "cōngming", pos: "Tính từ", mn: "thông minh", ex: "他是非常聪明的孩子。" },
-      { hz: "热情", py: "rèqíng", pos: "Tính từ", mn: "nhiệt tình", ex: "这个人一点也不热情。" },
-      { hz: "努力", py: "nǔlì", pos: "Tính từ", mn: "cố gắng, chăm chỉ", ex: "她学习很努力。" },
-      { hz: "总是", py: "zǒngshì", pos: "Phó từ", mn: "luôn luôn", ex: "他总是笑着回答老师的问题。" },
-      { hz: "回答", py: "huídá", pos: "Động từ", mn: "trả lời", ex: "我不想回答他的问题。" },
-      { hz: "站", py: "zhàn", pos: "Động từ", mn: "đứng", ex: "我看那些拿着鲜花站在门口的。" },
-      { hz: "饿", py: "è", pos: "Tính từ", mn: "đói bụng", ex: "我有点饿了。" },
-      { hz: "超市", py: "chāoshì", pos: "Danh từ", mn: "siêu thị", ex: "我们进超市买点儿东西吧。" },
-      { hz: "蛋糕", py: "dàngāo", pos: "Danh từ", mn: "bánh ngọt", ex: "这家超市的蛋糕又便宜又好吃。" },
-      { hz: "年轻", py: "niánqīng", pos: "Tính từ", mn: "trẻ, trẻ trung", ex: "Chỗ các bạn có cô phục vụ nào vừa trẻ vừa đẹp không?" },
-      { hz: "认真", py: "rènzhēn", pos: "Tính từ", mn: "nghiêm túc, chăm chỉ", ex: "他工作既认真又有热情。" },
-      { hz: "客人", py: "kèrén", pos: "Danh từ", mn: "khách, khách mời", ex: "他对客人非常热情。" }
+    "theme": "Tư duy & Nhận thức",
+    "words": [
+      {
+        "hz": "懂得",
+        "py": "dǒngde",
+        "pos": "Động từ",
+        "mn": "hiểu, biết",
+        "ex": ""
+      },
+      {
+        "hz": "发现",
+        "py": "fāxiàn",
+        "pos": "Động từ",
+        "mn": "phát hiện",
+        "ex": ""
+      },
+      {
+        "hz": "方法",
+        "py": "fāngfǎ",
+        "pos": "Danh từ",
+        "mn": "phương pháp",
+        "ex": ""
+      },
+      {
+        "hz": "复习",
+        "py": "fùxí",
+        "pos": "Động từ",
+        "mn": "ôn tập",
+        "ex": ""
+      },
+      {
+        "hz": "会",
+        "py": "huì",
+        "pos": "Danh từ",
+        "mn": "biết (làm gì), sẽ",
+        "ex": ""
+      },
+      {
+        "hz": "记",
+        "py": "jì",
+        "pos": "Động từ",
+        "mn": "nhớ, ghi chép",
+        "ex": ""
+      },
+      {
+        "hz": "检查",
+        "py": "jiǎnchá",
+        "pos": "Động từ",
+        "mn": "kiểm tra",
+        "ex": ""
+      },
+      {
+        "hz": "解决",
+        "py": "jiějué",
+        "pos": "Động từ",
+        "mn": "giải quyết",
+        "ex": ""
+      },
+      {
+        "hz": "决定",
+        "py": "juédìng",
+        "pos": "Danh từ, Động từ",
+        "mn": "quyết định",
+        "ex": ""
+      },
+      {
+        "hz": "练",
+        "py": "liàn",
+        "pos": "Động từ",
+        "mn": "Luyện tập, rèn luyện",
+        "ex": ""
+      },
+      {
+        "hz": "了解",
+        "py": "liǎojiě",
+        "pos": "Động từ",
+        "mn": "Hiểu rõ, tìm hiểu",
+        "ex": ""
+      },
+      {
+        "hz": "明白",
+        "py": "míngbai",
+        "pos": "Tính từ, Động từ",
+        "mn": "Hiểu rõ, rõ ràng",
+        "ex": ""
+      },
+      {
+        "hz": "难题",
+        "py": "nántí",
+        "pos": "Danh từ",
+        "mn": "Đề bài khó, vấn đề nan giải",
+        "ex": ""
+      },
+      {
+        "hz": "牛",
+        "py": "niú",
+        "pos": "Danh từ",
+        "mn": "Con bò (nghĩa lóng: ngầu, giỏi)",
+        "ex": ""
+      },
+      {
+        "hz": "认得",
+        "py": "rènde",
+        "pos": "Động từ",
+        "mn": "Nhận ra, quen biết",
+        "ex": ""
+      },
+      {
+        "hz": "认为",
+        "py": "rènwéi",
+        "pos": "Động từ",
+        "mn": "Cho rằng, nghĩ rằng",
+        "ex": ""
+      },
+      {
+        "hz": "数学",
+        "py": "shùxué",
+        "pos": "Danh từ",
+        "mn": "Toán học",
+        "ex": ""
+      },
+      {
+        "hz": "同意",
+        "py": "tóngyì",
+        "pos": "Động từ",
+        "mn": "Đồng ý",
+        "ex": ""
+      },
+      {
+        "hz": "忘记",
+        "py": "wàngjì",
+        "pos": "Động từ",
+        "mn": "Quên",
+        "ex": ""
+      },
+      {
+        "hz": "相信",
+        "py": "xiāngxìn",
+        "pos": "Động từ",
+        "mn": "Tin tưởng",
+        "ex": ""
+      },
+      {
+        "hz": "主意",
+        "py": "zhǔyi",
+        "pos": "Danh từ",
+        "mn": "Ý kiến, chủ ý",
+        "ex": ""
+      },
+      {
+        "hz": "注意",
+        "py": "zhùyì",
+        "pos": "Động từ",
+        "mn": "Chú ý",
+        "ex": ""
+      }
     ]
   },
   {
-    lesson: 5,
-    title: "我最近越来越胖",
-    words: [
-      { hz: "发烧", py: "fāshāo", pos: "Động từ", mn: "sốt", ex: "前几天有点发烧。" },
-      { hz: "为", py: "wèi", pos: "Giới từ", mn: "vì, cho", ex: "这是为你买的绿茶，很不错。" },
-      { hz: "照顾", py: "zhāogu", pos: "Động từ", mn: "chăm sóc", ex: "我儿子生病了，我要在家照顾他。" },
-      { hz: "用", py: "yòng", pos: "Động từ", mn: "dùng, cần", ex: "不用去医院。" },
-      { hz: "感冒", py: "gǎnmào", pos: "Động từ", mn: "bị cảm", ex: "昨天吃了感冒药，现在好一些了。" },
-      { hz: "季节", py: "jìjié", pos: "Danh từ", mn: "mùa", ex: "你最喜欢哪个季节？" },
-      { hz: "当然", py: "dāngrán", pos: "Phó từ", mn: "đương nhiên, dĩ nhiên", ex: "他们当然已知道答案了。" },
-      { hz: "春天", py: "chūntiān", pos: "Danh từ", mn: "mùa xuân", ex: "春天的天气很冷。" },
-      { hz: "草", py: "cǎo", pos: "Danh từ", mn: "cỏ", ex: "这片草是用来喂羊的。" },
-      { hz: "夏天", py: "xiàtiān", pos: "Danh từ", mn: "mùa hè", ex: "我最喜欢夏天，因为我可以穿漂亮的衣服。" },
-      { hz: "裙子", py: "qúnzi", pos: "Danh từ", mn: "váy", ex: "我喜欢看你穿漂亮的裙子。" },
-      { hz: "最近", py: "zuìjìn", pos: "Phó từ", mn: "gần đây", ex: "我最近越来越胖了。" },
-      { hz: "越", py: "yuè", pos: "Phó từ", mn: "càng", ex: "我觉得你越来越漂亮了。" }
+    "theme": "Đời sống sinh hoạt",
+    "words": [
+      {
+        "hz": "办",
+        "py": "bàn",
+        "pos": "Động từ",
+        "mn": "quản lý",
+        "ex": ""
+      },
+      {
+        "hz": "搬",
+        "py": "bān",
+        "pos": "Động từ",
+        "mn": "di chuyển",
+        "ex": ""
+      },
+      {
+        "hz": "帮助",
+        "py": "bāngzhù",
+        "pos": "Động từ",
+        "mn": "giúp đỡ",
+        "ex": ""
+      },
+      {
+        "hz": "半天",
+        "py": "bàntiān",
+        "pos": "Số từ",
+        "mn": "lâu rồi",
+        "ex": ""
+      },
+      {
+        "hz": "报纸",
+        "py": "bàozhǐ",
+        "pos": "Danh từ",
+        "mn": "báo",
+        "ex": ""
+      },
+      {
+        "hz": "变成",
+        "py": "biàn",
+        "pos": "Động từ",
+        "mn": "trở nên",
+        "ex": ""
+      },
+      {
+        "hz": "变化",
+        "py": "biànhuà",
+        "pos": "Danh từ, Động từ",
+        "mn": "thay đổi",
+        "ex": ""
+      },
+      {
+        "hz": "表演",
+        "py": "biǎoyǎn",
+        "pos": "Động từ",
+        "mn": "biểu diễn",
+        "ex": ""
+      },
+      {
+        "hz": "比如",
+        "py": "bǐrú",
+        "pos": "Động từ",
+        "mn": "Ví dụ",
+        "ex": ""
+      },
+      {
+        "hz": "参加",
+        "py": "cānjiā",
+        "pos": "Động từ",
+        "mn": "tham gia",
+        "ex": ""
+      },
+      {
+        "hz": "差",
+        "py": "chà",
+        "pos": "Tính từ, Động từ",
+        "mn": "kém, sai lệch",
+        "ex": ""
+      },
+      {
+        "hz": "尝",
+        "py": "cháng",
+        "pos": "Động từ",
+        "mn": "nếm",
+        "ex": ""
+      },
+      {
+        "hz": "常见",
+        "py": "cháng jiàn",
+        "pos": "",
+        "mn": "thường thấy, phổ biến",
+        "ex": ""
+      },
+      {
+        "hz": "常用",
+        "py": "cháng yòng",
+        "pos": "",
+        "mn": "thường dùng",
+        "ex": ""
+      },
+      {
+        "hz": "出发",
+        "py": "chūfā",
+        "pos": "Động từ",
+        "mn": "xuất phát",
+        "ex": ""
+      },
+      {
+        "hz": "出生",
+        "py": "chūshēng",
+        "pos": "Động từ",
+        "mn": "sinh ra",
+        "ex": ""
+      },
+      {
+        "hz": "打扫",
+        "py": "dǎsǎo",
+        "pos": "Động từ",
+        "mn": "dọn dẹp, quét dọn",
+        "ex": ""
+      },
+      {
+        "hz": "大衣",
+        "py": "dàyī",
+        "pos": "Danh từ",
+        "mn": "áo khoác",
+        "ex": ""
+      },
+      {
+        "hz": "带",
+        "py": "dài",
+        "pos": "Động từ, Danh từ",
+        "mn": "mang, đeo, dẫn theo",
+        "ex": ""
+      },
+      {
+        "hz": "蛋糕",
+        "py": "dàngāo",
+        "pos": "Danh từ",
+        "mn": "bánh ngọt",
+        "ex": ""
+      },
+      {
+        "hz": "得到",
+        "py": "dédào",
+        "pos": "Động từ",
+        "mn": "đạt được, nhận được",
+        "ex": ""
+      },
+      {
+        "hz": "丢",
+        "py": "diū",
+        "pos": "Động từ",
+        "mn": "mất, đánh mất",
+        "ex": ""
+      },
+      {
+        "hz": "短裤",
+        "py": "duǎnkù",
+        "pos": "Danh từ",
+        "mn": "quần đùi, quần ngắn",
+        "ex": ""
+      },
+      {
+        "hz": "锻炼",
+        "py": "duànliàn",
+        "pos": "Động từ",
+        "mn": "rèn luyện (thể dục)",
+        "ex": ""
+      },
+      {
+        "hz": "对话",
+        "py": "duìhuà",
+        "pos": "Động từ",
+        "mn": "hội thoại, đối thoại",
+        "ex": ""
+      },
+      {
+        "hz": "发生",
+        "py": "fāshēng",
+        "pos": "Động từ",
+        "mn": "xảy ra",
+        "ex": ""
+      },
+      {
+        "hz": "发展",
+        "py": "fāzhǎn",
+        "pos": "Động từ",
+        "mn": "phát triển",
+        "ex": ""
+      },
+      {
+        "hz": "方便面",
+        "py": "fāngbiànmiàn",
+        "pos": "Danh từ",
+        "mn": "mì tôm (mì ăn liền)",
+        "ex": ""
+      },
+      {
+        "hz": "放",
+        "py": "fàng",
+        "pos": "Động từ",
+        "mn": "đặt, để, thả",
+        "ex": ""
+      },
+      {
+        "hz": "分开",
+        "py": "fēnkāi",
+        "pos": "Động từ",
+        "mn": "tách ra, chia ra",
+        "ex": ""
+      },
+      {
+        "hz": "服务",
+        "py": "fúwù",
+        "pos": "Động từ",
+        "mn": "phục vụ",
+        "ex": ""
+      },
+      {
+        "hz": "该",
+        "py": "gāi",
+        "pos": "Động từ",
+        "mn": "nên, đáng",
+        "ex": ""
+      },
+      {
+        "hz": "干",
+        "py": "gàn",
+        "pos": "Động từ",
+        "mn": "làm",
+        "ex": ""
+      },
+      {
+        "hz": "关",
+        "py": "guān",
+        "pos": "Động từ, Danh từ",
+        "mn": "đóng, tắt",
+        "ex": ""
+      },
+      {
+        "hz": "过节",
+        "py": "guòjié",
+        "pos": "Động từ",
+        "mn": "đón lễ/tết",
+        "ex": ""
+      },
+      {
+        "hz": "欢迎",
+        "py": "huānyíng",
+        "pos": "Động từ",
+        "mn": "chào đón",
+        "ex": ""
+      },
+      {
+        "hz": "还",
+        "py": "huán",
+        "pos": "Động từ",
+        "mn": "trả lại",
+        "ex": ""
+      },
+      {
+        "hz": "换",
+        "py": "huàn",
+        "pos": "Động từ",
+        "mn": "đổi, thay đổi",
+        "ex": ""
+      },
+      {
+        "hz": "回答",
+        "py": "huídá",
+        "pos": "Động từ",
+        "mn": "trả lời",
+        "ex": ""
+      },
+      {
+        "hz": "急",
+        "py": "jí",
+        "pos": "Động từ, Tính từ",
+        "mn": "gấp, vội",
+        "ex": ""
+      },
+      {
+        "hz": "继续",
+        "py": "jìxù",
+        "pos": "Động từ",
+        "mn": "tiếp tục",
+        "ex": ""
+      },
+      {
+        "hz": "加",
+        "py": "jiā",
+        "pos": "Động từ",
+        "mn": "thêm, cộng",
+        "ex": ""
+      },
+      {
+        "hz": "坚持",
+        "py": "jiānchí",
+        "pos": "Động từ",
+        "mn": "kiên trì",
+        "ex": ""
+      },
+      {
+        "hz": "讲",
+        "py": "jiǎng",
+        "pos": "Động từ",
+        "mn": "nói, giảng giải",
+        "ex": ""
+      },
+      {
+        "hz": "见面",
+        "py": "jiànmiàn",
+        "pos": "Động từ",
+        "mn": "gặp mặt",
+        "ex": ""
+      },
+      {
+        "hz": "检票",
+        "py": "jiǎnpiào",
+        "pos": "Động từ",
+        "mn": "soát vé",
+        "ex": ""
+      },
+      {
+        "hz": "借",
+        "py": "jiè",
+        "pos": "Động từ",
+        "mn": "mượn, cho mượn",
+        "ex": ""
+      },
+      {
+        "hz": "接",
+        "py": "jiē",
+        "pos": "Động từ",
+        "mn": "đón, tiếp nhận",
+        "ex": ""
+      },
+      {
+        "hz": "结婚",
+        "py": "jiéhūn",
+        "pos": "Động từ",
+        "mn": "kết hôn",
+        "ex": ""
+      },
+      {
+        "hz": "经理",
+        "py": "jīnglǐ",
+        "pos": "Danh từ",
+        "mn": "giám đốc, quản lý",
+        "ex": ""
+      },
+      {
+        "hz": "卡",
+        "py": "kǎ",
+        "pos": "Danh từ",
+        "mn": "Thẻ (card)",
+        "ex": ""
+      },
+      {
+        "hz": "渴",
+        "py": "kě",
+        "pos": "Tính từ",
+        "mn": "Khát (nước)",
+        "ex": ""
+      },
+      {
+        "hz": "课本",
+        "py": "kèběn",
+        "pos": "Danh từ",
+        "mn": "Sách giáo khoa",
+        "ex": ""
+      },
+      {
+        "hz": "矿泉水",
+        "py": "kuàngquánshuǐ",
+        "pos": "Danh từ",
+        "mn": "Nước khoáng",
+        "ex": ""
+      },
+      {
+        "hz": "练习",
+        "py": "liànxí",
+        "pos": "Danh từ, Động từ",
+        "mn": "Luyện tập, bài tập",
+        "ex": ""
+      },
+      {
+        "hz": "聊",
+        "py": "liáo",
+        "pos": "Động từ",
+        "mn": "Tán gẫu, trò chuyện",
+        "ex": ""
+      },
+      {
+        "hz": "聊天儿",
+        "py": "liáotiānr",
+        "pos": "Động từ",
+        "mn": "Nói chuyện phiếm",
+        "ex": ""
+      },
+      {
+        "hz": "离开",
+        "py": "líkāi",
+        "pos": "Động từ",
+        "mn": "Rời khỏi, chia lìa",
+        "ex": ""
+      },
+      {
+        "hz": "马路",
+        "py": "mǎlù",
+        "pos": "Danh từ",
+        "mn": "Đường cái, đường lộ",
+        "ex": ""
+      },
+      {
+        "hz": "满意",
+        "py": "mǎnyì",
+        "pos": "Động từ",
+        "mn": "Hài lòng, ưng ý",
+        "ex": ""
+      },
+      {
+        "hz": "努力",
+        "py": "nǔlì",
+        "pos": "Động từ, Tính từ",
+        "mn": "Nỗ lực, cố gắng",
+        "ex": ""
+      },
+      {
+        "hz": "爬",
+        "py": "pá",
+        "pos": "Động từ",
+        "mn": "Leo, trèo, bò",
+        "ex": ""
+      },
+      {
+        "hz": "盘子",
+        "py": "pánzi",
+        "pos": "Danh từ",
+        "mn": "Cái đĩa",
+        "ex": ""
+      },
+      {
+        "hz": "起飞",
+        "py": "qǐfēi",
+        "pos": "Động từ",
+        "mn": "Cất cánh (máy bay)",
+        "ex": ""
+      },
+      {
+        "hz": "请客",
+        "py": "qǐngkè",
+        "pos": "Động từ",
+        "mn": "Mời khách, bao ăn/uống",
+        "ex": ""
+      },
+      {
+        "hz": "裙子",
+        "py": "qúnzi",
+        "pos": "Danh từ",
+        "mn": "Cái váy",
+        "ex": ""
+      },
+      {
+        "hz": "伞",
+        "py": "sǎn",
+        "pos": "Danh từ",
+        "mn": "Cái ô, cây dù",
+        "ex": ""
+      },
+      {
+        "hz": "沙发",
+        "py": "shāfā",
+        "pos": "Danh từ",
+        "mn": "Ghế sa-pha, ghế băng",
+        "ex": ""
+      },
+      {
+        "hz": "勺子",
+        "py": "sháozi",
+        "pos": "Danh từ",
+        "mn": "Cái thìa, cái muỗng",
+        "ex": ""
+      },
+      {
+        "hz": "身边",
+        "py": "shēnbiān",
+        "pos": "Danh từ",
+        "mn": "Bên mình, bên cạnh",
+        "ex": ""
+      },
+      {
+        "hz": "试",
+        "py": "shì",
+        "pos": "Động từ",
+        "mn": "Thử",
+        "ex": ""
+      },
+      {
+        "hz": "收到",
+        "py": "shōudào",
+        "pos": "Động từ",
+        "mn": "Nhận được",
+        "ex": ""
+      },
+      {
+        "hz": "受到",
+        "py": "shòudào",
+        "pos": "Động từ",
+        "mn": "Nhận được, bị (tác động)",
+        "ex": ""
+      },
+      {
+        "hz": "刷",
+        "py": "shuā",
+        "pos": "Động từ",
+        "mn": "Chải, quét, đánh (răng)",
+        "ex": ""
+      },
+      {
+        "hz": "体育馆",
+        "py": "tǐyùguǎn",
+        "pos": "Danh từ",
+        "mn": "Nhà thi đấu thể dục thể thao",
+        "ex": ""
+      },
+      {
+        "hz": "跳",
+        "py": "tiào",
+        "pos": "Động từ",
+        "mn": "Nhảy",
+        "ex": ""
+      },
+      {
+        "hz": "听说",
+        "py": "tīngshuō",
+        "pos": "Động từ",
+        "mn": "Nghe nói",
+        "ex": ""
+      },
+      {
+        "hz": "外卖",
+        "py": "wàimài",
+        "pos": "Danh từ",
+        "mn": "Đồ ăn mang về (takeaway)",
+        "ex": ""
+      },
+      {
+        "hz": "完成",
+        "py": "wánchéng",
+        "pos": "Động từ",
+        "mn": "Hoàn thành",
+        "ex": ""
+      },
+      {
+        "hz": "网球",
+        "py": "wǎngqiú",
+        "pos": "Danh từ",
+        "mn": "Quần vợt (tennis)",
+        "ex": ""
+      },
+      {
+        "hz": "文化",
+        "py": "wénhuà",
+        "pos": "Danh từ",
+        "mn": "Văn hóa",
+        "ex": ""
+      },
+      {
+        "hz": "屋子",
+        "py": "wūzi",
+        "pos": "Danh từ",
+        "mn": "Căn phòng, nhà",
+        "ex": ""
+      },
+      {
+        "hz": "习惯",
+        "py": "xíguàn",
+        "pos": "Danh từ, Động từ",
+        "mn": "Thói quen",
+        "ex": ""
+      },
+      {
+        "hz": "洗衣机",
+        "py": "xǐyījī",
+        "pos": "Danh từ",
+        "mn": "Máy giặt",
+        "ex": ""
+      },
+      {
+        "hz": "箱子",
+        "py": "xiāngzi",
+        "pos": "Danh từ",
+        "mn": "Cái hòm, vali",
+        "ex": ""
+      },
+      {
+        "hz": "鞋",
+        "py": "xié",
+        "pos": "Danh từ",
+        "mn": "Giày",
+        "ex": ""
+      },
+      {
+        "hz": "信用卡",
+        "py": "xìnyòngkǎ",
+        "pos": "Danh từ",
+        "mn": "Thẻ tín dụng",
+        "ex": ""
+      },
+      {
+        "hz": "需要",
+        "py": "xūyào",
+        "pos": "Danh từ, Động từ",
+        "mn": "Cần, nhu cầu",
+        "ex": ""
+      },
+      {
+        "hz": "养",
+        "py": "yǎng",
+        "pos": "Động từ",
+        "mn": "Nuôi",
+        "ex": ""
+      },
+      {
+        "hz": "以为",
+        "py": "yǐwéi",
+        "pos": "Động từ",
+        "mn": "Cho rằng",
+        "ex": ""
+      },
+      {
+        "hz": "音乐",
+        "py": "yīnyuè",
+        "pos": "Danh từ",
+        "mn": "Âm nhạc",
+        "ex": ""
+      },
+      {
+        "hz": "饮料",
+        "py": "yǐnliào",
+        "pos": "Danh từ",
+        "mn": "Đồ uống",
+        "ex": ""
+      },
+      {
+        "hz": "应该",
+        "py": "yīnggāi",
+        "pos": "Động từ",
+        "mn": "Nên",
+        "ex": ""
+      },
+      {
+        "hz": "用",
+        "py": "yòng",
+        "pos": "Động từ",
+        "mn": "Dùng, sử dụng",
+        "ex": ""
+      },
+      {
+        "hz": "游戏",
+        "py": "yóuxì",
+        "pos": "Danh từ",
+        "mn": "Trò chơi",
+        "ex": ""
+      },
+      {
+        "hz": "雨衣",
+        "py": "yǔyī",
+        "pos": "Danh từ",
+        "mn": "Áo mưa",
+        "ex": ""
+      },
+      {
+        "hz": "遇见",
+        "py": "yùjiàn",
+        "pos": "Động từ",
+        "mn": "Gặp gỡ",
+        "ex": ""
+      },
+      {
+        "hz": "愿意",
+        "py": "yuànyì",
+        "pos": "Động từ",
+        "mn": "Tình nguyện, muốn",
+        "ex": ""
+      },
+      {
+        "hz": "月亮",
+        "py": "yuèliàng",
+        "pos": "Danh từ",
+        "mn": "Mặt trăng",
+        "ex": ""
+      },
+      {
+        "hz": "运动会",
+        "py": "yùndònghuì",
+        "pos": "Danh từ",
+        "mn": "Đại hội thể thao",
+        "ex": ""
+      },
+      {
+        "hz": "怎么办",
+        "py": "zěnme bàn",
+        "pos": "",
+        "mn": "Làm thế nào",
+        "ex": ""
+      },
+      {
+        "hz": "站",
+        "py": "zhàn",
+        "pos": "Động từ",
+        "mn": "Đứng / Ga",
+        "ex": ""
+      },
+      {
+        "hz": "照顾",
+        "py": "zhàogù",
+        "pos": "Động từ",
+        "mn": "Chăm sóc",
+        "ex": ""
+      },
+      {
+        "hz": "只能",
+        "py": "zhǐ néng",
+        "pos": "",
+        "mn": "Chỉ có thể",
+        "ex": ""
+      },
+      {
+        "hz": "做法",
+        "py": "zuòfǎ",
+        "pos": "Danh từ",
+        "mn": "Cách làm",
+        "ex": ""
+      },
+      {
+        "hz": "做客",
+        "py": "zuòkè",
+        "pos": "Động từ",
+        "mn": "Làm khách",
+        "ex": ""
+      }
     ]
   },
   {
-    lesson: 6,
-    title: "怎么突然找不到？",
-    words: [
-      { hz: "眼镜", py: "yǎnjìng", pos: "Danh từ", mn: "mắt kính", ex: "没有眼镜我看不清楚。" },
-      { hz: "突然", py: "tūrán", pos: "Phó từ", mn: "bỗng nhiên, đột nhiên", ex: "情况突然发生变化。" },
-      { hz: "离开", py: "líkāi", pos: "Động từ", mn: "rời khỏi", ex: "我不想离开这个城市。" },
-      { hz: "清楚", py: "qīngchu", pos: "Tính từ", mn: "rõ ràng", ex: "没有眼镜，我一个字也看不清楚。" },
-      { hz: "刚才", py: "gāngcái", pos: "Danh từ", mn: "vừa nãy, lúc nãy", ex: "是不是刚才放在桌子上了？" },
-      { hz: "帮忙", py: "bāngmáng", pos: "Động từ", mn: "giúp đỡ", ex: "你快过来帮忙。" },
-      { hz: "特别", py: "tèbié", pos: "Phó từ", mn: "đặc biệt, vô cùng", ex: "今天这些题特别难，我看不懂。" },
-      { hz: "讲", py: "jiǎng", pos: "Động từ", mn: "giảng, giải thích, nói", ex: "电话里讲不明白，你来我家吧。" },
-      { hz: "明白", py: "míngbai", pos: "Tính từ", mn: "rõ ràng, dễ hiểu", ex: "他讲得十分明白。" },
-      { hz: "锻炼", py: "duànliàn", pos: "Động từ", mn: "rèn luyện, tập thể dục", ex: "我锻炼完了就过去了。" },
-      { hz: "音乐", py: "yīnyuè", pos: "Danh từ", mn: "âm nhạc", ex: "你请他听音乐会吧，他喜欢听音乐。" },
-      { hz: "公园", py: "gōngyuán", pos: "Danh từ", mn: "công viên", ex: "他喜欢去公园里拍照。" },
-      { hz: "聊天（儿）", py: "liáotiānr", pos: "Động từ", mn: "tán gẫu, trò chuyện", ex: "我想找一个人聊聊天儿。" },
-      { hz: "睡着", py: "shuìzháo", pos: "Động từ", mn: "ngủ được, ngủ thiếp đi", ex: "Chẳng phải bạn nói tối không ngủ được sao?" },
-      { hz: "更", py: "gèng", pos: "Phó từ", mn: "càng, hơn nữa", ex: "你还是喝杯牛奶吧，可以睡得更好些。" }
+    "theme": "Đồ vật & Công cụ",
+    "words": [
+      {
+        "hz": "北",
+        "py": "běi",
+        "pos": "Danh từ",
+        "mn": "phía bắc",
+        "ex": ""
+      },
+      {
+        "hz": "北方",
+        "py": "běifāng",
+        "pos": "Danh từ",
+        "mn": "phía bắc",
+        "ex": ""
+      },
+      {
+        "hz": "笔记",
+        "py": "bǐjì",
+        "pos": "Danh từ",
+        "mn": "ghi chú",
+        "ex": ""
+      },
+      {
+        "hz": "笔记本",
+        "py": "bǐjìběn",
+        "pos": "Danh từ",
+        "mn": "sổ tay",
+        "ex": ""
+      },
+      {
+        "hz": "冰",
+        "py": "bīng",
+        "pos": "Danh từ",
+        "mn": "đá",
+        "ex": ""
+      },
+      {
+        "hz": "比赛",
+        "py": "bǐsài",
+        "pos": "Danh từ",
+        "mn": "Cuộc thi",
+        "ex": ""
+      },
+      {
+        "hz": "菜单",
+        "py": "càidān",
+        "pos": "Danh từ",
+        "mn": "thực đơn",
+        "ex": ""
+      },
+      {
+        "hz": "草地",
+        "py": "cǎodì",
+        "pos": "Danh từ",
+        "mn": "bãi cỏ",
+        "ex": ""
+      },
+      {
+        "hz": "草原",
+        "py": "cǎoyuán",
+        "pos": "Danh từ",
+        "mn": "đồng cỏ, thảo nguyên",
+        "ex": ""
+      },
+      {
+        "hz": "层",
+        "py": "céng",
+        "pos": "Danh từ",
+        "mn": "tầng, lớp",
+        "ex": ""
+      },
+      {
+        "hz": "出院",
+        "py": "chūyuàn",
+        "pos": "Động từ",
+        "mn": "xuất viện",
+        "ex": ""
+      },
+      {
+        "hz": "大熊猫",
+        "py": "dàxióngmāo",
+        "pos": "Danh từ",
+        "mn": "gấu trúc",
+        "ex": ""
+      },
+      {
+        "hz": "灯",
+        "py": "dēng",
+        "pos": "Danh từ",
+        "mn": "đèn",
+        "ex": ""
+      },
+      {
+        "hz": "地图",
+        "py": "dìtú",
+        "pos": "Danh từ",
+        "mn": "bản đồ",
+        "ex": ""
+      },
+      {
+        "hz": "电",
+        "py": "diàn",
+        "pos": "Danh từ",
+        "mn": "điện",
+        "ex": ""
+      },
+      {
+        "hz": "电梯",
+        "py": "diàntī",
+        "pos": "Danh từ",
+        "mn": "thang máy",
+        "ex": ""
+      },
+      {
+        "hz": "电子书",
+        "py": "diànzǐshū",
+        "pos": "Danh từ",
+        "mn": "sách điện tử",
+        "ex": ""
+      },
+      {
+        "hz": "动物园",
+        "py": "dòngwùyuán",
+        "pos": "Danh từ",
+        "mn": "vườn thú",
+        "ex": ""
+      },
+      {
+        "hz": "耳朵",
+        "py": "ěrduo",
+        "pos": "Danh từ",
+        "mn": "tai, lỗ tai ",
+        "ex": ""
+      },
+      {
+        "hz": "耳机",
+        "py": "ěrjī",
+        "pos": "Danh từ",
+        "mn": "tai nghe ",
+        "ex": ""
+      },
+      {
+        "hz": "服务台",
+        "py": "fúwùtái",
+        "pos": "Danh từ",
+        "mn": "quầy lễ tân",
+        "ex": ""
+      },
+      {
+        "hz": "附近",
+        "py": "fùjìn",
+        "pos": "Danh từ",
+        "mn": "gần đây, khu vực lân cận",
+        "ex": ""
+      },
+      {
+        "hz": "刚才",
+        "py": "gāngcái",
+        "pos": "Danh từ",
+        "mn": "vừa nãy",
+        "ex": ""
+      },
+      {
+        "hz": "故事",
+        "py": "gùshi",
+        "pos": "Danh từ",
+        "mn": "câu chuyện",
+        "ex": ""
+      },
+      {
+        "hz": "关机",
+        "py": "guānjī",
+        "pos": "Động từ",
+        "mn": "tắt máy",
+        "ex": ""
+      },
+      {
+        "hz": "国宝",
+        "py": "guóbǎo",
+        "pos": "Danh từ",
+        "mn": "quốc bảo",
+        "ex": ""
+      },
+      {
+        "hz": "号码",
+        "py": "hàomǎ",
+        "pos": "Danh từ",
+        "mn": "số (điện thoại, phòng...)",
+        "ex": ""
+      },
+      {
+        "hz": "黑板",
+        "py": "hēibǎn",
+        "pos": "Danh từ",
+        "mn": "bảng đen",
+        "ex": ""
+      },
+      {
+        "hz": "红绿灯",
+        "py": "hóng-lǜdēng",
+        "pos": "Danh từ",
+        "mn": "đèn giao thông",
+        "ex": ""
+      },
+      {
+        "hz": "后天",
+        "py": "hòutiān",
+        "pos": "Danh từ",
+        "mn": "ngày kia",
+        "ex": ""
+      },
+      {
+        "hz": "护照",
+        "py": "hùzhào",
+        "pos": "Danh từ",
+        "mn": "hộ chiếu",
+        "ex": ""
+      },
+      {
+        "hz": "花园",
+        "py": "huāyuán",
+        "pos": "Danh từ",
+        "mn": "vườn hoa",
+        "ex": ""
+      },
+      {
+        "hz": "鸡",
+        "py": "jī",
+        "pos": "Danh từ",
+        "mn": "con gà",
+        "ex": ""
+      },
+      {
+        "hz": "节目",
+        "py": "jiémù",
+        "pos": "Danh từ",
+        "mn": "chương trình",
+        "ex": ""
+      },
+      {
+        "hz": "节日",
+        "py": "jiérì",
+        "pos": "Danh từ",
+        "mn": "ngày lễ",
+        "ex": ""
+      },
+      {
+        "hz": "结束",
+        "py": "jiéshù",
+        "pos": "Danh từ",
+        "mn": "kết thúc",
+        "ex": ""
+      },
+      {
+        "hz": "机会",
+        "py": "jīhuì",
+        "pos": "Danh từ",
+        "mn": "cơ hội",
+        "ex": ""
+      },
+      {
+        "hz": "酒",
+        "py": "jiǔ",
+        "pos": "Danh từ",
+        "mn": "rượu",
+        "ex": ""
+      },
+      {
+        "hz": "句子",
+        "py": "jùzi",
+        "pos": "Danh từ",
+        "mn": "câu",
+        "ex": ""
+      },
+      {
+        "hz": "开花",
+        "py": "kāihuā",
+        "pos": "Động từ",
+        "mn": "Nở hoa",
+        "ex": ""
+      },
+      {
+        "hz": "开机",
+        "py": "kāijī",
+        "pos": "Động từ",
+        "mn": "Khởi động máy, bật máy",
+        "ex": ""
+      },
+      {
+        "hz": "空调",
+        "py": "kōngtiáo",
+        "pos": "Danh từ",
+        "mn": "Máy điều hòa nhiệt độ",
+        "ex": ""
+      },
+      {
+        "hz": "筷子",
+        "py": "kuàizi",
+        "pos": "Danh từ",
+        "mn": "Đôi đũa",
+        "ex": ""
+      },
+      {
+        "hz": "脸",
+        "py": "liǎn",
+        "pos": "Danh từ",
+        "mn": "Khuôn mặt",
+        "ex": ""
+      },
+      {
+        "hz": "邻居",
+        "py": "línjū",
+        "pos": "Danh từ",
+        "mn": "Hàng xóm",
+        "ex": ""
+      },
+      {
+        "hz": "历史",
+        "py": "lìshǐ",
+        "pos": "Danh từ",
+        "mn": "Lịch sử",
+        "ex": ""
+      },
+      {
+        "hz": "礼物",
+        "py": "lǐwù",
+        "pos": "Danh từ",
+        "mn": "Quà tặng",
+        "ex": ""
+      },
+      {
+        "hz": "楼梯",
+        "py": "lóutī",
+        "pos": "Danh từ",
+        "mn": "Cầu thang",
+        "ex": ""
+      },
+      {
+        "hz": "马",
+        "py": "mǎ",
+        "pos": "Danh từ",
+        "mn": "Con ngựa",
+        "ex": ""
+      },
+      {
+        "hz": "目标",
+        "py": "mùbiāo",
+        "pos": "Danh từ",
+        "mn": "Mục tiêu",
+        "ex": ""
+      },
+      {
+        "hz": "拍照",
+        "py": "pāizhào",
+        "pos": "Động từ",
+        "mn": "Chụp ảnh",
+        "ex": ""
+      },
+      {
+        "hz": "啤酒",
+        "py": "píjiǔ",
+        "pos": "Danh từ",
+        "mn": "Bia",
+        "ex": ""
+      },
+      {
+        "hz": "骑",
+        "py": "qí",
+        "pos": "Động từ",
+        "mn": "Cưỡi (xe đạp, xe máy, ngựa)",
+        "ex": ""
+      },
+      {
+        "hz": "球场",
+        "py": "qiúchǎng",
+        "pos": "Danh từ",
+        "mn": "Sân bóng",
+        "ex": ""
+      },
+      {
+        "hz": "视频",
+        "py": "shìpín",
+        "pos": "Danh từ",
+        "mn": "Video",
+        "ex": ""
+      },
+      {
+        "hz": "收",
+        "py": "shōu",
+        "pos": "Động từ",
+        "mn": "Thu, nhận, thu dọn",
+        "ex": ""
+      },
+      {
+        "hz": "水平",
+        "py": "shuǐpíng",
+        "pos": "Danh từ",
+        "mn": "Trình độ",
+        "ex": ""
+      },
+      {
+        "hz": "司机",
+        "py": "sījī",
+        "pos": "Danh từ",
+        "mn": "Tài xế",
+        "ex": ""
+      },
+      {
+        "hz": "体育",
+        "py": "tǐyù",
+        "pos": "Danh từ",
+        "mn": "Thể dục",
+        "ex": ""
+      },
+      {
+        "hz": "图书馆",
+        "py": "túshūguǎn",
+        "pos": "Danh từ",
+        "mn": "Thư viện",
+        "ex": ""
+      },
+      {
+        "hz": "外语",
+        "py": "wàiyǔ",
+        "pos": "Danh từ",
+        "mn": "Ngoại ngữ",
+        "ex": ""
+      },
+      {
+        "hz": "晚点",
+        "py": "wǎndiǎn",
+        "pos": "Danh từ",
+        "mn": "Trễ, muộn (thường dùng cho tàu xe, máy bay)",
+        "ex": ""
+      },
+      {
+        "hz": "网站",
+        "py": "wǎngzhàn",
+        "pos": "Danh từ",
+        "mn": "Trang web (website)",
+        "ex": ""
+      },
+      {
+        "hz": "西北",
+        "py": "xīběi",
+        "pos": "Danh từ",
+        "mn": "Tây Bắc",
+        "ex": ""
+      },
+      {
+        "hz": "西瓜",
+        "py": "xīguā",
+        "pos": "Danh từ",
+        "mn": "Dưa hấu",
+        "ex": ""
+      },
+      {
+        "hz": "香蕉",
+        "py": "xiāngjiāo",
+        "pos": "Danh từ",
+        "mn": "Chuối",
+        "ex": ""
+      },
+      {
+        "hz": "相机",
+        "py": "xiàngjī",
+        "pos": "Danh từ",
+        "mn": "Máy ảnh",
+        "ex": ""
+      },
+      {
+        "hz": "小区",
+        "py": "xiǎoqū",
+        "pos": "Danh từ",
+        "mn": "Khu dân cư",
+        "ex": ""
+      },
+      {
+        "hz": "校园",
+        "py": "xiàoyuán",
+        "pos": "Danh từ",
+        "mn": "Khuôn viên trường",
+        "ex": ""
+      },
+      {
+        "hz": "校长",
+        "py": "xiàozhǎng",
+        "pos": "Danh từ",
+        "mn": "Hiệu trưởng",
+        "ex": ""
+      },
+      {
+        "hz": "选",
+        "py": "xuǎn",
+        "pos": "Động từ",
+        "mn": "Chọn",
+        "ex": ""
+      },
+      {
+        "hz": "选择",
+        "py": "xuǎnzé",
+        "pos": "Động từ",
+        "mn": "Lựa chọn",
+        "ex": ""
+      },
+      {
+        "hz": "羊",
+        "py": "yáng",
+        "pos": "Danh từ",
+        "mn": "Con dê",
+        "ex": ""
+      },
+      {
+        "hz": "野生",
+        "py": "yěshēng",
+        "pos": "Tính từ",
+        "mn": "Hoang dã",
+        "ex": ""
+      },
+      {
+        "hz": "以上",
+        "py": "yǐshàng",
+        "pos": "Danh từ",
+        "mn": "Trở lên",
+        "ex": ""
+      },
+      {
+        "hz": "影响",
+        "py": "yǐngxiǎng",
+        "pos": "Danh từ, Động từ",
+        "mn": "Ảnh hưởng",
+        "ex": ""
+      },
+      {
+        "hz": "邮箱",
+        "py": "yóuxiāng",
+        "pos": "Danh từ",
+        "mn": "Hộp thư",
+        "ex": ""
+      },
+      {
+        "hz": "运动员",
+        "py": "yùndòngyuán",
+        "pos": "Danh từ",
+        "mn": "Vận động viên",
+        "ex": ""
+      },
+      {
+        "hz": "照",
+        "py": "zhào",
+        "pos": "Động từ",
+        "mn": "Chiếu / Chụp (ảnh)",
+        "ex": ""
+      },
+      {
+        "hz": "照片",
+        "py": "zhàopiàn",
+        "pos": "Danh từ",
+        "mn": "Bức ảnh",
+        "ex": ""
+      },
+      {
+        "hz": "照相",
+        "py": "zhàoxiàng",
+        "pos": "Động từ",
+        "mn": "Chụp ảnh",
+        "ex": ""
+      },
+      {
+        "hz": "纸",
+        "py": "zhǐ",
+        "pos": "Danh từ",
+        "mn": "Giấy",
+        "ex": ""
+      },
+      {
+        "hz": "竹子",
+        "py": "zhúzi",
+        "pos": "Danh từ",
+        "mn": "Tre",
+        "ex": ""
+      },
+      {
+        "hz": "住院",
+        "py": "zhùyuàn",
+        "pos": "Động từ",
+        "mn": "Nhập viện",
+        "ex": ""
+      }
     ]
   },
   {
-    lesson: 7,
-    title: "我跟他都认识五年了。",
-    words: [
-      { hz: "同事", py: "tóngshì", pos: "Danh từ", mn: "đồng nghiệp", ex: "那个漂亮的新同事是谁？" },
-      { hz: "以前", py: "yǐqián", pos: "Danh từ", mn: "trước đây, trước kia", ex: "以前你在哪工作？" },
-      { hz: "银行", py: "yínháng", pos: "Danh từ", mn: "ngân hàng", ex: "他在银行工作了两年以后来的我们公司。" },
-      { hz: "久", py: "jiǔ", pos: "Tính từ", mn: "lâu, lâu dài", ex: "你们唱了多久？" },
-      { hz: "感兴趣", py: "gǎnxìngqù", pos: "Động từ", mn: "có hứng thú, quan tâm", ex: "她对音乐感兴趣，我对她更感兴趣。" },
-      { hz: "结婚", py: "jiéhūn", pos: "Động từ", mn: "kết hôn", ex: "我跟小丽下个月结婚，到时候欢迎你来。" },
-      { hz: "欢迎", py: "huānyíng", pos: "Động từ", mn: "hoan nghênh", ex: "欢迎参加HSK考试。" },
-      { hz: "迟到", py: "chídào", pos: "Động từ", mn: "đến muộn, đi trễ", ex: "这学期你已经迟到三次了。" },
-      { hz: "半", py: "bàn", pos: "Số từ", mn: "một nửa, rưỡi", ex: "Không phải bạn nói 7 rưỡi tới đón tôi sao?" },
-      { hz: "接", py: "jiē", pos: "Động từ", mn: "đón", ex: "我去学校接孩子。" },
-      { hz: "刻", py: "kè", pos: "Lượng từ", mn: "15 phút (khắc)", ex: "Không phải tôi đi trễ, là đồng hồ bạn chạy nhanh 15 phút." },
-      { hz: "差", py: "chà", pos: "Động từ", mn: "kém, thiếu", ex: "已经差一刻八点了。" }
+    "theme": "Địa điểm & Nơi chốn",
+    "words": [
+      {
+        "hz": "班级",
+        "py": "bānjí",
+        "pos": "Danh từ",
+        "mn": "lớp học",
+        "ex": ""
+      },
+      {
+        "hz": "宾馆",
+        "py": "bīnguǎn",
+        "pos": "Danh từ",
+        "mn": "Khách sạn",
+        "ex": ""
+      },
+      {
+        "hz": "城市",
+        "py": "chéngshì",
+        "pos": "Danh từ",
+        "mn": "thành phố",
+        "ex": ""
+      },
+      {
+        "hz": "充电宝",
+        "py": "chōngdiànbǎo",
+        "pos": "Danh từ",
+        "mn": "sạc dự phòng",
+        "ex": ""
+      },
+      {
+        "hz": "初中",
+        "py": "chūzhōng",
+        "pos": "Danh từ",
+        "mn": "trung học cơ sở",
+        "ex": ""
+      },
+      {
+        "hz": "地方",
+        "py": "dìfang",
+        "pos": "Danh từ",
+        "mn": "nơi chốn, địa phương",
+        "ex": ""
+      },
+      {
+        "hz": "东方",
+        "py": "dōngfāng",
+        "pos": "Danh từ",
+        "mn": "phương Đông",
+        "ex": ""
+      },
+      {
+        "hz": "房子",
+        "py": "fángzi",
+        "pos": "Danh từ",
+        "mn": "nhà ở",
+        "ex": ""
+      },
+      {
+        "hz": "公园",
+        "py": "gōngyuán",
+        "pos": "Danh từ",
+        "mn": "công viên",
+        "ex": ""
+      },
+      {
+        "hz": "国家",
+        "py": "guójiā",
+        "pos": "Danh từ",
+        "mn": "quốc gia",
+        "ex": ""
+      },
+      {
+        "hz": "河",
+        "py": "hé",
+        "pos": "Danh từ",
+        "mn": "sông",
+        "ex": ""
+      },
+      {
+        "hz": "环境",
+        "py": "huánjìng",
+        "pos": "Danh từ",
+        "mn": "môi trường",
+        "ex": ""
+      },
+      {
+        "hz": "会议",
+        "py": "huìyì",
+        "pos": "Danh từ",
+        "mn": "cuộc họp",
+        "ex": ""
+      },
+      {
+        "hz": "南方",
+        "py": "nánfāng",
+        "pos": "Danh từ",
+        "mn": "Miền nam, phương nam",
+        "ex": ""
+      },
+      {
+        "hz": "世界",
+        "py": "shìjiè",
+        "pos": "Danh từ",
+        "mn": "Thế giới",
+        "ex": ""
+      },
+      {
+        "hz": "室",
+        "py": "shì",
+        "pos": "Danh từ",
+        "mn": "Phòng",
+        "ex": ""
+      },
+      {
+        "hz": "外地",
+        "py": "wàidì",
+        "pos": "Danh từ",
+        "mn": "Ngoại tỉnh, nơi khác",
+        "ex": ""
+      },
+      {
+        "hz": "卫生间",
+        "py": "wèishēngjiān",
+        "pos": "Danh từ",
+        "mn": "Nhà vệ sinh",
+        "ex": ""
+      },
+      {
+        "hz": "银行",
+        "py": "yínháng",
+        "pos": "Danh từ",
+        "mn": "Ngân hàng",
+        "ex": ""
+      },
+      {
+        "hz": "羽毛球",
+        "py": "yǔmáoqiú",
+        "pos": "Danh từ",
+        "mn": "Cầu lông",
+        "ex": ""
+      }
     ]
   },
   {
-    lesson: 8,
-    title: "你去哪我就去哪。",
-    words: [
-      { hz: "又", py: "yòu", pos: "Phó từ", mn: "lại (hành động lặp lại)", ex: "昨天去看了看，今天又去看一看。" },
-      { hz: "满意", py: "mǎnyì", pos: "Động từ", mn: "hài lòng, vừa ý", ex: "我对这份工作很满意。" },
-      { hz: "电梯", py: "diàntī", pos: "Danh từ", mn: "thang máy", ex: "电梯坏了，大家走楼梯吧。" },
-      { hz: "层", py: "céng", pos: "Lượng từ", mn: "tầng", ex: "我住在第三层楼。" },
-      { hz: "害怕", py: "hàipà", pos: "Động từ", mn: "sợ, sợ hãi", ex: "Cao quá, nhìn xuống dưới sợ lắm!" },
-      { hz: "熊猫", py: "xióngmāo", pos: "Danh từ", mn: "gấu trúc", ex: "这个小熊猫送给你，欢迎你以后再到中国来。" },
-      { hz: "见面", py: "jiànmiàn", pos: "Động từ", mn: "gặp, gặp mặt", ex: "希望以后能再见面。" },
-      { hz: "安静", py: "ānjìng", pos: "Tính từ", mn: "yên tĩnh", ex: "图书馆非常安静。" },
-      { hz: "可乐", py: "kělè", pos: "Danh từ", mn: "coca-cola", ex: "她每天喝一瓶可乐。" },
-      { hz: "一会儿", py: "yíhuìr", pos: "Danh từ", mn: "một lát, chốc lát", ex: "你等我一会儿，我马上回来。" },
-      { hz: "马上", py: "mǎshàng", pos: "Phó từ", mn: "ngay lập tức", ex: "我马上就到你这来。" },
-      { hz: "洗手间", py: "xǐshǒujiān", pos: "Danh từ", mn: "nhà vệ sinh", ex: "我去洗手间。" },
-      { hz: "老", py: "lǎo", pos: "Tính từ", mn: "già, cũ, lâu năm", ex: "老职工常帮助新职工。" },
-      { hz: "几乎", py: "jīhū", pos: "Phó từ", mn: "gần như, hầu như", ex: "Sắp 5 năm rồi, bạn hầu như chẳng thay đổi gì." },
-      { hz: "变化", py: "biànhuà", pos: "Động từ/DT", mn: "thay đổi", ex: "天气有很大的变化。" },
-      { hz: "健康", py: "jiànkāng", pos: "Tính từ/DT", mn: "khỏe mạnh, sức khỏe", ex: "健康最重要，胖瘦没关系。" },
-      { hz: "重要", py: "zhòngyào", pos: "Tính từ", mn: "quan trọng", ex: "我有一个重要的会议。" }
+    "theme": "Giao thông & Di chuyển",
+    "words": [
+      {
+        "hz": "办法",
+        "py": "bànfǎ",
+        "pos": "Danh từ",
+        "mn": "đường",
+        "ex": ""
+      },
+      {
+        "hz": "搬家",
+        "py": "bānjiā",
+        "pos": "Động từ",
+        "mn": "di chuyển đến nơi",
+        "ex": ""
+      },
+      {
+        "hz": "成绩",
+        "py": "chéngjì",
+        "pos": "Danh từ",
+        "mn": "thành tích, điểm số",
+        "ex": ""
+      },
+      {
+        "hz": "迟到",
+        "py": "chídào",
+        "pos": "Động từ",
+        "mn": "đến muộn",
+        "ex": ""
+      },
+      {
+        "hz": "船",
+        "py": "chuán",
+        "pos": "Danh từ",
+        "mn": "tàu, thuyền",
+        "ex": ""
+      },
+      {
+        "hz": "词典",
+        "py": "cídiǎn",
+        "pos": "Danh từ",
+        "mn": "từ điển",
+        "ex": ""
+      },
+      {
+        "hz": "得分",
+        "py": "défēn",
+        "pos": "Danh từ, Động từ",
+        "mn": "ghi điểm, số điểm",
+        "ex": ""
+      },
+      {
+        "hz": "地点",
+        "py": "dìdiǎn",
+        "pos": "Danh từ",
+        "mn": "địa điểm",
+        "ex": ""
+      },
+      {
+        "hz": "发",
+        "py": "fā",
+        "pos": "Động từ",
+        "mn": "phát ra, gửi đi",
+        "ex": ""
+      },
+      {
+        "hz": "高铁",
+        "py": "gāotiě",
+        "pos": "Danh từ",
+        "mn": "tàu cao tốc",
+        "ex": ""
+      },
+      {
+        "hz": "街",
+        "py": "jiē",
+        "pos": "Danh từ",
+        "mn": "đường phố",
+        "ex": ""
+      },
+      {
+        "hz": "来自",
+        "py": "láizì",
+        "pos": "Động từ",
+        "mn": "Đến từ",
+        "ex": ""
+      },
+      {
+        "hz": "行",
+        "py": "xíng",
+        "pos": "Động từ, Tính từ",
+        "mn": "Được, đi",
+        "ex": ""
+      },
+      {
+        "hz": "行李",
+        "py": "xíngli",
+        "pos": "Danh từ",
+        "mn": "Hành lý",
+        "ex": ""
+      },
+      {
+        "hz": "自行车",
+        "py": "zìxíngchē",
+        "pos": "Danh từ",
+        "mn": "Xe đạp",
+        "ex": ""
+      }
     ]
   },
   {
-    lesson: 9,
-    title: "她的汉语说得跟中国人一样好。",
-    words: [
-      { hz: "中文", py: "zhōngwén", pos: "Danh từ", mn: "tiếng Trung Quốc", ex: "你的中文越说越好了！" },
-      { hz: "班", py: "bān", pos: "Danh từ", mn: "lớp học", ex: "我们班李静说得更好。" },
-      { hz: "一样", py: "yíyàng", pos: "Tính từ", mn: "giống nhau, như nhau", ex: "他的汉语说得跟中国人一样好。" },
-      { hz: "最后", py: "zuìhòu", pos: "Danh từ", mn: "cuối cùng", ex: "这是最后一块。" },
-      { hz: "放心", py: "fàngxīn", pos: "Động từ", mn: "yên tâm", ex: "Cậu yên tâm, tôi nhất định sẽ không béo lên đâu." },
-      { hz: "一定", py: "yídìng", pos: "Phó từ", mn: "nhất định, chắc chắn", ex: "这本书一定很有趣。" },
-      { hz: "担心", py: "dānxīn", pos: "Động từ", mn: "lo lắng", ex: "不用担心，有我呢。" },
-      { hz: "比较", py: "bǐjiào", pos: "Phó từ", mn: "tương đối, khá", ex: "这道题比较简单。" },
-      { hz: "了解", py: "liǎojiě", pos: "Động từ", mn: "hiểu rõ", ex: "我对这事比较了解。" },
-      { hz: "先", py: "xiān", pos: "Phó từ", mn: "trước, trước hết", ex: "我们先休息一下，一会儿再爬。" },
-      { hz: "中间", py: "zhōngjiān", pos: "Danh từ", mn: "ở giữa", ex: "我们可以从中间这条路上去。" },
-      { hz: "参加", py: "cānjiā", pos: "Động từ", mn: "tham gia", ex: "这次讨论我就不参加了。" },
-      { hz: "影响", py: "yǐngxiǎng", pos: "Danh từ/ĐT", mn: "ảnh hưởng", ex: "一定能参加，一点儿影响也没有。" }
+    "theme": "Không gian & Vị trí",
+    "words": [
+      {
+        "hz": "方向",
+        "py": "fāngxiàng",
+        "pos": "Danh từ",
+        "mn": "phương hướng",
+        "ex": ""
+      },
+      {
+        "hz": "后来",
+        "py": "hòulái",
+        "pos": "Danh từ",
+        "mn": "sau này",
+        "ex": ""
+      },
+      {
+        "hz": "面前",
+        "py": "miānqián",
+        "pos": "Danh từ",
+        "mn": "Trước mặt",
+        "ex": ""
+      },
+      {
+        "hz": "声音",
+        "py": "shēngyīn",
+        "pos": "Danh từ",
+        "mn": "Âm thanh, tiếng động",
+        "ex": ""
+      },
+      {
+        "hz": "心里",
+        "py": "xīnlǐ",
+        "pos": "Danh từ",
+        "mn": "Trong lòng",
+        "ex": ""
+      },
+      {
+        "hz": "以后",
+        "py": "yǐhòu",
+        "pos": "Danh từ",
+        "mn": "Sau này",
+        "ex": ""
+      },
+      {
+        "hz": "以前",
+        "py": "yǐqián",
+        "pos": "Danh từ",
+        "mn": "Trước đây",
+        "ex": ""
+      },
+      {
+        "hz": "以外",
+        "py": "yǐwài",
+        "pos": "Danh từ",
+        "mn": "Ngoài ra",
+        "ex": ""
+      },
+      {
+        "hz": "遇到",
+        "py": "yùdào",
+        "pos": "Động từ",
+        "mn": "Gặp phải",
+        "ex": ""
+      },
+      {
+        "hz": "中间",
+        "py": "zhōngjiān",
+        "pos": "Danh từ",
+        "mn": "Ở giữa",
+        "ex": ""
+      }
     ]
   },
   {
-    lesson: 10,
-    title: "数学比历史难多了。",
-    words: [
-      { hz: "个子", py: "gèzi", pos: "Danh từ", mn: "vóc dáng, chiều cao", ex: "你和马可谁个子高？" },
-      { hz: "矮", py: "ǎi", pos: "Tính từ", mn: "thấp, lùn", ex: "马可比我高，我比马可矮一点儿。" },
-      { hz: "历史", py: "lìshǐ", pos: "Danh từ", mn: "lịch sử", ex: "我喜欢历史课。" },
-      { hz: "体育", py: "tǐyù", pos: "Danh từ", mn: "thể dục, thể thao", ex: "(Môn thể dục)" },
-      { hz: "数学", py: "shùxué", pos: "Danh từ", mn: "toán học", ex: "我不喜欢数学课。" },
-      { hz: "方便", py: "fāngbiàn", pos: "Tính từ", mn: "thuận tiện, tiện lợi", ex: "网上购物很方便。" },
-      { hz: "自行车", py: "zìxíngchē", pos: "Danh từ", mn: "xe đạp", ex: "我还打算买辆自行车。" },
-      { hz: "骑", py: "qí", pos: "Động từ", mn: "cưỡi, đi (xe đạp/máy)", ex: "骑车七八分钟就能到。" },
-      { hz: "旧", py: "jiù", pos: "Tính từ", mn: "cũ", ex: "你有很多旧书吗？" },
-      { hz: "换", py: "huàn", pos: "Động từ", mn: "đổi, thay thế", ex: "你可以帮我换钱吗？" },
-      { hz: "地方", py: "dìfang", pos: "Danh từ", mn: "nơi, chỗ, địa điểm", ex: "这两个地方的房子一样吗？" },
-      { hz: "中介", py: "zhōngjiè", pos: "Danh từ", mn: "môi giới", ex: "我通过中介租了房子。" },
-      { hz: "主要", py: "zhǔyào", pos: "Tính từ", mn: "chủ yếu, chính", ex: "大小没关系，主要是环境。" },
-      { hz: "环境", py: "huánjìng", pos: "Danh từ", mn: "môi trường", ex: "保护环境是每个人的责任。" },
-      { hz: "附近", py: "fùjìn", pos: "Danh từ", mn: "gần đó, lân cận", ex: "他住在学校附近。" }
+    "theme": "Thời gian",
+    "words": [
+      {
+        "hz": "春天",
+        "py": "chūntiān",
+        "pos": "Danh từ",
+        "mn": "mùa xuân",
+        "ex": ""
+      },
+      {
+        "hz": "点",
+        "py": "diǎn",
+        "pos": "Danh từ",
+        "mn": "giờ (đồng hồ), điểm",
+        "ex": ""
+      },
+      {
+        "hz": "冬天",
+        "py": "dōngtiān",
+        "pos": "Danh từ",
+        "mn": "mùa đông",
+        "ex": ""
+      },
+      {
+        "hz": "方便",
+        "py": "fāngbiàn",
+        "pos": "Tính từ",
+        "mn": "thuận tiện",
+        "ex": ""
+      },
+      {
+        "hz": "放假",
+        "py": "fàngjià",
+        "pos": "Động từ",
+        "mn": "nghỉ lễ/tết",
+        "ex": ""
+      },
+      {
+        "hz": "放学",
+        "py": "fàngxué",
+        "pos": "Động từ",
+        "mn": "tan học",
+        "ex": ""
+      },
+      {
+        "hz": "关心",
+        "py": "guānxīn",
+        "pos": "Động từ",
+        "mn": "quan tâm",
+        "ex": ""
+      },
+      {
+        "hz": "关注",
+        "py": "guānzhù",
+        "pos": "Động từ",
+        "mn": "quan tâm, chú ý đến",
+        "ex": ""
+      },
+      {
+        "hz": "过去",
+        "py": "guòqù",
+        "pos": "Danh từ",
+        "mn": "quá khứ, đã qua",
+        "ex": ""
+      },
+      {
+        "hz": "后年",
+        "py": "hòunián",
+        "pos": "Danh từ",
+        "mn": "năm kia",
+        "ex": ""
+      },
+      {
+        "hz": "回",
+        "py": "huí",
+        "pos": "Động từ",
+        "mn": "về, quay lại",
+        "ex": ""
+      },
+      {
+        "hz": "假期",
+        "py": "jiàqī",
+        "pos": "Danh từ",
+        "mn": "kỳ nghỉ",
+        "ex": ""
+      },
+      {
+        "hz": "季节",
+        "py": "jìjié",
+        "pos": "Danh từ",
+        "mn": "mùa",
+        "ex": ""
+      },
+      {
+        "hz": "经过",
+        "py": "jīngguò",
+        "pos": "Danh từ, Động từ",
+        "mn": "trải qua, đi qua",
+        "ex": ""
+      },
+      {
+        "hz": "开会",
+        "py": "kāihuì",
+        "pos": "Động từ",
+        "mn": "Họp, mở cuộc họp",
+        "ex": ""
+      },
+      {
+        "hz": "留学",
+        "py": "liúxué",
+        "pos": "Động từ",
+        "mn": "Du học",
+        "ex": ""
+      },
+      {
+        "hz": "年级",
+        "py": "niánjí",
+        "pos": "Danh từ",
+        "mn": "Năm học, khối lớp",
+        "ex": ""
+      },
+      {
+        "hz": "平时",
+        "py": "píngshí",
+        "pos": "Danh từ",
+        "mn": "Bình thường, lúc thường",
+        "ex": ""
+      },
+      {
+        "hz": "前天",
+        "py": "qiántiān",
+        "pos": "Danh từ",
+        "mn": "Ngày hôm kia",
+        "ex": ""
+      },
+      {
+        "hz": "请假",
+        "py": "qǐngjià",
+        "pos": "Động từ",
+        "mn": "Xin nghỉ (phép/học)",
+        "ex": ""
+      },
+      {
+        "hz": "秋天",
+        "py": "qiūtiān",
+        "pos": "Danh từ",
+        "mn": "Mùa thu",
+        "ex": ""
+      },
+      {
+        "hz": "身高",
+        "py": "shēngāo",
+        "pos": "Danh từ",
+        "mn": "Chiều cao",
+        "ex": ""
+      },
+      {
+        "hz": "四季",
+        "py": "sìjì",
+        "pos": "Danh từ",
+        "mn": "Bốn mùa",
+        "ex": ""
+      },
+      {
+        "hz": "晚会",
+        "py": "wǎnhuì",
+        "pos": "Danh từ",
+        "mn": "Dạ hội, tiệc tối",
+        "ex": ""
+      },
+      {
+        "hz": "夏天",
+        "py": "xiàtiān",
+        "pos": "Danh từ",
+        "mn": "Mùa hè",
+        "ex": ""
+      },
+      {
+        "hz": "新年",
+        "py": "xīnnián",
+        "pos": "Danh từ",
+        "mn": "Năm mới",
+        "ex": ""
+      },
+      {
+        "hz": "休假",
+        "py": "xiūjià",
+        "pos": "Động từ",
+        "mn": "Nghỉ phép",
+        "ex": ""
+      },
+      {
+        "hz": "学期",
+        "py": "xuéqī",
+        "pos": "Danh từ",
+        "mn": "Học kỳ",
+        "ex": ""
+      },
+      {
+        "hz": "直到",
+        "py": "zhídào",
+        "pos": "Động từ",
+        "mn": "Cho đến khi",
+        "ex": ""
+      },
+      {
+        "hz": "周末",
+        "py": "zhōumò",
+        "pos": "Danh từ",
+        "mn": "Cuối tuần",
+        "ex": ""
+      }
     ]
   },
   {
-    lesson: 11,
-    title: "别忘了把空调关了。",
-    words: [
-      { hz: "图书馆", py: "tūshūguǎn", pos: "Danh từ", mn: "thư viện", ex: "我去图书馆借本书。" },
-      { hz: "借", py: "jiè", pos: "Động từ", mn: "mượn, vay", ex: "他不喜欢跟人借钱。" },
-      { hz: "词典", py: "cídiǎn", pos: "Danh từ", mn: "từ điển", ex: "帮 me 把这本词典还了吧。" },
-      { hz: "还", py: "huán", pos: "Động từ", mn: "trả lại", ex: "她还了我的手机。" },
-      { hz: "灯", py: "dēng", pos: "Danh từ", mn: "đèn", ex: "记得把灯关了。" },
-      { hz: "会议", py: "huìyì", pos: "Danh từ", mn: "cuộc họp, hội nghị", ex: "我们今天有一个会议。" },
-      { hz: "结束", py: "jiéshù", pos: "Động từ", mn: "kết thúc", ex: "会议结束后，别忘记把空调关了。" },
-      { hz: "忘记", py: "wàngjì", pos: "Động từ", mn: "quên", ex: "我今天忘记带钱包了。" },
-      { hz: "空调", py: "kōngtiáo", pos: "Danh từ", mn: "máy điều hòa", ex: "你想开空调还是开窗？" },
-      { hz: "关", py: "guān", pos: "Động từ", mn: "tắt, đóng", ex: "她把门关上了。" },
-      { hz: "地铁", py: "dìtiě", pos: "Danh từ", mn: "tàu điện ngầm", ex: "我正坐地铁来公司呢。" },
-      { hz: "双", py: "shuāng", pos: "Lượng từ", mn: "đôi", ex: "还差一双筷子，你去拿一下。" },
-      { hz: "筷子", py: "kuàizi", pos: "Danh từ", mn: "đũa", ex: "我不会用筷子。" },
-      { hz: "啤酒", py: "píjiǔ", pos: "Danh từ", mn: "bia", ex: "我们今天喝点儿啤酒吧。" },
-      { hz: "口", py: "kǒu", pos: "Lượng từ", mn: "ngụm, hớp, miếng", ex: "Bác sĩ nói bố bạn một ngụm rượu cũng không được uống。" },
-      { hz: "瓶子", py: "píngzi", pos: "Danh từ", mn: "cái chai, lọ, bình", ex: "别让他看见酒瓶吧。" },
-      { hz: "笔记本", py: "bǐjìběn", pos: "Danh từ", mn: "laptop / sổ tay", ex: "我的笔记本电脑坏了。" },
-      { hz: "电子邮件", py: "diànzǐ yóujiàn", pos: "Danh từ", mn: "email", ex: "我每天都收发电子邮件。" },
-      { hz: "习惯", py: "xíguàn", pos: "ĐT/DT", mn: "thói quen, quen với", ex: "我已经习惯用电脑来学习和工作了。" }
+    "theme": "Công việc & Nghề nghiệp",
+    "words": [
+      {
+        "hz": "办公室",
+        "py": "bàngōngshì",
+        "pos": "Danh từ",
+        "mn": "văn phòng",
+        "ex": ""
+      },
+      {
+        "hz": "工作日",
+        "py": "gōngzuòrì",
+        "pos": "Danh từ",
+        "mn": "ngày làm việc",
+        "ex": ""
+      },
+      {
+        "hz": "同事",
+        "py": "tóngshì",
+        "pos": "Danh từ",
+        "mn": "Đồng nghiệp",
+        "ex": ""
+      },
+      {
+        "hz": "邮件",
+        "py": "yóujiàn",
+        "pos": "Danh từ",
+        "mn": "Email, thư điện tử",
+        "ex": ""
+      },
+      {
+        "hz": "员",
+        "py": "yuán",
+        "pos": "Danh từ",
+        "mn": "Viên (nhân viên)",
+        "ex": ""
+      },
+      {
+        "hz": "作业",
+        "py": "zuòyè",
+        "pos": "Danh từ",
+        "mn": "Bài tập",
+        "ex": ""
+      }
     ]
   },
   {
-    lesson: 12,
-    title: "把重要的东西放在我这儿吧",
-    words: [
-      { hz: "太阳", py: "tàiyáng", pos: "Danh từ", mn: "mặt trời", ex: "太阳都下山了，快回家吧！" },
-      { hz: "西", py: "xī", pos: "Danh từ", mn: "phía Tây", ex: "太阳在西边慢慢下沉。" },
-      { hz: "生气", py: "shēngqì", pos: "Động từ", mn: "tức giận", ex: "经理生气了。" },
-      { hz: "行李箱", py: "xínglǐxiāng", pos: "Danh từ", mn: "vali hành lý", ex: "我帮你把衣服放到行李箱里吧。" },
-      { hz: "自己", py: "zìjǐ", pos: "Đại từ", mn: "tự mình, bản thân", ex: "你要自己照顾好自己。" },
-      { hz: "包", py: "bāo", pos: "Danh từ", mn: "cái túi, bao", ex: "我已经把你的照片放在你的包里了。" },
-      { hz: "发现", py: "fāxiàn", pos: "Động từ", mn: "phát hiện, nhận ra", ex: "来机场的路上我才发现忘带护照了。" },
-      { hz: "护照", py: "hùzhào", pos: "Danh từ", mn: "hộ chiếu", ex: "我忘记带护照了。" },
-      { hz: "起飞", py: "qǐfēi", pos: "Động từ", mn: "cất cánh", ex: "飞机就要起飞了。" },
-      { hz: "司机", py: "sījī", pos: "Danh từ", mn: "tài xế", ex: "司机把我送到机场的时候，我才发现..." },
-      { hz: "教", py: "jiāo", pos: "Động từ", mn: "dạy bảo", ex: "我是一个中学老师，教学生画画儿。" },
-      { hz: "画", py: "huà", pos: "Động từ/DT", mn: "vẽ, bức tranh", ex: "我的爱好是画画儿。" },
-      { hz: "需要", py: "xūyào", pos: "Động từ", mn: "cần, nhu cầu", ex: "我会把下次需要带的东西写在黑板上。" },
-      { hz: "黑板", py: "hēibǎn", pos: "Danh từ", mn: "bảng đen", ex: "老师在黑板上写字。" }
+    "theme": "Miêu tả & Đánh giá",
+    "words": [
+      {
+        "hz": "矮",
+        "py": "ǎi",
+        "pos": "Tính từ",
+        "mn": "lùn, thấp",
+        "ex": ""
+      },
+      {
+        "hz": "安静",
+        "py": "ānjìng",
+        "pos": "Tính từ",
+        "mn": "yên tĩnh",
+        "ex": ""
+      },
+      {
+        "hz": "冰箱",
+        "py": "bīngxiāng",
+        "pos": "Danh từ",
+        "mn": "tủ lạnh",
+        "ex": ""
+      },
+      {
+        "hz": "不久",
+        "py": "bùjiǔ",
+        "pos": "Tính từ",
+        "mn": "sớm",
+        "ex": ""
+      },
+      {
+        "hz": "聪明",
+        "py": "cōngmíng",
+        "pos": "Tính từ",
+        "mn": "thông minh",
+        "ex": ""
+      },
+      {
+        "hz": "错",
+        "py": "cuò",
+        "pos": "Tính từ",
+        "mn": "sai",
+        "ex": ""
+      },
+      {
+        "hz": "打算",
+        "py": "dǎsuàn",
+        "pos": "Danh từ, Động từ",
+        "mn": "dự định, tính toán",
+        "ex": ""
+      },
+      {
+        "hz": "低",
+        "py": "dī",
+        "pos": "Tính từ",
+        "mn": "thấp",
+        "ex": ""
+      },
+      {
+        "hz": "短",
+        "py": "duǎn",
+        "pos": "Tính từ",
+        "mn": "ngắn",
+        "ex": ""
+      },
+      {
+        "hz": "饿",
+        "py": "è",
+        "pos": "Tính từ",
+        "mn": "đói",
+        "ex": ""
+      },
+      {
+        "hz": "干净",
+        "py": "gānjìng",
+        "pos": "Tính từ",
+        "mn": "sạch sẽ",
+        "ex": ""
+      },
+      {
+        "hz": "好多",
+        "py": "hǎoduō",
+        "pos": "Số từ",
+        "mn": "nhiều",
+        "ex": ""
+      },
+      {
+        "hz": "好久",
+        "py": "hǎojiǔ",
+        "pos": "Tính từ",
+        "mn": "rất lâu",
+        "ex": ""
+      },
+      {
+        "hz": "合适",
+        "py": "héshì",
+        "pos": "Tính từ",
+        "mn": "phù hợp",
+        "ex": ""
+      },
+      {
+        "hz": "黄色",
+        "py": "huángsè",
+        "pos": "Danh từ",
+        "mn": "màu vàng",
+        "ex": ""
+      },
+      {
+        "hz": "简单",
+        "py": "jiǎndān",
+        "pos": "Tính từ",
+        "mn": "đơn giản",
+        "ex": ""
+      },
+      {
+        "hz": "旧",
+        "py": "jiù",
+        "pos": "Tính từ",
+        "mn": "cũ",
+        "ex": ""
+      },
+      {
+        "hz": "久",
+        "py": "jiǔ",
+        "pos": "Tính từ",
+        "mn": "lâu",
+        "ex": ""
+      },
+      {
+        "hz": "凉快",
+        "py": "liángkuai",
+        "pos": "Tính từ",
+        "mn": "Mát mẻ",
+        "ex": ""
+      },
+      {
+        "hz": "难",
+        "py": "nán",
+        "pos": "Tính từ, Động từ",
+        "mn": "Khó",
+        "ex": ""
+      },
+      {
+        "hz": "难看",
+        "py": "nánkàn",
+        "pos": "Tính từ",
+        "mn": "Xấu, khó nhìn",
+        "ex": ""
+      },
+      {
+        "hz": "胖",
+        "py": "pàng",
+        "pos": "Tính từ",
+        "mn": "Béo, mập",
+        "ex": ""
+      },
+      {
+        "hz": "奇怪",
+        "py": "qíguài",
+        "pos": "Tính từ",
+        "mn": "Kỳ lạ, quái lạ",
+        "ex": ""
+      },
+      {
+        "hz": "清楚",
+        "py": "qīngchu",
+        "pos": "Tính từ, Động từ",
+        "mn": "Rõ ràng, sạch sẽ",
+        "ex": ""
+      },
+      {
+        "hz": "全",
+        "py": "quán",
+        "pos": "",
+        "mn": "Toàn bộ, tất cả",
+        "ex": ""
+      },
+      {
+        "hz": "热情",
+        "py": "rèqíng",
+        "pos": "Tính từ",
+        "mn": "Nhiệt tình, nhiệt huyết",
+        "ex": ""
+      },
+      {
+        "hz": "认真",
+        "py": "rènzhēn",
+        "pos": "Tính từ",
+        "mn": "Nghiêm túc, chăm chỉ",
+        "ex": ""
+      },
+      {
+        "hz": "容易",
+        "py": "róngyì",
+        "pos": "Tính từ",
+        "mn": "Dễ dàng",
+        "ex": ""
+      },
+      {
+        "hz": "瘦",
+        "py": "shòu",
+        "pos": "Tính từ",
+        "mn": "Gầy",
+        "ex": ""
+      },
+      {
+        "hz": "提高",
+        "py": "tígāo",
+        "pos": "Động từ",
+        "mn": "Nâng cao",
+        "ex": ""
+      },
+      {
+        "hz": "甜",
+        "py": "tián",
+        "pos": "Tính từ",
+        "mn": "Ngọt",
+        "ex": ""
+      },
+      {
+        "hz": "突然",
+        "py": "tūrán",
+        "pos": "Tính từ",
+        "mn": "Đột nhiên",
+        "ex": ""
+      },
+      {
+        "hz": "像",
+        "py": "xiàng",
+        "pos": "Động từ",
+        "mn": "Giống như",
+        "ex": ""
+      },
+      {
+        "hz": "小心",
+        "py": "xiǎoxīn",
+        "pos": "Tính từ",
+        "mn": "Cẩn thận",
+        "ex": ""
+      },
+      {
+        "hz": "新鲜",
+        "py": "xīnxiān",
+        "pos": "Tính từ",
+        "mn": "Tươi mới",
+        "ex": ""
+      },
+      {
+        "hz": "一样",
+        "py": "yíyàng",
+        "pos": "Tính từ",
+        "mn": "Giống nhau",
+        "ex": ""
+      },
+      {
+        "hz": "有名",
+        "py": "yǒumíng",
+        "pos": "Tính từ",
+        "mn": "Nổi tiếng",
+        "ex": ""
+      },
+      {
+        "hz": "有用",
+        "py": "yǒuyòng",
+        "pos": "Tính từ",
+        "mn": "Hữu ích",
+        "ex": ""
+      },
+      {
+        "hz": "脏",
+        "py": "zāng",
+        "pos": "Tính từ",
+        "mn": "Bẩn",
+        "ex": ""
+      },
+      {
+        "hz": "长",
+        "py": "zhǎng",
+        "pos": "Động từ",
+        "mn": "Lớn lên / Trưởng",
+        "ex": ""
+      },
+      {
+        "hz": "主要",
+        "py": "zhǔyào",
+        "pos": "Tính từ",
+        "mn": "Chủ yếu",
+        "ex": ""
+      }
     ]
   },
   {
-    lesson: 13,
-    title: "我是走回来的。",
-    words: [
-      { hz: "终于", py: "zhōngyú", pos: "Phó từ", mn: "cuối cùng (thì)", ex: "我终于找到它了。" },
-      { hz: "爷爷", py: "yéye", pos: "Danh từ", mn: "ông nội", ex: "这是给爷爷的礼物。" },
-      { hz: "礼物", py: "lǐwù", pos: "Danh từ", mn: "món quà", ex: "我要给爸爸送一份礼物。" },
-      { hz: "奶奶", py: "nǎinai", pos: "Danh từ", mn: "bà nội", ex: "我要去我奶奶家！" },
-      { hz: "遇到", py: "yùdào", pos: "Động từ", mn: "gặp gỡ, tình cờ gặp", ex: "我今天在路上遇到一个老同学。" },
-      { hz: "一边", py: "yìbiān", pos: "Phó từ", mn: "vừa... vừa...", ex: "他一边喝咖啡一边说了些过去的事。" },
-      { hz: "过去", py: "guòqù", pos: "Danh từ", mn: "quá khứ", ex: "过去的事不要再提了。" },
-      { hz: "一般", py: "yìbān", pos: "Phó/TT", mn: "thông thường, thường", ex: "周末你一般跟小刚出去看电影吗？" },
-      { hz: "愿意", py: "yuànyì", pos: "Động từ", mn: "bằng lòng, sẵn sàng", ex: "我更愿意在家看电视。" },
-      { hz: "起来", py: "qǐlai", pos: "Động từ", mn: "đứng lên, dậy", ex: "坐久了可以站起来休息一会儿。" },
-      { hz: "应该", py: "yīnggāi", pos: "Động từ", mn: "nên", ex: "你应该多出去走走。" },
-      { hz: "生活", py: "shēnghuó", pos: "Danh từ", mn: "cuộc sống, đời sống", ex: "我的生活已经很有意思了。" },
-      { hz: "校长", py: "xiàozhǎng", pos: "Danh từ", mn: "hiệu trưởng", ex: "现在他已经是校长了。" },
-      { hz: "坏", py: "huài", pos: "Tính từ", mn: "hỏng, xấu, tồi, tệ", ex: "我真怕累坏了。" },
-      { hz: "经常", py: "jīngcháng", pos: "Phó từ", mn: "thường xuyên", ex: "希望他可以经常和我还有孩子一起。" }
+    "theme": "Số lượng & Đo lường",
+    "words": [
+      {
+        "hz": "饱",
+        "py": "bǎo",
+        "pos": "Tính từ",
+        "mn": "đầy",
+        "ex": ""
+      },
+      {
+        "hz": "大小",
+        "py": "dàxiǎo",
+        "pos": "Danh từ",
+        "mn": "kích thước",
+        "ex": ""
+      },
+      {
+        "hz": "辆",
+        "py": "liàng",
+        "pos": "Lượng từ",
+        "mn": "Chiếc, cái (dùng cho xe cộ)",
+        "ex": ""
+      },
+      {
+        "hz": "路口",
+        "py": "lùkǒu",
+        "pos": "Danh từ",
+        "mn": "Giao lộ, ngã ba, ngã tư",
+        "ex": ""
+      },
+      {
+        "hz": "生活",
+        "py": "shēnghuó",
+        "pos": "Danh từ",
+        "mn": "Cuộc sống, sinh hoạt",
+        "ex": ""
+      },
+      {
+        "hz": "双",
+        "py": "shuāng",
+        "pos": "Lượng từ",
+        "mn": "Đôi, cặp",
+        "ex": ""
+      },
+      {
+        "hz": "碗",
+        "py": "wǎn",
+        "pos": "Lượng từ",
+        "mn": "Cái bát (cái tô)",
+        "ex": ""
+      },
+      {
+        "hz": "一会儿",
+        "py": "yíhuìr",
+        "pos": "",
+        "mn": "Một lát",
+        "ex": ""
+      },
+      {
+        "hz": "有些",
+        "py": "yǒuxiē",
+        "pos": "Danh từ",
+        "mn": "Một vài",
+        "ex": ""
+      }
     ]
   },
   {
-    lesson: 14,
-    title: "你把水果拿过来。",
-    words: [
-      { hz: "打扫", py: "dǎsǎo", pos: "Động từ", mn: "quét dọn, dọn dẹp", ex: "你怎么还不打扫房间？" },
-      { hz: "干净", py: "gānjìng", pos: "Tính từ", mn: "sạch sẽ", ex: "他们会把房间打扫干净。" },
-      { hz: "然后", py: "ránhòu", pos: "Liên từ", mn: "sau đó, tiếp đó", ex: "先把茶放好，然后把东西拿出来。" },
-      { hz: "冰箱", py: "bīngxiāng", pos: "Danh từ", mn: "tủ lạnh", ex: "我们家有两台冰箱。" },
-      { hz: "洗澡", py: "xǐzǎo", pos: "Động từ", mn: "tắm, tắm rửa", ex: "我刚才洗了个澡。" },
-      { hz: "节目", py: "jiémù", pos: "Danh từ", mn: "chương trình", ex: "你先把电视节目看完吧。" },
-      { hz: "月亮", py: "yuèliang", pos: "Danh từ", mn: "mặt trăng", ex: "今晚的月亮真漂亮。" },
-      { hz: "像", py: "xiàng", pos: "Động từ", mn: "giống, trông như", ex: "月亮像白色的盘子一样。" },
-      { hz: "盘子", py: "pánzi", pos: "Danh từ", mn: "cái đĩa, mâm", ex: "这个盘子很漂亮。" },
-      { hz: "刮风", py: "guāfēng", pos: "Động từ", mn: "nổi gió, thổi gió", ex: "外边不刮风。" },
-      { hz: "叔叔", py: "shūshu", pos: "Danh từ", mn: "chú", ex: "叔叔来家里吃饭。" },
-      { hz: "阿姨", py: "āyí", pos: "Danh từ", mn: "dì, cô", ex: "我常常去阿姨家玩。" },
-      { hz: "故事", py: "gùshi", pos: "Danh từ", mn: "câu chuyện", ex: "这个故事非常感人。" },
-      { hz: "声音", py: "shēngyīn", pos: "Danh từ", mn: "âm thanh, tiếng", ex: "一定是大风。" },
-      { hz: "菜单", py: "càidān", pos: "Danh từ", mn: "thực đơn, menu", ex: "你在饭馆儿的菜单上见过..." },
-      { hz: "简单", py: "jiǎndān", pos: "Tính từ", mn: "đơn giản", ex: "做水果拼盘很简单。" },
-      { hz: "香蕉", py: "xiāngjiāo", pos: "Danh từ", mn: "quả chuối", ex: "我很喜欢吃香蕉。" }
+    "theme": "Công cụ ngữ pháp & Cấu trúc",
+    "words": [
+      {
+        "hz": "把",
+        "py": "bǎ",
+        "pos": "Giới từ",
+        "mn": "Dùng để đưa tân ngữ của động từ lên vị trí trước động từ đó.",
+        "ex": ""
+      },
+      {
+        "hz": "把",
+        "py": "bǎ",
+        "pos": "Lượng từ",
+        "mn": "Dùng cho những vật có tay cầm, hoặc những thứ có tư thế hai chân dang ra, v.v.",
+        "ex": ""
+      },
+      {
+        "hz": "被",
+        "py": "bèi",
+        "pos": "Giới từ",
+        "mn": "bị, được",
+        "ex": ""
+      },
+      {
+        "hz": "别人",
+        "py": "biérén",
+        "pos": "Đại từ",
+        "mn": "những người khác",
+        "ex": ""
+      },
+      {
+        "hz": "比较",
+        "py": "bǐjiào",
+        "pos": "Động từ, Giới từ, Phó từ",
+        "mn": "So sánh",
+        "ex": ""
+      },
+      {
+        "hz": "必须",
+        "py": "bìxū",
+        "pos": "Phó từ",
+        "mn": "phải",
+        "ex": ""
+      },
+      {
+        "hz": "不同",
+        "py": "bùtóng",
+        "pos": "",
+        "mn": "khác biệt",
+        "ex": ""
+      },
+      {
+        "hz": "不但",
+        "py": "bùdàn",
+        "pos": "Liên từ",
+        "mn": "Không chỉ",
+        "ex": ""
+      },
+      {
+        "hz": "才",
+        "py": "cái",
+        "pos": "Phó từ",
+        "mn": "mới, vừa mới",
+        "ex": ""
+      },
+      {
+        "hz": "差不多",
+        "py": "chàbuduō",
+        "pos": "Tính từ, Phó từ",
+        "mn": "gần như, xấp xỉ",
+        "ex": ""
+      },
+      {
+        "hz": "常",
+        "py": "cháng",
+        "pos": "Phó từ",
+        "mn": "thường",
+        "ex": ""
+      },
+      {
+        "hz": "常常",
+        "py": "chángcháng",
+        "pos": "Phó từ",
+        "mn": "thường thường",
+        "ex": ""
+      },
+      {
+        "hz": "除了",
+        "py": "chúle",
+        "pos": "Giới từ",
+        "mn": "ngoài ra, ngoại trừ",
+        "ex": ""
+      },
+      {
+        "hz": "大概",
+        "py": "dàgài",
+        "pos": "Tính từ, Phó từ, Danh từ",
+        "mn": "khoảng chừng,chắc",
+        "ex": ""
+      },
+      {
+        "hz": "当然",
+        "py": "dāngrán",
+        "pos": "Phó từ",
+        "mn": "đương nhiên",
+        "ex": ""
+      },
+      {
+        "hz": "到处",
+        "py": "dào chù",
+        "pos": "Phó từ",
+        "mn": "khắp nơi",
+        "ex": ""
+      },
+      {
+        "hz": "的话",
+        "py": "dehuà",
+        "pos": "Trợ từ",
+        "mn": "nếu (dùng trong câu điều kiện)",
+        "ex": ""
+      },
+      {
+        "hz": "得",
+        "py": "děi",
+        "pos": "Động từ",
+        "mn": "phải (cần phải làm gì)",
+        "ex": ""
+      },
+      {
+        "hz": "段",
+        "py": "duàn",
+        "pos": "Lượng từ",
+        "mn": "đoạn, phần",
+        "ex": ""
+      },
+      {
+        "hz": "而且",
+        "py": "érqiě",
+        "pos": "Liên từ",
+        "mn": "mà còn, vả lại",
+        "ex": ""
+      },
+      {
+        "hz": "封",
+        "py": "fēng",
+        "pos": "Lượng từ",
+        "mn": "lượng từ (thư, thiệp)",
+        "ex": ""
+      },
+      {
+        "hz": "刚",
+        "py": "gāng",
+        "pos": "Phó từ",
+        "mn": "vừa mới",
+        "ex": ""
+      },
+      {
+        "hz": "刚刚",
+        "py": "gānggāng",
+        "pos": "Phó từ",
+        "mn": "vừa mới",
+        "ex": ""
+      },
+      {
+        "hz": "根据",
+        "py": "gēnjù",
+        "pos": "Động từ, Giới từ, Danh từ",
+        "mn": "căn cứ, dựa theo",
+        "ex": ""
+      },
+      {
+        "hz": "更",
+        "py": "gèng",
+        "pos": "Phó từ",
+        "mn": "hơn, thêm nữa",
+        "ex": ""
+      },
+      {
+        "hz": "公斤",
+        "py": "gōngjīn",
+        "pos": "Lượng từ",
+        "mn": "kg (kilôgam)",
+        "ex": ""
+      },
+      {
+        "hz": "关于",
+        "py": "guānyú",
+        "pos": "Giới từ",
+        "mn": "về, liên quan đến",
+        "ex": ""
+      },
+      {
+        "hz": "好像",
+        "py": "hǎoxiàng",
+        "pos": "Động từ, Phó từ",
+        "mn": "hình như, giống như",
+        "ex": ""
+      },
+      {
+        "hz": "或",
+        "py": "huò",
+        "pos": "Phó từ, Liên từ",
+        "mn": "hoặc",
+        "ex": ""
+      },
+      {
+        "hz": "或者",
+        "py": "huòzhě",
+        "pos": "Liên từ",
+        "mn": "hoặc là",
+        "ex": ""
+      },
+      {
+        "hz": "极",
+        "py": "jí",
+        "pos": "Phó từ",
+        "mn": "cực kỳ",
+        "ex": ""
+      },
+      {
+        "hz": "角",
+        "py": "jiǎo",
+        "pos": "Lượng từ",
+        "mn": "hào (đơn vị tiền)",
+        "ex": ""
+      },
+      {
+        "hz": "节",
+        "py": "jié",
+        "pos": "Lượng từ, Danh từ, Động từ",
+        "mn": "tiết (học), ngày lễ",
+        "ex": ""
+      },
+      {
+        "hz": "几乎",
+        "py": "jīhū",
+        "pos": "Phó từ",
+        "mn": "hầu như",
+        "ex": ""
+      },
+      {
+        "hz": "斤",
+        "py": "jīn",
+        "pos": "Lượng từ",
+        "mn": "cân (đơn vị khối lượng)",
+        "ex": ""
+      },
+      {
+        "hz": "句",
+        "py": "jù",
+        "pos": "Lượng từ",
+        "mn": "lượng từ cho câu",
+        "ex": ""
+      },
+      {
+        "hz": "刻",
+        "py": "kè",
+        "pos": "Lượng từ, Động từ",
+        "mn": "Khắc / 15 phút (một khắc)",
+        "ex": ""
+      },
+      {
+        "hz": "可",
+        "py": "kě",
+        "pos": "Liên từ, Phó từ",
+        "mn": "Có thể / Khá là...",
+        "ex": ""
+      },
+      {
+        "hz": "可是",
+        "py": "kěshì",
+        "pos": "Liên từ",
+        "mn": "Nhưng, nhưng mà",
+        "ex": ""
+      },
+      {
+        "hz": "马上",
+        "py": "mǎshàng",
+        "pos": "Phó từ",
+        "mn": "Ngay lập tức, ngay bây giờ",
+        "ex": ""
+      },
+      {
+        "hz": "毛",
+        "py": "máo",
+        "pos": "Danh từ, Lượng từ",
+        "mn": "Lông (động vật), tóc / Hào (đơn vị tiền tệ Trung Quốc)",
+        "ex": ""
+      },
+      {
+        "hz": "米",
+        "py": "mǐ",
+        "pos": "Lượng từ",
+        "mn": "Gạo / Mét (đơn vị đo lường)",
+        "ex": ""
+      },
+      {
+        "hz": "怕",
+        "py": "pà",
+        "pos": "Tính từ, Phó từ",
+        "mn": "Sợ, e rằng",
+        "ex": ""
+      },
+      {
+        "hz": "其实",
+        "py": "qíshí",
+        "pos": "Phó từ",
+        "mn": "Thực ra, thực tế là",
+        "ex": ""
+      },
+      {
+        "hz": "其他",
+        "py": "qítā",
+        "pos": "Đại từ",
+        "mn": "Cái khác, người khác",
+        "ex": ""
+      },
+      {
+        "hz": "起",
+        "py": "qǐ",
+        "pos": "Động từ, Lượng từ",
+        "mn": "Dậy, nổi lên, bắt đầu",
+        "ex": ""
+      },
+      {
+        "hz": "然后",
+        "py": "ránhòu",
+        "pos": "Liên từ",
+        "mn": "Sau đó, rồi thì",
+        "ex": ""
+      },
+      {
+        "hz": "如果",
+        "py": "rúguǒ",
+        "pos": "Liên từ",
+        "mn": "Nếu, nếu như",
+        "ex": ""
+      },
+      {
+        "hz": "声",
+        "py": "shēng",
+        "pos": "Danh từ, Lượng từ",
+        "mn": "Tiếng, âm thanh",
+        "ex": ""
+      },
+      {
+        "hz": "特别",
+        "py": "tèbié",
+        "pos": "Tính từ, Phó từ",
+        "mn": "Đặc biệt",
+        "ex": ""
+      },
+      {
+        "hz": "挺",
+        "py": "tǐng",
+        "pos": "Phó từ",
+        "mn": "Rất, khá là",
+        "ex": ""
+      },
+      {
+        "hz": "为",
+        "py": "wèi",
+        "pos": "Giới từ",
+        "mn": "Vì, cho",
+        "ex": ""
+      },
+      {
+        "hz": "为了",
+        "py": "wèile",
+        "pos": "Giới từ",
+        "mn": "Để, vì mục đích",
+        "ex": ""
+      },
+      {
+        "hz": "先",
+        "py": "xiān",
+        "pos": "Phó từ",
+        "mn": "Trước",
+        "ex": ""
+      },
+      {
+        "hz": "向",
+        "py": "xiàng",
+        "pos": "Động từ, Giới từ",
+        "mn": "Hướng về",
+        "ex": ""
+      },
+      {
+        "hz": "页",
+        "py": "yè",
+        "pos": "Lượng từ",
+        "mn": "Trang (sách)",
+        "ex": ""
+      },
+      {
+        "hz": "一定",
+        "py": "yídìng",
+        "pos": "Tính từ, Phó từ",
+        "mn": "Nhất định",
+        "ex": ""
+      },
+      {
+        "hz": "一共",
+        "py": "yígòng",
+        "pos": "Phó từ",
+        "mn": "Tổng cộng",
+        "ex": ""
+      },
+      {
+        "hz": "一块儿",
+        "py": "yíkuàir",
+        "pos": "Danh từ, Phó từ",
+        "mn": "Cùng nhau",
+        "ex": ""
+      },
+      {
+        "hz": "一边",
+        "py": "yìbiān",
+        "pos": "Phó từ",
+        "mn": "Một bên / Vừa... vừa...",
+        "ex": ""
+      },
+      {
+        "hz": "一直",
+        "py": "yìzhí",
+        "pos": "Phó từ",
+        "mn": "Luôn luôn, thẳng",
+        "ex": ""
+      },
+      {
+        "hz": "有关",
+        "py": "yǒuguān",
+        "pos": "Động từ, Giới từ",
+        "mn": "Liên quan",
+        "ex": ""
+      },
+      {
+        "hz": "又",
+        "py": "yòu",
+        "pos": "Phó từ",
+        "mn": "Lại",
+        "ex": ""
+      },
+      {
+        "hz": "越",
+        "py": "yuè",
+        "pos": "Phó từ",
+        "mn": "Càng",
+        "ex": ""
+      },
+      {
+        "hz": "咱们",
+        "py": "zánmen",
+        "pos": "Đại từ",
+        "mn": "Chúng ta",
+        "ex": ""
+      },
+      {
+        "hz": "怎样",
+        "py": "zěnyàng",
+        "pos": "Đại từ",
+        "mn": "Như thế nào",
+        "ex": ""
+      },
+      {
+        "hz": "张",
+        "py": "zhāng",
+        "pos": "Lượng từ, Danh từ",
+        "mn": "Trương (họ) / Tấm (lượng từ)",
+        "ex": ""
+      },
+      {
+        "hz": "只",
+        "py": "zhǐ",
+        "pos": "Phó từ",
+        "mn": "Chỉ",
+        "ex": ""
+      },
+      {
+        "hz": "只是",
+        "py": "zhǐshì",
+        "pos": "Liên từ, Phó từ",
+        "mn": "Chỉ là",
+        "ex": ""
+      },
+      {
+        "hz": "只要",
+        "py": "zhǐyào",
+        "pos": "Liên từ",
+        "mn": "Chỉ cần",
+        "ex": ""
+      },
+      {
+        "hz": "只有",
+        "py": "zhǐyǒu",
+        "pos": "Liên từ",
+        "mn": "Chỉ có",
+        "ex": ""
+      },
+      {
+        "hz": "终于",
+        "py": "zhōngyú",
+        "pos": "Phó từ",
+        "mn": "Cuối cùng",
+        "ex": ""
+      },
+      {
+        "hz": "种",
+        "py": "zhǒng",
+        "pos": "Lượng từ",
+        "mn": "Loại, hạt",
+        "ex": ""
+      },
+      {
+        "hz": "总",
+        "py": "zǒng",
+        "pos": "Phó từ",
+        "mn": "Luôn / Tổng cộng",
+        "ex": ""
+      },
+      {
+        "hz": "总是",
+        "py": "zǒngshì",
+        "pos": "Phó từ",
+        "mn": "Luôn luôn",
+        "ex": ""
+      },
+      {
+        "hz": "最好",
+        "py": "zuìhǎo",
+        "pos": "Phó từ",
+        "mn": "Tốt nhất",
+        "ex": ""
+      },
+      {
+        "hz": "最后",
+        "py": "zuìhòu",
+        "pos": "Danh từ",
+        "mn": "Cuối cùng",
+        "ex": ""
+      },
+      {
+        "hz": "最近",
+        "py": "zuìjìn",
+        "pos": "Danh từ",
+        "mn": "Gần đây",
+        "ex": ""
+      }
     ]
   },
   {
-    lesson: 15,
-    title: "其他都没什么问题。",
-    words: [
-      { hz: "留学", py: "liúxué", pos: "Động từ", mn: "du học", ex: "我来中国留学两年了。" },
-      { hz: "水平", py: "shuǐpíng", pos: "Danh từ", mn: "trình độ, cấp độ", ex: "他的汉语水平很高。" },
-      { hz: "提高", py: "tígāo", pos: "Động từ", mn: "nâng cao, tiến bộ", ex: "他的汉语水平提高了很多。" },
-      { hz: "练习", py: "liànxí", pos: "ĐT/DT", mn: "luyện tập, bài tập", ex: "我每天认真学习，做练习。" },
-      { hz: "完成", py: "wánchéng", pos: "Động từ", mn: "hoàn thành", ex: "我已经完成了作业。" },
-      { hz: "句子", py: "jùzi", pos: "Danh từ", mn: "câu", ex: "这个句子有些不清楚。" },
-      { hz: "其他", py: "qítā", pos: "Đại từ", mn: "cái khác, khác", ex: "其他问题我们以后再谈。" },
-      { hz: "发", py: "fā", pos: "Động từ", mn: "gửi, phát (email/tin nhắn)", ex: "可以给我打电话或者发电子邮件。" },
-      { hz: "要求", py: "yāoqiú", pos: "ĐT/DT", mn: "yêu cầu", ex: "老师要求我们准时交作业。" },
-      { hz: "注意", py: "zhùyì", pos: "Động từ", mn: "chú ý", ex: "医生说我要多注意休息。" },
-      { hz: "上网", py: "shàngwǎng", pos: "Động từ", mn: "lên mạng", ex: "现在用电脑上网真方便。" },
-      { hz: "除了", py: "chúle", pos: "Giới từ", mn: "ngoài... ra", ex: "除了看新闻，还可以听歌。" },
-      { hz: "新闻", py: "xīnwén", pos: "Danh từ", mn: "tin tức, thời sự", ex: "我每天早上都看新闻。" },
-      { hz: "花", py: "huā", pos: "Động từ", mn: "tiêu, tốn (tiền, tgian)", ex: "不用花钱，还有新衣服。" },
-      { hz: "极了", py: "jíle", pos: "Phó từ", mn: "cực kỳ, hết sức", ex: "这件衣服漂亮极了！" },
-      { hz: "节日", py: "jiérì", pos: "Danh từ", mn: "ngày lễ", ex: "春节是重要的节日。" },
-      { hz: "举行", py: "jǔxíng", pos: "Động từ", mn: "tổ chức (hoạt động)", ex: "这个地方每年夏天都要举行一次啤酒节。" },
-      { hz: "世界", py: "shìjiè", pos: "Danh từ", mn: "thế giới", ex: "你可以喝到世界上不同地方的啤酒。" },
-      { hz: "街道", py: "jiēdào", pos: "Danh từ", mn: "đường phố", ex: "你可以在街道两边看到歌舞。" },
-      { hz: "各", py: "gè", pos: "Đại từ", mn: "mỗi, các", ex: "你想不想了解各个地方的啤酒文化？" },
-      { hz: "文化", py: "wénhuà", pos: "Danh từ", mn: "văn hóa", ex: "日本文化特别注重礼仪。" }
-    ]
-  },
-  {
-    lesson: 16,
-    title: "我现在累得下了班就想睡觉。",
-    words: [
-      { hz: "城市", py: "chéngshì", pos: "Danh từ", mn: "thành phố", ex: "我不喜欢一直住在同一个城市。" },
-      { hz: "如果", py: "rúguǒ", pos: "Liên từ", mn: "nếu, nếu như", ex: "如果你去，我就和你一起去。" },
-      { hz: "认为", py: "rènwéi", pos: "Động từ", mn: "cho rằng, nghĩ rằng", ex: "我认为现在现在您有时间也不会去玩儿。" },
-      { hz: "皮鞋", py: "píxié", pos: "Danh từ", mn: "giày da", ex: "你送的小皮鞋真漂亮。" },
-      { hz: "帽子", py: "màozi", pos: "Danh từ", mn: "mũ, nón", ex: "我买了一顶新帽子。" },
-      { hz: "长", py: "zhǎng", pos: "Động từ", mn: "mọc, lớn lên, trông (bề ngoài)", ex: "你女儿长得白白的、胖胖的。" },
-      { hz: "可爱", py: "kě'ài", pos: "Tính từ", mn: "dễ thương, đáng yêu", ex: "我的女儿很可爱。" },
-      { hz: "米", py: "mǐ", pos: "Danh/Lượng", mn: "mét", ex: "你女儿快高一米了。" },
-      { hz: "公斤", py: "gōngjīn", pos: "Danh/Lượng", mn: "kilogram (kg)", ex: "我重五十公斤。" },
-      { hz: "鼻子", py: "bízi", pos: "Danh từ", mn: "mũi", ex: "她的鼻子很高。" },
-      { hz: "头发", py: "tóufa", pos: "Danh từ", mn: "tóc", ex: "她的头发是黄色的。" },
-      { hz: "检查", py: "jiǎnchá", pos: "Động từ", mn: "kiểm tra, khám", ex: "检查好几次了，但是没什么用。" },
-      { hz: "刷牙", py: "shuāyá", pos: "Động từ", mn: "đánh răng", ex: "Bác sĩ dặn tôi về nhà phải đánh răng tử tế。" },
-      { hz: "关系", py: "guānxi", pos: "Danh từ", mn: "quan hệ, mối quan hệ", ex: "Nhiều người thấy quan hệ giữa người với người giờ lạnh nhạt lắm。" },
-      { hz: "别人", py: "biéren", pos: "Danh từ", mn: "người khác", ex: "忙得没有时间跟别人见面。" },
-      { hz: "词语", py: "cíyǔ", pos: "Danh từ", mn: "từ ngữ", ex: "Lúc nói chuyện nên dùng nhiều những từ như 'Xin chào'." }
-    ]
-  },
-  {
-    lesson: 17,
-    title: "谁都有办法看好你的“病”",
-    words: [
-      { hz: "请假", py: "qǐngjià", pos: "Động từ", mn: "xin nghỉ phép", ex: "下个星期我可以请几天假吗？" },
-      { hz: "一共", py: "yígòng", pos: "Phó từ", mn: "tổng cộng", ex: "你一共想请几天假？" },
-      { hz: "邻居", py: "línjū", pos: "Danh từ", mn: "hàng xóm", ex: "他是我的一个邻居。" },
-      { hz: "后来", py: "hòulái", pos: "Danh từ", mn: "sau đó, về sau", ex: "后来是大学同学。" },
-      { hz: "爱好", py: "àihào", pos: "Danh từ", mn: "sở thích", ex: "他有很多爱好。" },
-      { hz: "办法", py: "bànfǎ", pos: "Danh từ", mn: "cách, biện pháp", ex: "谁都有办法看好你的“病”。" },
-      { hz: "饱", py: "bǎo", pos: "Tính từ", mn: "no", ex: "你吃饱了就睡觉。" },
-      { hz: "为了", py: "wèile", pos: "Giới từ", mn: "vì, để (mục đích)", ex: "为了健康，我真应该多锻炼锻炼了。" },
-      { hz: "决定", py: "juédìng", pos: "Động từ", mn: "quyết định", ex: "我决定每天去长跑。" },
-      { hz: "选择", py: "xuǎnzé", pos: "Động từ", mn: "chọn, lựa chọn", ex: "这些礼物，你选择一个吧！" },
-      { hz: "冬天", py: "dōngtiān", pos: "Danh từ", mn: "mùa đông", ex: "我们这儿的冬天不太冷。" },
-      { hz: "必须", py: "bìxū", pos: "Phó từ", mn: "bắt buộc, phải", ex: "必须根据自己的健康情况运动。" },
-      { hz: "根据", py: "gēnjù", pos: "Giới từ", mn: "căn cứ vào, dựa vào", ex: "根据天气预报，我们要带伞。" },
-      { hz: "情况", py: "qíngkuàng", pos: "Danh từ", mn: "tình hình, tình trạng", ex: "医生检查了病人的情况。" },
-      { hz: "口", py: "kǒu", pos: "Danh từ", mn: "miệng", ex: "请张开口我看看。" },
-      { hz: "渴", py: "kě", pos: "Tính từ", mn: "khát nước", ex: "我现在又渴又饿。" }
-    ]
-  },
-  {
-    lesson: 18,
-    title: "我相信你们会同意的。",
-    words: [
-      { hz: "向", py: "xiàng", pos: "Giới từ", mn: "hướng tới, đối với", ex: "想向你借点钱。" },
-      { hz: "万", py: "wàn", pos: "Số từ", mn: "vạn, mười ngàn", ex: "还差5万。" },
-      { hz: "只", py: "zhǐ", pos: "Lượng từ", mn: "con (động vật)", ex: "你看那只狗多可爱。" },
-      { hz: "嘴", py: "zuǐ", pos: "Danh từ", mn: "miệng, mõm", ex: "嘴小小的。" },
-      { hz: "动物", py: "dòngwù", pos: "Danh từ", mn: "động vật", ex: "都需要人照顾。" },
-      { hz: "段", py: "duàn", pos: "Lượng từ", mn: "đoạn, khoảng, quãng", ex: "这段时间..." },
-      { hz: "不但…而且…", py: "búdàn... érqiě", pos: "Liên từ", mn: "không những... mà còn...", ex: "贵公司不但很有名，而且工作环境好。" },
-      { hz: "有名", py: "yǒumíng", pos: "Tính từ", mn: "nổi tiếng", ex: "太先生很有名。" },
-      { hz: "同意", py: "tóngyì", pos: "Động từ", mn: "đồng ý, tán thành", ex: "我相信他们会同意的。" },
-      { hz: "相信", py: "xiāngxìn", pos: "Động từ", mn: "tin, tin tưởng", ex: "我相信他的话。" },
-      { hz: "关于", py: "guānyú", pos: "Giới từ", mn: "về (vấn đề gì đó)", ex: "关于这个工作，还有什么问题吗？" },
-      { hz: "机会", py: "jīhuì", pos: "Danh từ", mn: "cơ hội", ex: "谢谢您给我这个机会。" },
-      { hz: "国家", py: "guójiā", pos: "Danh từ", mn: "quốc gia, đất nước", ex: "不同的国家有不同的文化。" },
-      { hz: "种", py: "zhǒng", pos: "Lượng từ", mn: "loại, chủng loại", ex: "每种文化都有自己的特点。" },
-      { hz: "特点", py: "tèdiǎn", pos: "Danh từ", mn: "đặc điểm", ex: "每个人都有自己的特点。" },
-      { hz: "奇怪", py: "qíguài", pos: "Tính từ", mn: "kỳ lạ, lạ lùng", ex: "这个问题真的很奇怪。" },
-      { hz: "地", py: "de", pos: "Trợ từ", mn: "(đứng trước động từ)", ex: "会慢慢地习惯。" }
-    ]
-  },
-  {
-    lesson: 19,
-    title: "你没看出来吗？",
-    words: [
-      { hz: "耳朵", py: "ěrduo", pos: "Danh từ", mn: "tai", ex: "女儿最近喜欢把头发放在耳朵后面。" },
-      { hz: "脸", py: "liǎn", pos: " khuôn mặt", ex: "这样可以使她的脸看上去漂亮一些。" },
-      { hz: "短", py: "duǎn", pos: "Tính từ", mn: "ngắn", ex: "她小时候喜欢短头发。" },
-      { hz: "马", py: "mǎ", pos: "Danh từ", mn: "ngựa", ex: "这是我们参加骑马比赛的照片。" },
-      { hz: "张", py: "zhāng", pos: "Lượng từ", mn: "tấm, bức (vật phẳng)", ex: "我已经拍了几张照片。" },
-      { hz: "位", py: "wèi", pos: "Lượng từ", mn: "vị (dùng cho người)", ex: "家里来了几位客人。" },
-      { hz: "蓝", py: "lán", pos: "Tính từ", mn: "màu xanh da trời", ex: "他今天穿蓝衣服。" },
-      { hz: "秋天", py: "qiūtiān", pos: "Danh từ", mn: "mùa thu", ex: "她去年秋天出生。" },
-      { hz: "过", py: "guò", pos: "Động từ", mn: "ăn, đón (lễ, sinh nhật)", ex: "今年我跟家人一起过生日。" },
-      { hz: "鸟", py: "niǎo", pos: "Danh từ", mn: "con chim", ex: "这只鸟真可爱。" },
-      { hz: "哭", py: "kū", pos: "Động từ", mn: "khóc", ex: "小朋友们被吓哭了。" },
-      { hz: "黄河", py: "Huánghé", pos: "Danh từ", mn: "Sông Hoàng Hà", ex: "黄河是中国有名的大河。" },
-      { hz: "船", py: "chuán", pos: "Danh từ", mn: "thuyền, tàu", ex: "我坐在船上，一边看一边照相。" },
-      { hz: "经过", py: "jīngguò", pos: "Động từ", mn: "đi qua, trải qua", ex: "一路上经过很多地方。" }
-    ]
-  },
-  {
-    lesson: 20,
-    title: "我被他影响了。",
-    words: [
-      { hz: "照相机", py: "zhàoxiàngjī", pos: "Danh từ", mn: "máy ảnh", ex: "我的照相机被谁拿走了？" },
-      { hz: "被", py: "bèi", pos: "Giới từ", mn: "bị, được (câu bị động)", ex: "帽子被刮跑了。" },
-      { hz: "难过", py: "nánguò", pos: "Tính từ", mn: "buồn, khó chịu", ex: "别难过，再买一个吧。" },
-      { hz: "东", py: "dōng", pos: "Danh từ", mn: "phía Đông", ex: "公司东门外不就有一个大商场吗？" },
-      { hz: "信用卡", py: "xìnyòngkǎ", pos: "Danh từ", mn: "thẻ tín dụng", ex: "信用卡里的钱已经花得差不多了。" },
-      { hz: "关心", py: "guānxīn", pos: "Động từ", mn: "quan tâm", ex: "我知道你很关心这件事。" },
-      { hz: "只有…才…", py: "zhǐyǒu... cái...", pos: "Liên từ", mn: "chỉ có... mới...", ex: "只有爱，才能让人有变化。" },
-      { hz: "成绩", py: "chéngjì", pos: "Danh từ", mn: "thành tích, điểm số", ex: "他的成绩一直都很优秀。" },
-      { hz: "碗", py: "wǎn", pos: "Danh từ", mn: "cái bát, chén", ex: "这个大碗是我的。" },
-      { hz: "分", py: "fēn", pos: "Động từ", mn: "phân biệt, chia", ex: "只有他们的父母才能分出来..." },
-      { hz: "解决", py: "jiéjué", pos: "Động từ", mn: "giải quyết", ex: "不同的问题有不同的解决办法。" },
-      { hz: "试", py: "试", pos: "Động từ", mn: "thử", ex: "你可以试穿这件衣服。" },
-      { hz: "真正", py: "zhēnzhèng", pos: "Phó từ", mn: "thực sự, chân chính", ex: "才能了解有多难。" },
-      { hz: "多么", py: "duōme", pos: "Phó từ", mn: "biết bao, dường nào", ex: "多么漂亮的女孩！" }
+    "theme": "Tự nhiên",
+    "words": [
+      {
+        "hz": "动物",
+        "py": "dòngwù",
+        "pos": "Danh từ",
+        "mn": "động vật",
+        "ex": ""
+      },
+      {
+        "hz": "风",
+        "py": "fēng",
+        "pos": "Danh từ",
+        "mn": "gió",
+        "ex": ""
+      },
+      {
+        "hz": "刮",
+        "py": "guā",
+        "pos": "Động từ",
+        "mn": "thổi (gió)",
+        "ex": ""
+      },
+      {
+        "hz": "海",
+        "py": "hǎi",
+        "pos": "Danh từ",
+        "mn": "biển",
+        "ex": ""
+      },
+      {
+        "hz": "蓝",
+        "py": "lán",
+        "pos": "Tính từ",
+        "mn": "Màu xanh lam",
+        "ex": ""
+      },
+      {
+        "hz": "山",
+        "py": "shān",
+        "pos": "Danh từ",
+        "mn": "Núi",
+        "ex": ""
+      },
+      {
+        "hz": "树",
+        "py": "shù",
+        "pos": "Danh từ",
+        "mn": "Cây",
+        "ex": ""
+      },
+      {
+        "hz": "太阳",
+        "py": "tàiyáng",
+        "pos": "Danh từ",
+        "mn": "Mặt trời",
+        "ex": ""
+      },
+      {
+        "hz": "叶子",
+        "py": "yèzi",
+        "pos": "Danh từ",
+        "mn": "Lá cây",
+        "ex": ""
+      }
     ]
   }
 ];

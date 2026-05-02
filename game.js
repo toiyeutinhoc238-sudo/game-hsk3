@@ -45,18 +45,27 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     function init() {
-        // Read lesson from URL
+        // Read theme from URL
         const params = new URLSearchParams(window.location.search);
-        const lessonNum = parseInt(params.get('lesson'));
+        const themeNum = parseInt(params.get('theme'));
 
-        if (isNaN(lessonNum) || lessonNum < 1 || lessonNum > hsk3Data.length) {
-            // Redirect back if lesson is invalid
+        if (isNaN(themeNum) || themeNum < 1 || themeNum > hsk3Data.length) {
+            // Redirect back if theme is invalid
             window.location.href = 'index.html';
             return;
         }
 
-        currentLesson = lessonNum - 1; // Convert back to 0-indexed for data access
+        currentLesson = themeNum - 1; 
         showScreen('teams');
+
+        // Show Instructions automatically on game start
+        const instructionModal = document.getElementById('how-to-play-modal');
+        if (instructionModal) {
+            instructionModal.classList.add('active');
+            document.getElementById('close-how-to-btn').onclick = () => {
+                instructionModal.classList.remove('active');
+            };
+        }
 
         // Event Listeners
         document.querySelectorAll('.back-btn').forEach(btn => {
@@ -98,9 +107,14 @@ document.addEventListener('DOMContentLoaded', () => {
         poisonIndices = [];
         revealedIndices.clear();
         
-        const lesson = hsk3Data[currentLesson];
-        document.getElementById('current-lesson-title').textContent = `Bài ${lesson.lesson}`;
-        document.getElementById('current-lesson-name').textContent = lesson.title;
+        const themeData = hsk3Data[currentLesson];
+        document.getElementById('current-lesson-title').textContent = `Chủ đề ${currentLesson + 1}`;
+        document.getElementById('current-lesson-name').textContent = themeData.theme;
+
+        // Shuffle and take a subset of words if the theme is too large
+        const allWords = [...themeData.words];
+        const shuffled = allWords.sort(() => Math.random() - 0.5);
+        this.gameWords = shuffled.slice(0, 25); // Store the selected words for this session
 
         renderTeams();
         renderGrid();
@@ -125,7 +139,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     function renderGrid() {
         wordGrid.innerHTML = '';
-        const words = hsk3Data[currentLesson].words;
+        const words = this.gameWords;
         words.forEach((word, index) => {
             const tile = document.createElement('div');
             tile.className = 'tile';
@@ -178,7 +192,7 @@ document.addEventListener('DOMContentLoaded', () => {
         renderGrid();
         
         if (mode === 'AI') {
-            const words = hsk3Data[currentLesson].words;
+            const words = this.gameWords;
             const poisonCount = Math.max(1, Math.floor(words.length / 5));
             while (poisonIndices.length < poisonCount) {
                 const rand = Math.floor(Math.random() * words.length);
@@ -193,7 +207,7 @@ document.addEventListener('DOMContentLoaded', () => {
             startPhaseBtn.textContent = "Xong! Bắt đầu chơi";
             startTimer(30, () => {
                 if (poisonIndices.length === 0) {
-                    const words = hsk3Data[currentLesson].words;
+                    const words = this.gameWords;
                     const poisonCount = Math.max(1, Math.floor(words.length / 5));
                     while (poisonIndices.length < poisonCount) {
                         const rand = Math.floor(Math.random() * words.length);
@@ -240,7 +254,7 @@ document.addEventListener('DOMContentLoaded', () => {
         if (revealedIndices.has(index)) return;
         stopTimer();
         revealedIndices.add(index);
-        const word = hsk3Data[currentLesson].words[index];
+        const word = this.gameWords[index];
         const isPoison = poisonIndices.includes(index);
 
         if (isPoison) {
@@ -253,9 +267,12 @@ document.addEventListener('DOMContentLoaded', () => {
                 </div>
             `;
             playSound('wrong');
-            scores[currentTurn] = Math.max(0, scores[currentTurn] - 5);
-            updateScores();
-            endGame(`Đội ${currentTurn + 1} đã trúng độc!`);
+            // Thua ngay lập tức, không trừ điểm
+            let winMsg = `Đội ${currentTurn + 1} trúng độc và đã thua cuộc!`;
+            if (teamCount > 1) {
+                winMsg += ` Xin chúc mừng các đội còn lại!`;
+            }
+            endGame(winMsg);
         } else {
             tile.classList.add('revealed-safe');
             tile.innerHTML += `
@@ -268,9 +285,28 @@ document.addEventListener('DOMContentLoaded', () => {
             playSound('correct');
             scores[currentTurn] += 10;
             updateScores();
-            const words = hsk3Data[currentLesson].words;
-            if (revealedIndices.size === words.length - poisonIndices.length) {
-                endGame("Tất cả bình an! Nhiệm vụ hoàn thành.");
+            
+            const totalTiles = this.gameWords.length;
+            const safeTilesCount = totalTiles - poisonIndices.length;
+            
+            if (revealedIndices.size === safeTilesCount) {
+                // Hết ô an toàn -> Tìm đội điểm cao nhất
+                let maxScore = -1;
+                let winners = [];
+                scores.forEach((s, i) => {
+                    if (s > maxScore) {
+                        maxScore = s;
+                        winners = [i + 1];
+                    } else if (s === maxScore) {
+                        winners.push(i + 1);
+                    }
+                });
+                
+                let winMsg = winners.length > 1 
+                    ? `Hòa nhau! Các Đội ${winners.join(', ')} đều thắng với ${maxScore}đ!`
+                    : `Chúc mừng Đội ${winners[0]} đã chiến thắng với ${maxScore}đ!`;
+                
+                endGame(winMsg);
             } else {
                 nextTurn();
             }
@@ -300,16 +336,21 @@ document.addEventListener('DOMContentLoaded', () => {
         document.getElementById('winner-text').textContent = msg;
         const reviewList = document.getElementById('review-list');
         reviewList.innerHTML = '';
-        hsk3Data[currentLesson].words.forEach(w => {
+        
+        // Củng cố toàn bộ từ vựng trong chủ đề này
+        const allWords = hsk3Data[currentLesson].words;
+        allWords.forEach(w => {
             const item = document.createElement('div');
             item.className = 'review-item';
             item.innerHTML = `
                 <div class="hz">${w.hz}</div>
                 <div class="py">${w.py}</div>
+                <div class="pos-tag">${w.pos || ''}</div>
                 <div class="mn">${w.mn}</div>
             `;
             reviewList.appendChild(item);
         });
+
         setTimeout(() => {
             document.getElementById('result-modal').classList.add('active');
         }, 1500);

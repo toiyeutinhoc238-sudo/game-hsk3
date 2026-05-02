@@ -14,16 +14,16 @@ document.addEventListener('DOMContentLoaded', () => {
     function init() {
         // Build lesson selection grid
         if (typeof hsk3Data !== 'undefined') {
-            hsk3Data.forEach((lesson, index) => {
+            hsk3Data.forEach((item, index) => {
                 const card = document.createElement('div');
                 card.className = 'lesson-card';
                 card.innerHTML = `
-                    <div class="num">Bài ${lesson.lesson}</div>
-                    <div class="title">${lesson.title}</div>
+                    <div class="num">Chủ đề ${index + 1}</div>
+                    <div class="title">${item.theme}</div>
                 `;
                 card.onclick = () => {
-                    // Navigate to game.html with 1-indexed lesson number
-                    window.location.href = `game.html?lesson=${index + 1}`;
+                    // Navigate to game.html with 1-indexed theme number
+                    window.location.href = `game.html?theme=${index + 1}`;
                 };
                 lessonGrid.appendChild(card);
             });
@@ -31,14 +31,6 @@ document.addEventListener('DOMContentLoaded', () => {
 
         // Event Listeners
         document.getElementById('start-btn').onclick = () => showScreen('lessons');
-        
-        document.getElementById('how-to-play-btn').onclick = () => {
-            document.getElementById('how-to-play-modal').classList.add('active');
-        };
-
-        document.getElementById('close-how-to-btn').onclick = () => {
-            document.getElementById('how-to-play-modal').classList.remove('active');
-        };
         
         document.querySelectorAll('.back-btn').forEach(btn => {
             btn.onclick = () => {

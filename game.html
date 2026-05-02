@@ -5,16 +5,35 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>HSK 3 - Chế Thuốc Độc</title>
-    <link rel="stylesheet" href="style.css?v=1.2">
+    <link rel="stylesheet" href="style.css?v=1.3">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;800&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Lexend:wght@300;400;600;800&display=swap" rel="stylesheet">
 </head>
 
 <body>
     <div id="app">
+
+        <!-- SVG Filter to remove black background -->
+        <svg style="position: absolute; width: 0; height: 0;">
+            <filter id="remove-black" color-interpolation-filters="sRGB">
+                <feColorMatrix type="matrix" values="1 0 0 0 0
+                                                     0 1 0 0 0
+                                                     0 0 1 0 0
+                                                     2 2 2 0 -1.5" />
+            </filter>
+        </svg>
         <!-- Team Selection (Initially Active) -->
         <section id="team-selection" class="screen active">
+            <div class="witch-container boy-container sitting">
+                <div class="magic-aura"></div>
+                <img src="assets/boy_witch_crystal_ball.png" alt="Boy Witch" class="witch-char living-witch">
+            </div>
+            <div class="witch-container girl-container sitting">
+                <div class="magic-aura"></div>
+                <img src="assets/witch_crystal_ball.png" alt="Girl Witch" class="witch-char living-witch">
+            </div>
+            
             <div class="header">
                 <button class="back-btn">← Quay lại</button>
                 <h2>Số Lượng Đội Chơi</h2>
@@ -31,7 +50,7 @@
         <section id="game-screen" class="screen">
             <div class="game-header">
                 <div class="lesson-info">
-                    <span id="current-lesson-title">Bài 1</span>
+                    <span id="current-lesson-title">Chủ đề 1</span>
                     <h3 id="current-lesson-name">...</h3>
                 </div>
                 <div class="game-controls">
@@ -79,6 +98,32 @@
             </div>
         </div>
 
+        <!-- Instruction Modal -->
+        <div id="how-to-play-modal" class="modal-overlay">
+            <div class="modal instruction-card">
+                <h2>📜 Cách Chế Thuốc Độc</h2>
+                <div class="instruction-steps">
+                    <div class="step">
+                        <div class="step-num">1</div>
+                        <div class="step-text"><b>Chuẩn bị:</b> Chọn số lượng đội (1-4 đội).</div>
+                    </div>
+                    <div class="step">
+                        <div class="step-num">2</div>
+                        <div class="step-text"><b>Giấu Độc (Trời Tối):</b> <br>AI sẽ tự động giấu 3-4 bình độc, hoặc
+                            Giáo viên có thể tự chọn ô để giấu.</div>
+                    </div>
+                    <div class="step">
+                        <div class="step-num">3</div>
+                        <div class="step-text"><b>Đối Kháng (Trời Sáng):</b> <br>Các đội lần lượt chọn ô chữ Hán. Ô
+                            <b>An Toàn</b> (+10đ). Nếu chọn trúng <b>Bình Độc</b>, đội đó sẽ <b>THUA NGAY</b>. 
+                            Nếu mở hết ô an toàn mà không ai trúng độc, đội cao điểm nhất sẽ <b>THẮNG</b>.
+                        </div>
+                    </div>
+                </div>
+                <button id="close-how-to-btn" class="mystic-btn">Bắt đầu ngay</button>
+            </div>
+        </div>
+
         <!-- Result Modal -->
         <div id="result-modal" class="modal-overlay full">
             <div class="result-card">
@@ -105,7 +150,8 @@
     </div>
 
     <script src="data.js"></script>
-    <script src="game.js?v=1.2"></script>
+    <script src="audio-manager.js"></script>
+    <script src="game.js?v=1.3"></script>
 </body>
 
 </html>
