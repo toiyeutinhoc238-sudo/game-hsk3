@@ -9,6 +9,7 @@ document.addEventListener('DOMContentLoaded', () => {
     let isGameOver = false;
     let stage = 'POISONING'; // 'POISONING', 'PLAYING'
     let mode = 'AI'; // 'AI', 'TEACHER'
+    let poisoningTeamIndex = 0;
     let timerInterval = null;
     let timeLeft = 0;
 
@@ -83,8 +84,6 @@ document.addEventListener('DOMContentLoaded', () => {
             };
         });
 
-        document.getElementById('setup-auto-btn').onclick = () => startPhase('AI');
-        document.getElementById('setup-manual-btn').onclick = () => startPhase('TEACHER');
         document.getElementById('start-phase-btn').onclick = startPlaying;
         document.getElementById('reset-game-btn').onclick = initGame;
         document.getElementById('exit-btn').onclick = () => window.location.href = 'index.html';
@@ -104,6 +103,7 @@ document.addEventListener('DOMContentLoaded', () => {
         stage = 'POISONING';
         scores = new Array(teamCount).fill(0);
         currentTurn = 0;
+        poisoningTeamIndex = 0;
         poisonIndices = [];
         revealedIndices.clear();
         
@@ -119,9 +119,12 @@ document.addEventListener('DOMContentLoaded', () => {
         renderTeams();
         renderGrid();
         
-        phaseIndicator.textContent = "Nhắm mắt lại: Chọn kiểu giấu thuốc...";
+        phaseIndicator.textContent = "Nhắm mắt lại: Phù thủy đang chế thuốc...";
         startPhaseBtn.classList.add('hidden');
         document.getElementById('result-modal').classList.remove('active');
+
+        // Automatically start the poisoning phase
+        startPhase('TEACHER');
     }
 
     function renderTeams() {
@@ -185,37 +188,41 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     function startPhase(selectedMode) {
-        mode = selectedMode;
+        mode = selectedMode || 'TEACHER';
         stage = 'POISONING';
         poisonIndices = [];
         revealedIndices.clear();
         renderGrid();
         
-        if (mode === 'AI') {
-            const words = this.gameWords;
-            const poisonCount = Math.max(1, Math.floor(words.length / 5));
-            while (poisonIndices.length < poisonCount) {
-                const rand = Math.floor(Math.random() * words.length);
-                if (!poisonIndices.includes(rand)) poisonIndices.push(rand);
-            }
-            phaseIndicator.textContent = "Đã giấu xong! Hãy để các đội mở mắt.";
-            startPhaseBtn.classList.remove('hidden');
+        poisoningTeamIndex = 0;
+        updatePoisoningPhaseUI();
+        startPhaseBtn.classList.remove('hidden');
+        startPhaseBtn.textContent = teamCount > 1 ? "Tiếp tục (Đội sau)" : "Xong! Bắt đầu chơi";
+        startPhaseBtn.onclick = nextPoisoningTeam;
+        
+        stopTimer();
+    }
+
+    function updatePoisoningPhaseUI() {
+        if (teamCount > 1) {
+            phaseIndicator.textContent = `ĐỘI ${poisoningTeamIndex + 1}: Mở mắt chọn thuốc độc. Các đội khác nhắm mắt!`;
+            // Highlight current team in sidebar
+            document.querySelectorAll('.team-card').forEach((c, i) => {
+                c.classList.toggle('active', i === poisoningTeamIndex);
+            });
+        } else {
+            phaseIndicator.textContent = "Giáo viên/Học sinh: Chọn các ô làm bình độc.";
+        }
+    }
+
+    function nextPoisoningTeam() {
+        poisoningTeamIndex++;
+        if (poisoningTeamIndex < teamCount) {
+            updatePoisoningPhaseUI();
+            startPhaseBtn.textContent = poisoningTeamIndex === teamCount - 1 ? "Xong! Bắt đầu chơi" : "Tiếp tục (Đội sau)";
             playSound('magic');
         } else {
-            phaseIndicator.textContent = "Giáo viên: Chọn các ô làm bình độc.";
-            startPhaseBtn.classList.remove('hidden');
-            startPhaseBtn.textContent = "Xong! Bắt đầu chơi";
-            startTimer(30, () => {
-                if (poisonIndices.length === 0) {
-                    const words = this.gameWords;
-                    const poisonCount = Math.max(1, Math.floor(words.length / 5));
-                    while (poisonIndices.length < poisonCount) {
-                        const rand = Math.floor(Math.random() * words.length);
-                        if (!poisonIndices.includes(rand)) poisonIndices.push(rand);
-                    }
-                }
-                startPlaying();
-            });
+            startPlaying();
         }
     }
 
@@ -242,10 +249,15 @@ document.addEventListener('DOMContentLoaded', () => {
                 const pIdx = poisonIndices.indexOf(index);
                 if (pIdx > -1) {
                     poisonIndices.splice(pIdx, 1);
-                    tile.classList.remove('poisoned-hidden');
+                    tile.classList.remove('flash-poison');
                 } else {
                     poisonIndices.push(index);
-                    tile.classList.add('poisoned-hidden');
+                    tile.classList.add('flash-poison');
+                    playSound('magic');
+                    // Remove flash class after animation so it can be re-triggered
+                    setTimeout(() => {
+                        tile.classList.remove('flash-poison');
+                    }, 800);
                 }
             }
             return;
@@ -283,6 +295,12 @@ document.addEventListener('DOMContentLoaded', () => {
                 </div>
             `;
             playSound('correct');
+            
+            // Add disappearance effect after a short delay to let them see the word
+            setTimeout(() => {
+                tile.classList.add('tile-disappear');
+            }, 1200);
+
             scores[currentTurn] += 10;
             updateScores();
             
@@ -335,20 +353,29 @@ document.addEventListener('DOMContentLoaded', () => {
         isGameOver = true;
         document.getElementById('winner-text').textContent = msg;
         const reviewList = document.getElementById('review-list');
-        reviewList.innerHTML = '';
+        reviewList.innerHTML = `
+            <table class="mystic-table">
+                <thead>
+                    <tr>
+                        <th>Từ vựng</th>
+                        <th>Phiên âm</th>
+                        <th>Nghĩa</th>
+                    </tr>
+                </thead>
+                <tbody id="review-table-body"></tbody>
+            </table>
+        `;
         
-        // Củng cố toàn bộ từ vựng trong chủ đề này
+        const tableBody = document.getElementById('review-table-body');
         const allWords = hsk3Data[currentLesson].words;
         allWords.forEach(w => {
-            const item = document.createElement('div');
-            item.className = 'review-item';
-            item.innerHTML = `
-                <div class="hz">${w.hz}</div>
-                <div class="py">${w.py}</div>
-                <div class="pos-tag">${w.pos || ''}</div>
-                <div class="mn">${w.mn}</div>
+            const tr = document.createElement('tr');
+            tr.innerHTML = `
+                <td class="hz">${w.hz}</td>
+                <td class="py">${w.py}</td>
+                <td class="mn">${w.mn}</td>
             `;
-            reviewList.appendChild(item);
+            tableBody.appendChild(tr);
         });
 
         setTimeout(() => {
