@@ -51,7 +51,20 @@ document.addEventListener('DOMContentLoaded', () => {
     function init() {
         // Read theme from URL
         const params = new URLSearchParams(window.location.search);
-        const themeNum = parseInt(params.get('theme'));
+        let themeNum = NaN;
+
+        // Look for chudeN format (e.g., ?chude1)
+        for (const key of params.keys()) {
+            if (key.startsWith('chude')) {
+                themeNum = parseInt(key.replace('chude', ''));
+                break;
+            }
+        }
+
+        // Fallback for theme=N format
+        if (isNaN(themeNum)) {
+            themeNum = parseInt(params.get('theme'));
+        }
 
         if (isNaN(themeNum) || themeNum < 1 || themeNum > hsk3Data.length) {
             // Redirect back if theme is invalid

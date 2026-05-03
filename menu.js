@@ -22,8 +22,8 @@ document.addEventListener('DOMContentLoaded', () => {
                     <div class="title">${item.theme}</div>
                 `;
                 card.onclick = () => {
-                    // Navigate to game.html with 1-indexed theme number
-                    window.location.href = `game.html?theme=${index + 1}`;
+                    // Navigate to game.html with sequential 'chude' format
+                    window.location.href = `game.html?chude${index + 1}`;
                 };
                 lessonGrid.appendChild(card);
             });
