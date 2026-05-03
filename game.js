@@ -304,6 +304,11 @@ document.addEventListener('DOMContentLoaded', () => {
             `;
             playSound('wrong');
             
+            // Add disappearance effect after a short delay
+            setTimeout(() => {
+                tile.classList.add('tile-disappear');
+            }, 1200);
+            
             // Elimination Logic
             eliminatedTeams.add(currentTurn);
             renderTeams(); // Update UI to show elimination
