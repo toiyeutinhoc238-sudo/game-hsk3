@@ -1,7 +1,7 @@
 document.addEventListener('DOMContentLoaded', () => {
     // --- State ---
     let currentLesson = 0;
-    let teamCount = 1;
+    let teamCount = 2;
     let scores = [0, 0, 0, 0];
     let currentTurn = 0;
     let poisonIndices = [];
@@ -218,22 +218,18 @@ document.addEventListener('DOMContentLoaded', () => {
         poisoningTeamIndex = 0;
         updatePoisoningPhaseUI();
         startPhaseBtn.classList.remove('hidden');
-        startPhaseBtn.textContent = teamCount > 1 ? "Tiếp tục (Đội sau)" : "Xong! Bắt đầu chơi";
+        startPhaseBtn.textContent = "Tiếp tục (Đội sau)";
         startPhaseBtn.onclick = nextPoisoningTeam;
         
         stopTimer();
     }
 
     function updatePoisoningPhaseUI() {
-        if (teamCount > 1) {
-            phaseIndicator.textContent = `ĐỘI ${poisoningTeamIndex + 1}: Mở mắt chọn thuốc độc. Các đội khác nhắm mắt!`;
-            // Highlight current team in sidebar
-            document.querySelectorAll('.team-card').forEach((c, i) => {
-                c.classList.toggle('active', i === poisoningTeamIndex);
-            });
-        } else {
-            phaseIndicator.textContent = "Giáo viên/Học sinh: Chọn các ô làm bình độc.";
-        }
+        phaseIndicator.textContent = `ĐỘI ${poisoningTeamIndex + 1}: Mở mắt chọn thuốc độc. Các đội khác nhắm mắt!`;
+        // Highlight current team in sidebar
+        document.querySelectorAll('.team-card').forEach((c, i) => {
+            c.classList.toggle('active', i === poisoningTeamIndex);
+        });
     }
 
     function nextPoisoningTeam() {
@@ -317,10 +313,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
                 const activeTeamsCount = teamCount - eliminatedTeams.size;
 
-                if (teamCount === 1) {
-                    // Single player mode
-                    endGame(`Bạn đã trúng độc! Thật đáng tiếc.`);
-                } else if (activeTeamsCount === 1) {
+                if (activeTeamsCount === 1) {
                     // Only one team left
                     let winnerIdx = -1;
                     for (let i = 0; i < teamCount; i++) {
