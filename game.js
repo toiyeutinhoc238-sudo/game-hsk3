@@ -29,7 +29,7 @@ document.addEventListener('DOMContentLoaded', () => {
     // --- Sounds ---
     const sounds = {
         correct: new Audio('https://assets.mixkit.co/active_storage/sfx/2016/2016-preview.mp3'),
-        wrong: new Audio('https://assets.mixkit.co/active_storage/sfx/256/256-preview.mp3'),
+        wrong: new Audio('https://assets.mixkit.co/active_storage/sfx/172/172-preview.mp3'),
         magic: new Audio('https://assets.mixkit.co/active_storage/sfx/2026/2026-preview.mp3'),
         win: new Audio('nhac_nen/chienthang.mp3')
     };
@@ -140,7 +140,7 @@ document.addEventListener('DOMContentLoaded', () => {
         renderTeams();
         renderGrid();
         
-        phaseIndicator.textContent = "Nhắm mắt lại: Phù thủy đang chế thuốc...";
+        phaseIndicator.textContent = "Nhắm mắt lại: Phù thủy đang giấu thuốc độc...";
         startPhaseBtn.classList.add('hidden');
         document.getElementById('result-modal').classList.remove('active');
 
@@ -309,49 +309,52 @@ document.addEventListener('DOMContentLoaded', () => {
                 tile.classList.add('tile-disappear');
             }, 1200);
             
-            // Elimination Logic
-            eliminatedTeams.add(currentTurn);
-            renderTeams(); // Update UI to show elimination
+            // Wait for sound effect before showing notifications
+            setTimeout(() => {
+                // Elimination Logic
+                eliminatedTeams.add(currentTurn);
+                renderTeams(); // Update UI to show elimination
 
-            const activeTeamsCount = teamCount - eliminatedTeams.size;
+                const activeTeamsCount = teamCount - eliminatedTeams.size;
 
-            if (teamCount === 1) {
-                // Single player mode
-                endGame(`Bạn đã trúng độc! Thật đáng tiếc.`);
-            } else if (activeTeamsCount === 1) {
-                // Only one team left
-                let winnerIdx = -1;
-                for (let i = 0; i < teamCount; i++) {
-                    if (!eliminatedTeams.has(i)) {
-                        winnerIdx = i;
-                        break;
+                if (teamCount === 1) {
+                    // Single player mode
+                    endGame(`Bạn đã trúng độc! Thật đáng tiếc.`);
+                } else if (activeTeamsCount === 1) {
+                    // Only one team left
+                    let winnerIdx = -1;
+                    for (let i = 0; i < teamCount; i++) {
+                        if (!eliminatedTeams.has(i)) {
+                            winnerIdx = i;
+                            break;
+                        }
                     }
-                }
 
-                // Format list of eliminated teams
-                const eliminatedList = Array.from(eliminatedTeams).sort((a, b) => a - b).map(idx => `Đội ${idx + 1}`);
-                let eliminatedStr = "";
-                if (eliminatedList.length === 1) {
-                    eliminatedStr = eliminatedList[0];
+                    // Format list of eliminated teams
+                    const eliminatedList = Array.from(eliminatedTeams).sort((a, b) => a - b).map(idx => `Đội ${idx + 1}`);
+                    let eliminatedStr = "";
+                    if (eliminatedList.length === 1) {
+                        eliminatedStr = eliminatedList[0];
+                    } else {
+                        const last = eliminatedList.pop();
+                        eliminatedStr = `${eliminatedList.join(', ')} và ${last}`;
+                    }
+
+                    endGame(`${eliminatedStr} trúng độc! Chúc mừng Đội ${winnerIdx + 1} là người sống sót cuối cùng và đã chiến thắng!`);
+                } else if (activeTeamsCount === 0) {
+                    // Everyone hit poison
+                    endGame(`Tất cả các đội đều đã trúng độc! Không có người chiến thắng.`);
                 } else {
-                    const last = eliminatedList.pop();
-                    eliminatedStr = `${eliminatedList.join(', ')} và ${last}`;
+                    // Game continues for remaining teams
+                    phaseIndicator.textContent = `ĐỘI ${currentTurn + 1} TRÚNG ĐỘC VÀ BỊ LOẠI!`;
+                    phaseIndicator.style.background = "var(--danger)";
+                    setTimeout(() => {
+                        phaseIndicator.style.background = "var(--primary)";
+                        isProcessing = false;
+                        nextTurn();
+                    }, 3000);
                 }
-
-                endGame(`${eliminatedStr} trúng độc! Chúc mừng Đội ${winnerIdx + 1} là người sống sót cuối cùng và đã chiến thắng!`);
-            } else if (activeTeamsCount === 0) {
-                // Everyone hit poison (could happen if last 2 hit simultaneously in some logic, but here it's sequential)
-                endGame(`Tất cả các đội đều đã trúng độc! Không có người chiến thắng.`);
-            } else {
-                // Game continues for remaining teams
-                phaseIndicator.textContent = `ĐỘI ${currentTurn + 1} TRÚNG ĐỘC VÀ BỊ LOẠI!`;
-                phaseIndicator.style.background = "var(--danger)";
-                setTimeout(() => {
-                    phaseIndicator.style.background = "var(--primary)";
-                    isProcessing = false;
-                    nextTurn();
-                }, 3000);
-            }
+            }, 1000);
         } else {
             tile.classList.add('revealed-safe');
             tile.innerHTML += `
