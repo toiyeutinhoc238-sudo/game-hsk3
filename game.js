@@ -224,9 +224,18 @@ document.addEventListener('DOMContentLoaded', () => {
         renderGrid();
         
         poisoningTeamIndex = 0;
+        while(eliminatedTeams.has(poisoningTeamIndex) && poisoningTeamIndex < teamCount) {
+            poisoningTeamIndex++;
+        }
+
         updatePoisoningPhaseUI();
         startPhaseBtn.classList.remove('hidden');
-        startPhaseBtn.textContent = "Tiếp tục (Đội sau)";
+        
+        let nextActive = poisoningTeamIndex + 1;
+        while(eliminatedTeams.has(nextActive) && nextActive < teamCount) {
+            nextActive++;
+        }
+        startPhaseBtn.textContent = nextActive >= teamCount ? "Xong! Bắt đầu chơi" : "Tiếp tục (Đội sau)";
         startPhaseBtn.onclick = nextPoisoningTeam;
         
         stopTimer();
@@ -244,10 +253,18 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     function nextPoisoningTeam() {
-        poisoningTeamIndex++;
+        do {
+            poisoningTeamIndex++;
+        } while(eliminatedTeams.has(poisoningTeamIndex) && poisoningTeamIndex < teamCount);
+
         if (poisoningTeamIndex < teamCount) {
             updatePoisoningPhaseUI();
-            startPhaseBtn.textContent = poisoningTeamIndex === teamCount - 1 ? "Xong! Bắt đầu chơi" : "Tiếp tục (Đội sau)";
+            
+            let nextActive = poisoningTeamIndex + 1;
+            while(eliminatedTeams.has(nextActive) && nextActive < teamCount) {
+                nextActive++;
+            }
+            startPhaseBtn.textContent = nextActive >= teamCount ? "Xong! Bắt đầu chơi" : "Tiếp tục (Đội sau)";
             playSound('magic');
         } else {
             startPlaying();
@@ -418,24 +435,35 @@ document.addEventListener('DOMContentLoaded', () => {
             const totalTiles = this.gameWords.length;
             const safeTilesCount = totalTiles - poisonIndices.length;
             
-            if (revealedIndices.size === safeTilesCount) {
+            let revealedSafeCount = 0;
+            revealedIndices.forEach(idx => {
+                if (!poisonIndices.includes(idx)) {
+                    revealedSafeCount++;
+                }
+            });
+            
+            if (revealedSafeCount === safeTilesCount) {
                 // Hết ô an toàn -> Tìm đội điểm cao nhất
                 let maxScore = -1;
                 let winners = [];
                 scores.forEach((s, i) => {
-                    if (s > maxScore) {
-                        maxScore = s;
-                        winners = [i + 1];
-                    } else if (s === maxScore) {
-                        winners.push(i + 1);
+                    if (!eliminatedTeams.has(i)) {
+                        if (s > maxScore) {
+                            maxScore = s;
+                            winners = [i + 1];
+                        } else if (s === maxScore) {
+                            winners.push(i + 1);
+                        }
                     }
                 });
                 
-                let winMsg = winners.length > 1 
-                    ? `Hòa nhau! Các Đội ${winners.join(', ')} đều thắng với ${maxScore}đ!`
-                    : `Chúc mừng Đội ${winners[0]} đã chiến thắng với ${maxScore}đ!`;
-                
-                endGame(winMsg);
+                if (winners.length > 1) {
+                    startTieBreaker(winners);
+                } else if (winners.length === 1) {
+                    endGame(`Chúc mừng Đội ${winners[0]} đã chiến thắng với ${maxScore}đ!`);
+                } else {
+                    endGame(`Tất cả đều đã bị loại! Không có người chiến thắng.`);
+                }
             } else {
                 setTimeout(() => {
                     phaseIndicator.style.background = "var(--primary)";
@@ -511,6 +539,56 @@ document.addEventListener('DOMContentLoaded', () => {
             playSound('win');
             document.getElementById('result-modal').classList.add('active');
         }, 1500);
+    }
+
+    function startTieBreaker(winners) {
+        stopTimer();
+        isGameOver = false;
+        
+        alert(`Hòa nhau! Các Đội ${winners.join(', ')} sẽ bước vào vòng loại trực tiếp!`);
+        
+        // Mark non-winners as eliminated
+        eliminatedTeams.clear();
+        for (let i = 0; i < teamCount; i++) {
+            if (!winners.includes(i + 1)) {
+                eliminatedTeams.add(i);
+            }
+        }
+        
+        // Reset scores
+        scores.fill(0);
+        
+        stage = 'POISONING';
+        
+        // Determine first active team to take turn
+        for (let i = 0; i < teamCount; i++) {
+            if (!eliminatedTeams.has(i)) {
+                currentTurn = i;
+                break;
+            }
+        }
+        
+        poisonIndices = [];
+        revealedIndices.clear();
+        isProcessing = false;
+        lastPoisonTime = 0;
+        clearInterval(cooldownInterval);
+        wordGrid.style.pointerEvents = "auto";
+        wordGrid.style.opacity = "1";
+        
+        const themeData = hsk3Data[currentLesson];
+        const allWords = [...themeData.words];
+        const shuffled = allWords.sort(() => Math.random() - 0.5);
+        this.gameWords = shuffled.slice(0, 25);
+        
+        renderTeams();
+        renderGrid();
+        
+        phaseIndicator.textContent = "VÒNG LOẠI: Phù thủy đang giấu thuốc độc...";
+        startPhaseBtn.classList.add('hidden');
+        document.getElementById('result-modal').classList.remove('active');
+
+        startPhase('TEACHER');
     }
 
     init();
