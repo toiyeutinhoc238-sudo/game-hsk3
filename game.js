@@ -284,20 +284,22 @@ document.addEventListener('DOMContentLoaded', () => {
                 }
 
                 const pIdx = poisonIndices.indexOf(index);
-                if (pIdx > -1) {
-                    poisonIndices.splice(pIdx, 1);
-                    tile.classList.remove('flash-poison');
-                    lastPoisonTime = now;
-                } else {
+                if (pIdx === -1) {
                     poisonIndices.push(index);
-                    tile.classList.add('flash-poison');
-                    playSound('magic');
-                    lastPoisonTime = now;
-                    // Remove flash class after animation so it can be re-triggered
-                    setTimeout(() => {
-                        tile.classList.remove('flash-poison');
-                    }, 800);
                 }
+                
+                // Luôn hiển thị hiệu ứng và phát âm thanh để xác nhận (cho phép nhiều đội chọn cùng 1 bình)
+                tile.classList.remove('flash-poison');
+                // Trigger reflow để reset animation nếu click liên tục
+                void tile.offsetWidth; 
+                tile.classList.add('flash-poison');
+                playSound('magic');
+                lastPoisonTime = now;
+                
+                // Xóa class flash sau khi animation kết thúc để có thể trigger lại
+                setTimeout(() => {
+                    tile.classList.remove('flash-poison');
+                }, 800);
 
                 // Bắt đầu đếm ngược 2s
                 clearInterval(cooldownInterval);
