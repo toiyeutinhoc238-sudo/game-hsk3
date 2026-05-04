@@ -14,6 +14,8 @@ document.addEventListener('DOMContentLoaded', () => {
     let timerInterval = null;
     let timeLeft = 0;
     let isProcessing = false;
+    let lastPoisonTime = 0;
+    let cooldownInterval = null;
 
     // --- DOM Elements ---
     const screens = {
@@ -103,7 +105,9 @@ document.addEventListener('DOMContentLoaded', () => {
         document.getElementById('start-phase-btn').onclick = startPlaying;
         document.getElementById('reset-game-btn').onclick = initGame;
         document.getElementById('exit-btn').onclick = () => window.location.href = 'index.html';
-        document.getElementById('main-menu-btn').onclick = () => window.location.href = 'index.html';
+        if (document.getElementById('main-menu-btn')) {
+            document.getElementById('main-menu-btn').onclick = () => window.location.href = 'index.html';
+        }
         document.getElementById('play-again-btn').onclick = () => {
             document.getElementById('result-modal').classList.remove('active');
             initGame();
@@ -127,6 +131,10 @@ document.addEventListener('DOMContentLoaded', () => {
         revealedIndices.clear();
         eliminatedTeams.clear();
         isProcessing = false;
+        lastPoisonTime = 0;
+        clearInterval(cooldownInterval);
+        wordGrid.style.pointerEvents = "auto";
+        wordGrid.style.opacity = "1";
         
         const themeData = hsk3Data[currentLesson];
         document.getElementById('current-lesson-title').textContent = `Chủ đề ${currentLesson + 1}`;
@@ -225,6 +233,9 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     function updatePoisoningPhaseUI() {
+        clearInterval(cooldownInterval);
+        wordGrid.style.pointerEvents = "auto";
+        wordGrid.style.opacity = "1";
         phaseIndicator.textContent = `ĐỘI ${poisoningTeamIndex + 1}: Mở mắt chọn thuốc độc. Các đội khác nhắm mắt!`;
         // Highlight current team in sidebar
         document.querySelectorAll('.team-card').forEach((c, i) => {
@@ -245,6 +256,9 @@ document.addEventListener('DOMContentLoaded', () => {
 
     function startPlaying() {
         stopTimer();
+        clearInterval(cooldownInterval);
+        wordGrid.style.pointerEvents = "auto";
+        wordGrid.style.opacity = "1";
         if (mode === 'TEACHER' && poisonIndices.length === 0) {
             alert("Hãy chọn ít nhất 1 bình độc!");
             return;
@@ -263,19 +277,47 @@ document.addEventListener('DOMContentLoaded', () => {
         
         if (stage === 'POISONING') {
             if (mode === 'TEACHER') {
+                const now = Date.now();
+                if (now - lastPoisonTime < 2000) {
+                    // Cooldown 2 giây giữa các lần chọn bình độc
+                    return;
+                }
+
                 const pIdx = poisonIndices.indexOf(index);
                 if (pIdx > -1) {
                     poisonIndices.splice(pIdx, 1);
                     tile.classList.remove('flash-poison');
+                    lastPoisonTime = now;
                 } else {
                     poisonIndices.push(index);
                     tile.classList.add('flash-poison');
                     playSound('magic');
+                    lastPoisonTime = now;
                     // Remove flash class after animation so it can be re-triggered
                     setTimeout(() => {
                         tile.classList.remove('flash-poison');
                     }, 800);
                 }
+
+                // Bắt đầu đếm ngược 2s
+                clearInterval(cooldownInterval);
+                const originalText = `ĐỘI ${poisoningTeamIndex + 1}: Mở mắt chọn thuốc độc. Các đội khác nhắm mắt!`;
+                let cdLeft = 2;
+                phaseIndicator.innerHTML = `${originalText} <br><span style="color: #ffeb3b; font-weight: bold;">(Đợi ${cdLeft}s để chọn tiếp)</span>`;
+                wordGrid.style.pointerEvents = "none";
+                wordGrid.style.opacity = "0.8";
+
+                cooldownInterval = setInterval(() => {
+                    cdLeft--;
+                    if (cdLeft <= 0) {
+                        clearInterval(cooldownInterval);
+                        phaseIndicator.textContent = originalText;
+                        wordGrid.style.pointerEvents = "auto";
+                        wordGrid.style.opacity = "1";
+                    } else {
+                        phaseIndicator.innerHTML = `${originalText} <br><span style="color: #ffeb3b; font-weight: bold;">(Đợi ${cdLeft}s để chọn tiếp)</span>`;
+                    }
+                }, 1000);
             }
             return;
         }
