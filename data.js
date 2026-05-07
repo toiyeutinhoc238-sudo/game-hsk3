@@ -503,7 +503,7 @@ const hsk3Data = [
     ]
   },
   {
-    "theme": "Đời sống sinh hoạt",
+    "theme": "Đời sống sinh hoạt (Phần 1)",
     "words": [
       {
         "hz": "办",
@@ -609,7 +609,12 @@ const hsk3Data = [
         "pos": "Danh từ",
         "mn": "bánh ngọt",
         "ex": ""
-      },
+      }
+    ]
+  },
+  {
+    "theme": "Đời sống sinh hoạt (Phần 2)",
+    "words": [
       {
         "hz": "得到",
         "py": "dédào",
@@ -714,7 +719,12 @@ const hsk3Data = [
         "pos": "Động từ",
         "mn": "đổi, thay đổi",
         "ex": ""
-      },
+      }
+    ]
+  },
+  {
+    "theme": "Đời sống sinh hoạt (Phần 3)",
+    "words": [
       {
         "hz": "回答",
         "py": "huídá",
@@ -819,7 +829,12 @@ const hsk3Data = [
         "pos": "Động từ",
         "mn": "Cất cánh (máy bay)",
         "ex": ""
-      },
+      }
+    ]
+  },
+  {
+    "theme": "Đời sống sinh hoạt (Phần 4)",
+    "words": [
       {
         "hz": "请客",
         "py": "qǐngkè",
@@ -929,7 +944,7 @@ const hsk3Data = [
         "hz": "照相",
         "py": "zhàoxiàng",
         "pos": "Động từ",
-        "mn": "",
+        "mn": "chụp ảnh",
         "ex": ""
       },
       {
@@ -942,7 +957,7 @@ const hsk3Data = [
     ]
   },
   {
-    "theme": "Đồ vật & Công cụ",
+    "theme": "Đồ vật & Công cụ (Phần 1)",
     "words": [
       {
         "hz": "报纸",
@@ -1048,6 +1063,39 @@ const hsk3Data = [
         "pos": "Danh từ",
         "mn": "Cái ô, cây dù",
         "ex": "伞：外面下雨了，别忘了带伞。"
+      }
+    ]
+  },
+  {
+    "theme": "Đồ vật & Công cụ (Phần 2)",
+    "words": [
+      {
+        "hz": "空调",
+        "py": "kōngtiáo",
+        "pos": "Danh từ",
+        "mn": "Máy điều hòa nhiệt độ",
+        "ex": "天气太热了，我把空调打开了。"
+      },
+      {
+        "hz": "筷子",
+        "py": "kuàizi",
+        "pos": "Danh từ",
+        "mn": "Đôi đũa",
+        "ex": "在中国，人们一般用筷子吃饭。"
+      },
+      {
+        "hz": "盘子",
+        "py": "pánzi",
+        "pos": "Danh từ",
+        "mn": "Cái đĩa",
+        "ex": "盘子：请把盘子放在桌子上。"
+      },
+      {
+        "hz": "伞",
+        "py": "sǎn",
+        "pos": "Danh từ",
+        "mn": "Cái ô, cây dù",
+        "ex": "伞：外面下雨了，别忘了带伞。"
       },
       {
         "hz": "沙发",
@@ -1121,7 +1169,7 @@ const hsk3Data = [
       },
       {
         "hz": "纸",
-        "py": "",
+        "py": "zhǐ",
         "pos": "Danh từ",
         "mn": "Giấy",
         "ex": "纸：请在这张纸上写下你的名字。"
@@ -1136,7 +1184,7 @@ const hsk3Data = [
     ]
   },
   {
-    "theme": "Địa điểm & Nơi chốn",
+    "theme": "Địa điểm & Nơi chốn (Phần 1)",
     "words": [
       {
         "hz": "班级",
@@ -1156,7 +1204,7 @@ const hsk3Data = [
         "hz": "北方",
         "py": "běifāng",
         "pos": "Danh từ",
-        "mn": "",
+        "mn": "miền Bắc",
         "ex": "我的邻居来自英国"
       },
       {
@@ -1242,7 +1290,12 @@ const hsk3Data = [
         "pos": "Danh từ",
         "mn": "vườn thú",
         "ex": ""
-      },
+      }
+    ]
+  },
+  {
+    "theme": "Địa điểm & Nơi chốn (Phần 2)",
+    "words": [
       {
         "hz": "附近",
         "py": "fùjìn",
@@ -1350,7 +1403,47 @@ const hsk3Data = [
       },
       {
         "hz": "室",
-        "py": "",
+        "py": "shì",
+        "pos": "Danh từ",
+        "mn": "Phòng",
+        "ex": ""
+      }
+    ]
+  },
+  {
+    "theme": "Địa điểm & Nơi chốn (Phần 3)",
+    "words": [
+      {
+        "hz": "年级",
+        "py": "niánjí",
+        "pos": "Danh từ",
+        "mn": "Năm học, khối lớp",
+        "ex": ""
+      },
+      {
+        "hz": "球场",
+        "py": "qiúchǎng",
+        "pos": "Danh từ",
+        "mn": "Sân bóng",
+        "ex": ""
+      },
+      {
+        "hz": "身边",
+        "py": "shēnbiān",
+        "pos": "Danh từ",
+        "mn": "Bên mình, bên cạnh",
+        "ex": ""
+      },
+      {
+        "hz": "世界",
+        "py": "shìjiè",
+        "pos": "Danh từ",
+        "mn": "Thế giới",
+        "ex": ""
+      },
+      {
+        "hz": "室",
+        "py": "shì",
         "pos": "Danh từ",
         "mn": "Phòng",
         "ex": ""
@@ -1633,7 +1726,7 @@ const hsk3Data = [
       },
       {
         "hz": "员",
-        "py": "",
+        "py": "yuán",
         "pos": "Danh từ",
         "mn": "Viên (nhân viên)",
         "ex": ""
@@ -1662,7 +1755,7 @@ const hsk3Data = [
     ]
   },
   {
-    "theme": "Miêu tả & Đánh giá",
+    "theme": "Miêu tả & Đánh giá (Phần 1)",
     "words": [
       {
         "hz": "矮",
@@ -1768,7 +1861,12 @@ const hsk3Data = [
         "pos": "Tính từ",
         "mn": "ngắn",
         "ex": "短：这条裤子太短了。"
-      },
+      }
+    ]
+  },
+  {
+    "theme": "Miêu tả & Đánh giá (Phần 2)",
+    "words": [
       {
         "hz": "饿",
         "py": "è",
@@ -1880,7 +1978,12 @@ const hsk3Data = [
         "pos": "Động từ",
         "mn": "đón, tiếp nhận",
         "ex": "接：我去机场接朋友。"
-      },
+      }
+    ]
+  },
+  {
+    "theme": "Miêu tả & Đánh giá (Phần 3)",
+    "words": [
       {
         "hz": "旧",
         "py": "jiù",
@@ -1992,7 +2095,12 @@ const hsk3Data = [
         "pos": "Tính từ",
         "mn": "Gầy",
         "ex": "瘦：她很瘦。"
-      },
+      }
+    ]
+  },
+  {
+    "theme": "Miêu tả & Đánh giá (Phần 4)",
+    "words": [
       {
         "hz": "提高",
         "py": "tígāo",
@@ -2106,11 +2214,11 @@ const hsk3Data = [
         "ex": "主要：这个问题 rất chủ yếu。"
       },
       {
-        "hz": "zuòfǎ",
-        "py": "Cách làm",
+        "hz": "做法",
+        "py": "zuòfǎ",
         "pos": "Danh từ",
-        "mn": "做法：cái món này 做法 很 đơn giản。",
-        "ex": "做客"
+        "mn": "cách làm",
+        "ex": "这个菜的做法很简单。"
       }
     ]
   }

@@ -53,28 +53,59 @@ document.addEventListener('DOMContentLoaded', () => {
     function init() {
         // Read theme from URL
         const params = new URLSearchParams(window.location.search);
-        let themeNum = NaN;
+        let targetIndex = -1;
 
-        // Look for chudeN format (e.g., ?chude1)
-        for (const key of params.keys()) {
-            if (key.startsWith('chude')) {
-                themeNum = parseInt(key.replace('chude', ''));
-                break;
+        // Find key starting with 'chude'
+        const paramKey = Array.from(params.keys()).find(k => k.startsWith('chude'));
+
+        if (paramKey) {
+            let currentBaseChude = 0;
+            let lastBaseTheme = "";
+            
+            for (let i = 0; i < hsk3Data.length; i++) {
+                const themeName = hsk3Data[i].theme;
+                const partMatch = themeName.match(/(.*)\s*\(Phần (\d+)\)/);
+                let currentKey = "";
+                
+                if (partMatch) {
+                    const baseName = partMatch[1].trim();
+                    const partNum = partMatch[2];
+                    if (baseName !== lastBaseTheme) {
+                        currentBaseChude++;
+                        lastBaseTheme = baseName;
+                    }
+                    currentKey = `chude${currentBaseChude}_phan${partNum}`;
+                } else {
+                    currentBaseChude++;
+                    lastBaseTheme = themeName;
+                    currentKey = `chude${currentBaseChude}`;
+                }
+                
+                if (currentKey === paramKey) {
+                    targetIndex = i;
+                    break;
+                }
             }
         }
 
-        // Fallback for theme=N format
-        if (isNaN(themeNum)) {
-            themeNum = parseInt(params.get('theme'));
+        // Fallback for theme=N format or legacy chudeN
+        if (targetIndex === -1) {
+            const themeVal = parseInt(params.get('theme'));
+            if (!isNaN(themeVal)) {
+                targetIndex = themeVal - 1;
+            } else if (paramKey) {
+                // Try simple chudeN parsing if the complex one failed
+                targetIndex = parseInt(paramKey.replace('chude', '')) - 1;
+            }
         }
 
-        if (isNaN(themeNum) || themeNum < 1 || themeNum > hsk3Data.length) {
+        if (targetIndex === -1 || targetIndex >= hsk3Data.length) {
             // Redirect back if theme is invalid
             window.location.href = 'index.html';
             return;
         }
 
-        currentLesson = themeNum - 1; 
+        currentLesson = targetIndex; 
         showScreen('teams');
 
         // Show Instructions automatically on game start

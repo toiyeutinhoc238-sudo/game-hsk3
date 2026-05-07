@@ -14,16 +14,38 @@ document.addEventListener('DOMContentLoaded', () => {
     function init() {
         // Build lesson selection grid
         if (typeof hsk3Data !== 'undefined') {
+            let currentBaseChude = 0;
+            let lastBaseTheme = "";
+
             hsk3Data.forEach((item, index) => {
+                let themeName = item.theme;
+                let urlParam = "";
+                
+                // Check if it's a part: "Name (Phần X)"
+                const partMatch = themeName.match(/(.*)\s*\(Phần (\d+)\)/);
+                if (partMatch) {
+                    const baseName = partMatch[1].trim();
+                    const partNum = partMatch[2];
+                    
+                    if (baseName !== lastBaseTheme) {
+                        currentBaseChude++;
+                        lastBaseTheme = baseName;
+                    }
+                    urlParam = `chude${currentBaseChude}_phan${partNum}`;
+                } else {
+                    currentBaseChude++;
+                    lastBaseTheme = themeName;
+                    urlParam = `chude${currentBaseChude}`;
+                }
+
                 const card = document.createElement('div');
                 card.className = 'lesson-card';
                 card.innerHTML = `
-                    <div class="num">Chủ đề ${index + 1}</div>
-                    <div class="title">${item.theme}</div>
+                    <div class="num">Chủ đề ${currentBaseChude}${partMatch ? ' - P' + partMatch[2] : ''}</div>
+                    <div class="title">${themeName}</div>
                 `;
                 card.onclick = () => {
-                    // Navigate to game.html with sequential 'chude' format
-                    window.location.href = `game.html?chude${index + 1}`;
+                    window.location.href = `game.html?${urlParam}`;
                 };
                 lessonGrid.appendChild(card);
             });

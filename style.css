@@ -311,26 +311,26 @@ body {
 /* Lesson Grid */
 .lesson-grid {
     display: grid;
-    grid-template-columns: repeat(5, 1fr);
-    gap: 1rem;
-    padding: 1.5rem 180px;
-    overflow: hidden;
-    max-width: 1600px;
+    grid-template-columns: repeat(6, 1fr);
+    gap: 0.8rem;
+    padding: 1rem 80px;
+    overflow-y: auto;
+    max-width: 1400px;
     margin: 0 auto;
     justify-content: center;
 }
 
 @media (min-width: 1600px) {
     .lesson-grid {
-        padding: 1.5rem 250px;
+        padding: 1.5rem 150px;
     }
 }
 
 .lesson-card {
     background: var(--glass);
     border: 1px solid var(--glass-border);
-    padding: 1.5rem;
-    border-radius: 15px;
+    padding: 1rem;
+    border-radius: 12px;
     cursor: pointer;
     transition: 0.3s;
     backdrop-filter: blur(5px);
@@ -342,8 +342,8 @@ body {
     border-color: var(--primary);
 }
 
-.lesson-card .num { color: var(--primary); font-weight: 800; font-size: 1.2rem; }
-.lesson-card .title { font-size: 1rem; margin-top: 0.5rem; -webkit-text-fill-color: var(--text-main); }
+.lesson-card .num { color: var(--primary); font-weight: 800; font-size: 1rem; }
+.lesson-card .title { font-size: 0.85rem; margin-top: 0.4rem; -webkit-text-fill-color: var(--text-main); }
 
 /* Team Selection */
 .team-options {
