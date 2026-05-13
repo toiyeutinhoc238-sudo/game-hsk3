@@ -4,7 +4,7 @@ const hsk3Data = [
     "words": [
       {
         "hz": "阿姨",
-        "py": "ā' yí",
+        "py": "āyí",
         "pos": "Danh từ",
         "mn": "Dì",
         "ex": ""
@@ -509,14 +509,14 @@ const hsk3Data = [
         "hz": "办",
         "py": "bàn",
         "pos": "Động từ",
-        "mn": "quản lý",
+        "mn": "làm, xử lý, quản lý",
         "ex": "这个小区挺好的"
       },
       {
         "hz": "搬",
         "py": "bān",
         "pos": "Động từ",
-        "mn": "di chuyển",
+        "mn": "chuyển, dời chỗ",
         "ex": "我们去机场接你们"
       },
       {
@@ -1253,7 +1253,7 @@ const hsk3Data = [
         "hz": "地",
         "py": "de",
         "pos": "Trợ từ",
-        "mn": "địa (dùng sau trạng ngữ)",
+        "mn": "Trợ từ ( dùng sau trạng ngữ)",
         "ex": ""
       },
       {
@@ -1679,7 +1679,7 @@ const hsk3Data = [
         "hz": "办",
         "py": "bàn",
         "pos": "Động từ",
-        "mn": "quản lý",
+        "mn": "làm, xử lý, quản lý",
         "ex": "这个小区挺好的"
       },
       {
