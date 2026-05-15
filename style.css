@@ -19,10 +19,23 @@
 }
 
 body {
-    background-color: var(--bg-dark);
+    background: url('assets/witch_house_bg.png') no-repeat center center fixed;
+    background-size: cover;
     color: var(--text-main);
     overflow-y: auto;
     min-height: 100vh;
+    position: relative;
+}
+
+body::before {
+    content: '';
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(135deg, rgba(13, 2, 33, 0.8), rgba(13, 2, 33, 0.5));
+    z-index: -1;
 }
 
 /* Custom Scrollbar */
@@ -196,18 +209,19 @@ body {
 }
 
 .mystic-orb {
-    width: 200px;
-    height: 200px;
-    background: radial-gradient(circle, var(--primary), transparent);
+    width: 160px;
+    height: 160px;
+    background: radial-gradient(circle, rgba(125, 95, 255, 0.6), transparent);
     border-radius: 50%;
-    margin-bottom: 2rem;
-    box-shadow: 0 0 50px var(--primary);
-    animation: pulse 4s infinite alternate ease-in-out;
+    margin-bottom: 2.5rem;
+    box-shadow: 0 0 30px rgba(125, 95, 255, 0.4);
+    animation: pulse 5s infinite alternate ease-in-out;
     display: flex;
     justify-content: center;
     align-items: center;
     cursor: pointer;
     transition: 0.3s;
+    opacity: 0.9;
 }
 
 .mystic-orb:hover {
@@ -462,8 +476,8 @@ body {
 
 .word-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
-    gap: 1rem;
+    grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+    gap: 1.5rem;
     flex: 1;
     position: relative;
     z-index: 20;
@@ -531,18 +545,20 @@ body {
 
 .tile {
     aspect-ratio: 1;
-    background: var(--glass);
-    border: 1px solid var(--glass-border);
-    border-radius: 12px;
+    background: rgba(255, 255, 255, 0.08);
+    border: 2px solid rgba(125, 95, 255, 0.3);
+    border-radius: 16px;
     display: flex;
     justify-content: center;
     align-items: center;
-    padding: 1rem;
+    padding: 0.5rem;
     text-align: center;
     cursor: pointer;
     transition: 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
     position: relative;
     overflow: hidden;
+    backdrop-filter: blur(10px);
+    box-shadow: 0 8px 15px rgba(0, 0, 0, 0.2);
 }
 
 .tile:hover {
@@ -550,7 +566,12 @@ body {
     background: rgba(255,255,255,0.1);
 }
 
-.tile .hz { font-size: 1.8rem; font-weight: 600; }
+.tile .hz { 
+    font-size: 3.5rem; 
+    font-weight: 800; 
+    text-shadow: 0 4px 15px rgba(0,0,0,0.5);
+    line-height: 1;
+}
 
 /* Tile States */
 .tile.poisoned-hidden { border-color: rgba(255, 77, 77, 0.2); } /* Only for teacher view */

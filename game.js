@@ -28,6 +28,8 @@ document.addEventListener('DOMContentLoaded', () => {
     const phaseIndicator = document.getElementById('phase-indicator');
     const startPhaseBtn = document.getElementById('start-phase-btn');
 
+    let currentLessonDisplay = "";
+    
     // --- Sounds ---
     const sounds = {
         correct: new Audio('https://assets.mixkit.co/active_storage/sfx/2016/2016-preview.mp3'),
@@ -66,6 +68,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 const themeName = hsk3Data[i].theme;
                 const partMatch = themeName.match(/(.*)\s*\(Phần (\d+)\)/);
                 let currentKey = "";
+                let currentDisplay = "";
                 
                 if (partMatch) {
                     const baseName = partMatch[1].trim();
@@ -75,14 +78,17 @@ document.addEventListener('DOMContentLoaded', () => {
                         lastBaseTheme = baseName;
                     }
                     currentKey = `chude${currentBaseChude}_phan${partNum}`;
+                    currentDisplay = `Chủ đề ${currentBaseChude} - P${partNum}`;
                 } else {
                     currentBaseChude++;
                     lastBaseTheme = themeName;
                     currentKey = `chude${currentBaseChude}`;
+                    currentDisplay = `Chủ đề ${currentBaseChude}`;
                 }
                 
                 if (currentKey === paramKey) {
                     targetIndex = i;
+                    currentLessonDisplay = currentDisplay;
                     break;
                 }
             }
@@ -93,9 +99,19 @@ document.addEventListener('DOMContentLoaded', () => {
             const themeVal = parseInt(params.get('theme'));
             if (!isNaN(themeVal)) {
                 targetIndex = themeVal - 1;
+                currentLessonDisplay = `Chủ đề ${themeVal}`;
             } else if (paramKey) {
                 // Try simple chudeN parsing if the complex one failed
-                targetIndex = parseInt(paramKey.replace('chude', '')) - 1;
+                const match = paramKey.match(/chude(\d+)(_phan(\d+))?/);
+                if (match) {
+                    const chudeNum = match[1];
+                    const phanNum = match[3];
+                    targetIndex = parseInt(chudeNum) - 1; // Basic fallback mapping
+                    currentLessonDisplay = `Chủ đề ${chudeNum}${phanNum ? ' - P' + phanNum : ''}`;
+                } else {
+                    targetIndex = parseInt(paramKey.replace('chude', '')) - 1;
+                    currentLessonDisplay = `Chủ đề ${targetIndex + 1}`;
+                }
             }
         }
 
@@ -160,6 +176,7 @@ document.addEventListener('DOMContentLoaded', () => {
         poisoningTeamIndex = 0;
         poisonIndices = [];
         revealedIndices.clear();
+        revealedIndices.clear();
         eliminatedTeams.clear();
         isProcessing = false;
         lastPoisonTime = 0;
@@ -168,7 +185,7 @@ document.addEventListener('DOMContentLoaded', () => {
         wordGrid.style.opacity = "1";
         
         const themeData = hsk3Data[currentLesson];
-        document.getElementById('current-lesson-title').textContent = `Chủ đề ${currentLesson + 1}`;
+        document.getElementById('current-lesson-title').textContent = currentLessonDisplay;
         document.getElementById('current-lesson-name').textContent = themeData.theme;
 
         // Shuffle and take a subset of words if the theme is too large
