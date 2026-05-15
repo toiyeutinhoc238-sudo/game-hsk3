@@ -150,8 +150,11 @@ document.addEventListener('DOMContentLoaded', () => {
         });
 
         document.getElementById('start-phase-btn').onclick = startPlaying;
-        document.getElementById('reset-game-btn').onclick = initGame;
-        document.getElementById('exit-btn').onclick = () => window.location.href = 'index.html';
+        const resetBtn = document.getElementById('reset-game-btn');
+        if (resetBtn) resetBtn.onclick = initGame;
+        
+        const exitBtn = document.getElementById('exit-btn');
+        if (exitBtn) exitBtn.onclick = () => window.location.href = 'index.html';
         if (document.getElementById('main-menu-btn')) {
             document.getElementById('main-menu-btn').onclick = () => window.location.href = 'index.html';
         }
@@ -403,7 +406,7 @@ document.addEventListener('DOMContentLoaded', () => {
             tile.innerHTML += `
                 <div class="reveal-overlay">
                     <div class="py">${word.py}</div>
-                    <div class="mn">${word.mn}</div>
+                    <div class="mn">${word.mn.toLowerCase()}</div>
                     <div class="reveal-result">BÌNH ĐỘC!!!</div>
                 </div>
             `;
@@ -462,7 +465,7 @@ document.addEventListener('DOMContentLoaded', () => {
             tile.innerHTML += `
                 <div class="reveal-overlay">
                     <div class="py">${word.py}</div>
-                    <div class="mn">${word.mn}</div>
+                    <div class="mn">${word.mn.toLowerCase()}</div>
                     <div class="reveal-result">AN TOÀN</div>
                 </div>
             `;
@@ -575,7 +578,7 @@ document.addEventListener('DOMContentLoaded', () => {
             tr.innerHTML = `
                 <td class="hz">${w.hz}</td>
                 <td class="py">${w.py}</td>
-                <td class="mn">${w.mn}</td>
+                <td class="mn">${w.mn.toLowerCase()}</td>
             `;
             tableBody.appendChild(tr);
         });

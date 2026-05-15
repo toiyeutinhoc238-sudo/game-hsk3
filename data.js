@@ -6,7 +6,7 @@ const hsk3Data = [
         "hz": "阿姨",
         "py": "āyí",
         "pos": "Danh từ",
-        "mn": "Dì",
+        "mn": "dì",
         "ex": ""
       },
       {
@@ -41,63 +41,63 @@ const hsk3Data = [
         "hz": "客人",
         "py": "kèrén",
         "pos": "Danh từ",
-        "mn": "Khách, khách khứa",
+        "mn": "khách, khách khứa",
         "ex": ""
       },
       {
         "hz": "课文",
         "py": "kèwén",
         "pos": "Danh từ",
-        "mn": "Bài đọc, bài văn trong giáo trình",
+        "mn": "bài đọc, bài văn trong giáo trình",
         "ex": ""
       },
       {
         "hz": "老人",
         "py": "lǎorén",
         "pos": "Danh từ",
-        "mn": "Người già",
+        "mn": "người già",
         "ex": ""
       },
       {
         "hz": "留学生",
         "py": "liúxuésheng",
         "pos": "Danh từ",
-        "mn": "Du học sinh",
+        "mn": "du học sinh",
         "ex": ""
       },
       {
         "hz": "名人",
         "py": "míngrén",
         "pos": "Danh từ",
-        "mn": "Người nổi tiếng",
+        "mn": "người nổi tiếng",
         "ex": ""
       },
       {
         "hz": "男生",
         "py": "nánshēng",
         "pos": "Danh từ",
-        "mn": "Nam sinh, bạn nam",
+        "mn": "nam sinh, bạn nam",
         "ex": ""
       },
       {
         "hz": "女生",
         "py": "nǚshēng",
         "pos": "Danh từ",
-        "mn": "Nữ sinh, bạn nữ",
+        "mn": "nữ sinh, bạn nữ",
         "ex": ""
       },
       {
         "hz": "叔叔",
         "py": "shūshu",
         "pos": "Danh từ",
-        "mn": "Chú",
+        "mn": "chú",
         "ex": ""
       },
       {
         "hz": "游客",
         "py": "yóukè",
         "pos": "Danh từ",
-        "mn": "Khách du lịch",
+        "mn": "khách du lịch",
         "ex": ""
       }
     ]
@@ -165,35 +165,35 @@ const hsk3Data = [
         "hz": "年轻",
         "py": "niánqīng",
         "pos": "Tính từ",
-        "mn": "Trẻ trung, trẻ tuổi",
+        "mn": "trẻ trung, trẻ tuổi",
         "ex": ""
       },
       {
         "hz": "头发",
         "py": "tóufa",
         "pos": "Danh từ",
-        "mn": "Tóc",
+        "mn": "tóc",
         "ex": ""
       },
       {
         "hz": "腿",
         "py": "tuǐ",
         "pos": "Danh từ",
-        "mn": "Chân",
+        "mn": "chân",
         "ex": ""
       },
       {
         "hz": "羽毛球",
         "py": "yǔmáoqiú",
         "pos": "Danh từ",
-        "mn": "Cầu lông",
+        "mn": "cầu lông",
         "ex": "羽毛球：周末我常常和朋友一起打羽毛球。"
       },
       {
         "hz": "嘴",
         "py": "zuǐ",
         "pos": "Danh từ",
-        "mn": "Miệng",
+        "mn": "miệng",
         "ex": ""
       }
     ]
@@ -247,98 +247,98 @@ const hsk3Data = [
         "hz": "开心",
         "py": "kāixīn",
         "pos": "Tính từ",
-        "mn": "Vui vẻ",
+        "mn": "vui vẻ",
         "ex": ""
       },
       {
         "hz": "看来",
         "py": "kànlái",
         "pos": "Động từ",
-        "mn": "Xem ra, có vẻ như",
+        "mn": "xem ra, có vẻ như",
         "ex": ""
       },
       {
         "hz": "可爱",
         "py": "kě'ài",
         "pos": "Tính từ",
-        "mn": "Đáng yêu, dễ thương",
+        "mn": "đáng yêu, dễ thương",
         "ex": ""
       },
       {
         "hz": "哭",
         "py": "kū",
         "pos": "Động từ",
-        "mn": "Khóc",
+        "mn": "khóc",
         "ex": ""
       },
       {
         "hz": "难过",
         "py": "nánguò",
         "pos": "Tính từ",
-        "mn": "Buồn bã, khó chịu, khó qua khỏi",
+        "mn": "buồn bã, khó chịu, khó qua khỏi",
         "ex": ""
       },
       {
         "hz": "生气",
         "py": "shēngqì",
         "pos": "Động từ",
-        "mn": "Tức giận",
+        "mn": "tức giận",
         "ex": ""
       },
       {
         "hz": "喜爱",
         "py": "xǐ'ài",
         "pos": "Động từ",
-        "mn": "Yêu thích",
+        "mn": "yêu thích",
         "ex": ""
       },
       {
         "hz": "新闻",
         "py": "xīnwén",
         "pos": "Danh từ",
-        "mn": "Tin tức",
+        "mn": "tin tức",
         "ex": ""
       },
       {
         "hz": "兴趣",
         "py": "xìngqù",
         "pos": "Danh từ",
-        "mn": "Hứng thú",
+        "mn": "hứng thú",
         "ex": ""
       },
       {
         "hz": "要求",
         "py": "yāoqiú",
         "pos": "Danh từ",
-        "mn": "Yêu cầu",
+        "mn": "yêu cầu",
         "ex": ""
       },
       {
         "hz": "一般",
         "py": "yìbān",
         "pos": "Tính từ",
-        "mn": "Thông thường",
+        "mn": "thông thường",
         "ex": ""
       },
       {
         "hz": "着急",
         "py": "zháojí",
         "pos": "Tính từ",
-        "mn": "Lo lắng",
+        "mn": "lo lắng",
         "ex": ""
       },
       {
         "hz": "真正",
         "py": "zhēnzhèng",
         "pos": "Tính từ",
-        "mn": "Chân chính, thực sự",
+        "mn": "chân chính, thực sự",
         "ex": ""
       },
       {
         "hz": "重要",
         "py": "zhòngyào",
         "pos": "Tính từ",
-        "mn": "Quan trọng",
+        "mn": "quan trọng",
         "ex": ""
       }
     ]
@@ -413,91 +413,91 @@ const hsk3Data = [
         "hz": "练",
         "py": "liàn",
         "pos": "Động từ",
-        "mn": "Luyện tập, rèn luyện",
+        "mn": "luyện tập, rèn luyện",
         "ex": ""
       },
       {
         "hz": "了解",
         "py": "liǎojiě",
         "pos": "Động từ",
-        "mn": "Hiểu rõ, tìm hiểu",
+        "mn": "hiểu rõ, tìm hiểu",
         "ex": ""
       },
       {
         "hz": "明白",
         "py": "míngbai",
         "pos": "Tính từ, Động từ",
-        "mn": "Hiểu rõ, rõ ràng",
+        "mn": "hiểu rõ, rõ ràng",
         "ex": ""
       },
       {
         "hz": "难题",
         "py": "nántí",
         "pos": "Danh từ",
-        "mn": "Đề bài khó, vấn đề nan giải",
+        "mn": "đề bài khó, vấn đề nan giải",
         "ex": ""
       },
       {
         "hz": "牛",
         "py": "niú",
         "pos": "Danh từ",
-        "mn": "Con bò (nghĩa lóng: ngầu, giỏi)",
+        "mn": "con bò (nghĩa lóng: ngầu, giỏi)",
         "ex": ""
       },
       {
         "hz": "认得",
         "py": "rènde",
         "pos": "Động từ",
-        "mn": "Nhận ra, quen biết",
+        "mn": "nhận ra, quen biết",
         "ex": ""
       },
       {
         "hz": "认为",
         "py": "rènwéi",
         "pos": "Động từ",
-        "mn": "Cho rằng, nghĩ rằng",
+        "mn": "cho rằng, nghĩ rằng",
         "ex": ""
       },
       {
         "hz": "数学",
         "py": "shùxué",
         "pos": "Danh từ",
-        "mn": "Toán học",
+        "mn": "toán học",
         "ex": ""
       },
       {
         "hz": "同意",
         "py": "tóngyì",
         "pos": "Động từ",
-        "mn": "Đồng ý",
+        "mn": "đồng ý",
         "ex": ""
       },
       {
         "hz": "忘记",
         "py": "wàngjì",
         "pos": "Động từ",
-        "mn": "Quên",
+        "mn": "quên",
         "ex": ""
       },
       {
         "hz": "相信",
         "py": "xiāngxìn",
         "pos": "Động từ",
-        "mn": "Tin tưởng",
+        "mn": "tin tưởng",
         "ex": ""
       },
       {
         "hz": "主意",
         "py": "zhǔyi",
         "pos": "Danh từ",
-        "mn": "Ý kiến, chủ ý",
+        "mn": "ý kiến, chủ ý",
         "ex": ""
       },
       {
         "hz": "注意",
         "py": "zhùyì",
         "pos": "Động từ",
-        "mn": "Chú ý",
+        "mn": "chú ý",
         "ex": ""
       }
     ]
@@ -792,42 +792,42 @@ const hsk3Data = [
         "hz": "满意",
         "py": "mǎnyì",
         "pos": "Tính từ",
-        "mn": "Hài lòng, ưng ý",
+        "mn": "hài lòng, ưng ý",
         "ex": ""
       },
       {
         "hz": "努力",
         "py": "nǔlì",
         "pos": "Tính từ",
-        "mn": "Nỗ lực, cố gắng",
+        "mn": "nỗ lực, cố gắng",
         "ex": ""
       },
       {
         "hz": "拍照",
         "py": "pāizhào",
         "pos": "Động từ",
-        "mn": "Chụp ảnh",
+        "mn": "chụp ảnh",
         "ex": ""
       },
       {
         "hz": "骑",
         "py": "qí",
         "pos": "Động từ",
-        "mn": "Cưỡi (xe đạp, xe máy, ngựa)",
+        "mn": "cưỡi (xe đạp, xe máy, ngựa)",
         "ex": ""
       },
       {
         "hz": "起",
         "py": "qǐ",
         "pos": "Động từ, Lượng từ",
-        "mn": "Dậy, nổi lên, bắt đầu",
+        "mn": "dậy, nổi lên, bắt đầu",
         "ex": "起：我早上七点起床。"
       },
       {
         "hz": "起飞",
         "py": "qǐfēi",
         "pos": "Động từ",
-        "mn": "Cất cánh (máy bay)",
+        "mn": "cất cánh (máy bay)",
         "ex": ""
       }
     ]
@@ -839,105 +839,105 @@ const hsk3Data = [
         "hz": "请客",
         "py": "qǐngkè",
         "pos": "Động từ",
-        "mn": "Mời khách, bao ăn/uống",
+        "mn": "mời khách, bao ăn/uống",
         "ex": ""
       },
       {
         "hz": "生活",
         "py": "shēnghuó",
         "pos": "Danh từ, Động từ",
-        "mn": "Cuộc sống, sinh hoạt",
+        "mn": "cuộc sống, sinh hoạt",
         "ex": ""
       },
       {
         "hz": "收到",
         "py": "shōudào",
         "pos": "Động từ",
-        "mn": "Nhận được",
+        "mn": "nhận được",
         "ex": ""
       },
       {
         "hz": "刷",
         "py": "shuā",
         "pos": "Động từ",
-        "mn": "Chải, quét, đánh (răng)",
+        "mn": "chải, quét, đánh (răng)",
         "ex": ""
       },
       {
         "hz": "跳",
         "py": "tiào",
         "pos": "Động từ",
-        "mn": "Nhảy",
+        "mn": "nhảy",
         "ex": ""
       },
       {
         "hz": "完成",
         "py": "wánchéng",
         "pos": "Động từ",
-        "mn": "Hoàn thành",
+        "mn": "hoàn thành",
         "ex": ""
       },
       {
         "hz": "习惯",
         "py": "xíguàn",
         "pos": "Danh từ, Động từ",
-        "mn": "Thói quen",
+        "mn": "thói quen",
         "ex": ""
       },
       {
         "hz": "养",
         "py": "yǎng",
         "pos": "Động từ",
-        "mn": "Nuôi",
+        "mn": "nuôi",
         "ex": ""
       },
       {
         "hz": "以为",
         "py": "yǐwéi",
         "pos": "Động từ",
-        "mn": "Cho rằng",
+        "mn": "cho rằng",
         "ex": "以为：我以为你不来了。"
       },
       {
         "hz": "影响",
         "py": "yǐngxiǎng",
         "pos": "Danh từ, Động từ",
-        "mn": "Ảnh hưởng",
+        "mn": "ảnh hưởng",
         "ex": ""
       },
       {
         "hz": "用",
         "py": "yòng",
         "pos": "Động từ",
-        "mn": "Dùng, sử dụng",
+        "mn": "dùng, sử dụng",
         "ex": ""
       },
       {
         "hz": "游戏",
         "py": "yóuxì",
         "pos": "Danh từ",
-        "mn": "Trò chơi",
+        "mn": "trò chơi",
         "ex": ""
       },
       {
         "hz": "愿意",
         "py": "yuànyì",
         "pos": "Động từ",
-        "mn": "Tình nguyện, muốn",
+        "mn": "tình nguyện, muốn",
         "ex": ""
       },
       {
         "hz": "照",
         "py": "zhào",
         "pos": "Động từ",
-        "mn": "Chiếu / Chụp (ảnh)",
+        "mn": "chiếu / chụp (ảnh)",
         "ex": ""
       },
       {
         "hz": "照顾",
         "py": "zhàogù",
         "pos": "Động từ",
-        "mn": "Chăm sóc",
+        "mn": "chăm sóc",
         "ex": ""
       },
       {
@@ -951,7 +951,7 @@ const hsk3Data = [
         "hz": "祝",
         "py": "zhù",
         "pos": "Động từ",
-        "mn": "Chúc, chúc mừng",
+        "mn": "chúc, chúc mừng",
         "ex": ""
       }
     ]
@@ -1033,35 +1033,35 @@ const hsk3Data = [
         "hz": "课本",
         "py": "kèběn",
         "pos": "Danh từ",
-        "mn": "Sách giáo khoa",
+        "mn": "sách giáo khoa",
         "ex": "上课的时候请打开课本。"
       },
       {
         "hz": "空调",
         "py": "kōngtiáo",
         "pos": "Danh từ",
-        "mn": "Máy điều hòa nhiệt độ",
+        "mn": "máy điều hòa nhiệt độ",
         "ex": "天气太热了，我把空调打开了。"
       },
       {
         "hz": "筷子",
         "py": "kuàizi",
         "pos": "Danh từ",
-        "mn": "Đôi đũa",
+        "mn": "đôi đũa",
         "ex": "在中国，人们一般用筷子吃饭。"
       },
       {
         "hz": "盘子",
         "py": "pánzi",
         "pos": "Danh từ",
-        "mn": "Cái đĩa",
+        "mn": "cái đĩa",
         "ex": "盘子：请把盘子放在桌子上。"
       },
       {
         "hz": "伞",
         "py": "sǎn",
         "pos": "Danh từ",
-        "mn": "Cái ô, cây dù",
+        "mn": "cái ô, cây dù",
         "ex": "伞：外面下雨了，别忘了带伞。"
       }
     ]
@@ -1073,112 +1073,112 @@ const hsk3Data = [
         "hz": "空调",
         "py": "kōngtiáo",
         "pos": "Danh từ",
-        "mn": "Máy điều hòa nhiệt độ",
+        "mn": "máy điều hòa nhiệt độ",
         "ex": "天气太热了，我把空调打开了。"
       },
       {
         "hz": "筷子",
         "py": "kuàizi",
         "pos": "Danh từ",
-        "mn": "Đôi đũa",
+        "mn": "đôi đũa",
         "ex": "在中国，人们一般用筷子吃饭。"
       },
       {
         "hz": "盘子",
         "py": "pánzi",
         "pos": "Danh từ",
-        "mn": "Cái đĩa",
+        "mn": "cái đĩa",
         "ex": "盘子：请把盘子放在桌子上。"
       },
       {
         "hz": "伞",
         "py": "sǎn",
         "pos": "Danh từ",
-        "mn": "Cái ô, cây dù",
+        "mn": "cái ô, cây dù",
         "ex": "伞：外面下雨了，别忘了带伞。"
       },
       {
         "hz": "沙发",
         "py": "shāfā",
         "pos": "Danh từ",
-        "mn": "Ghế sa-pha, ghế băng",
+        "mn": "ghế sa-pha, ghế băng",
         "ex": "沙发：我累了，想ใน沙发上休息一会儿。"
       },
       {
         "hz": "勺子",
         "py": "sháozi",
         "pos": "Danh từ",
-        "mn": "Cái thìa, cái muỗng",
+        "mn": "cái thìa, cái muỗng",
         "ex": "他们很少用勺子吃饭。"
       },
       {
         "hz": "手机",
         "py": "shǒujī",
         "pos": "Danh từ",
-        "mn": "Điện thoại di động",
+        "mn": "điện thoại di động",
         "ex": ""
       },
       {
         "hz": "水",
         "py": "shuǐ",
         "pos": "Danh từ",
-        "mn": "Nước",
+        "mn": "nước",
         "ex": ""
       },
       {
         "hz": "碗",
         "py": "wǎn",
         "pos": "Danh từ",
-        "mn": "Cái bát (cái tô)",
+        "mn": "cái bát (cái tô)",
         "ex": ""
       },
       {
         "hz": "洗衣机",
         "py": "xǐyījī",
         "pos": "Danh từ",
-        "mn": "Máy giặt",
+        "mn": "máy giặt",
         "ex": "洗衣机：衣服脏了，我用洗衣机洗一下。"
       },
       {
         "hz": "相机",
         "py": "xiàngjī",
         "pos": "Danh từ",
-        "mn": "Máy ảnh",
+        "mn": "máy ảnh",
         "ex": "相机：旅游 của tôi, 我喜欢用相机拍照。"
       },
       {
         "hz": "鞋",
         "py": "xié",
         "pos": "Danh từ",
-        "mn": "Giày",
+        "mn": "giày",
         "ex": "这双鞋不但好看，而且很舒服。"
       },
       {
         "hz": "信用卡",
         "py": "xìnyòngkǎ",
         "pos": "Danh từ",
-        "mn": "Thẻ tín dụng",
+        "mn": "thẻ tín dụng",
         "ex": "信用卡：现在很多人都用信用卡买东西。"
       },
       {
         "hz": "行李",
         "py": "xíngli",
         "pos": "Danh từ",
-        "mn": "Hành lý",
+        "mn": "hành lý",
         "ex": ""
       },
       {
         "hz": "纸",
         "py": "zhǐ",
         "pos": "Danh từ",
-        "mn": "Giấy",
+        "mn": "giấy",
         "ex": "纸：请在这张纸上写下你的名字。"
       },
       {
         "hz": "自行车",
         "py": "zìxíngchē",
         "pos": "Danh từ",
-        "mn": "Xe đạp",
+        "mn": "xe đạp",
         "ex": ""
       }
     ]
@@ -1204,21 +1204,21 @@ const hsk3Data = [
         "hz": "北方",
         "py": "běifāng",
         "pos": "Danh từ",
-        "mn": "miền Bắc",
+        "mn": "miền bắc",
         "ex": "我的邻居来自英国"
       },
       {
         "hz": "宾馆",
         "py": "bīnguǎn",
         "pos": "Danh từ",
-        "mn": "Khách sạn",
+        "mn": "khách sạn",
         "ex": "这家宾馆跟别的都不一样"
       },
       {
         "hz": "比赛",
         "py": "bǐsài",
         "pos": "Danh từ",
-        "mn": "Cuộc thi",
+        "mn": "cuộc thi",
         "ex": "打不好没有关系"
       },
       {
@@ -1253,7 +1253,7 @@ const hsk3Data = [
         "hz": "地",
         "py": "de",
         "pos": "Trợ từ",
-        "mn": "Trợ từ ( dùng sau trạng ngữ)",
+        "mn": "trợ từ ( dùng sau trạng ngữ)",
         "ex": ""
       },
       {
@@ -1281,7 +1281,7 @@ const hsk3Data = [
         "hz": "东方",
         "py": "dōngfāng",
         "pos": "Danh từ",
-        "mn": "phương Đông",
+        "mn": "phương đông",
         "ex": ""
       },
       {
@@ -1356,56 +1356,56 @@ const hsk3Data = [
         "hz": "路口",
         "py": "lùkǒu",
         "pos": "Danh từ",
-        "mn": "Giao lộ, ngã ba, ngã tư",
+        "mn": "giao lộ, ngã ba, ngã tư",
         "ex": ""
       },
       {
         "hz": "面前",
         "py": "miānqián",
         "pos": "Danh từ",
-        "mn": "Trước mặt",
+        "mn": "trước mặt",
         "ex": ""
       },
       {
         "hz": "南方",
         "py": "nánfāng",
         "pos": "Danh từ",
-        "mn": "Miền nam, phương nam",
+        "mn": "miền nam, phương nam",
         "ex": ""
       },
       {
         "hz": "年级",
         "py": "niánjí",
         "pos": "Danh từ",
-        "mn": "Năm học, khối lớp",
+        "mn": "năm học, khối lớp",
         "ex": ""
       },
       {
         "hz": "球场",
         "py": "qiúchǎng",
         "pos": "Danh từ",
-        "mn": "Sân bóng",
+        "mn": "sân bóng",
         "ex": ""
       },
       {
         "hz": "身边",
         "py": "shēnbiān",
         "pos": "Danh từ",
-        "mn": "Bên mình, bên cạnh",
+        "mn": "bên mình, bên cạnh",
         "ex": ""
       },
       {
         "hz": "世界",
         "py": "shìjiè",
         "pos": "Danh từ",
-        "mn": "Thế giới",
+        "mn": "thế giới",
         "ex": ""
       },
       {
         "hz": "室",
         "py": "shì",
         "pos": "Danh từ",
-        "mn": "Phòng",
+        "mn": "phòng",
         "ex": ""
       }
     ]
@@ -1417,119 +1417,119 @@ const hsk3Data = [
         "hz": "年级",
         "py": "niánjí",
         "pos": "Danh từ",
-        "mn": "Năm học, khối lớp",
+        "mn": "năm học, khối lớp",
         "ex": ""
       },
       {
         "hz": "球场",
         "py": "qiúchǎng",
         "pos": "Danh từ",
-        "mn": "Sân bóng",
+        "mn": "sân bóng",
         "ex": ""
       },
       {
         "hz": "身边",
         "py": "shēnbiān",
         "pos": "Danh từ",
-        "mn": "Bên mình, bên cạnh",
+        "mn": "bên mình, bên cạnh",
         "ex": ""
       },
       {
         "hz": "世界",
         "py": "shìjiè",
         "pos": "Danh từ",
-        "mn": "Thế giới",
+        "mn": "thế giới",
         "ex": ""
       },
       {
         "hz": "室",
         "py": "shì",
         "pos": "Danh từ",
-        "mn": "Phòng",
+        "mn": "phòng",
         "ex": ""
       },
       {
         "hz": "树",
         "py": "shù",
         "pos": "Danh từ",
-        "mn": "Cây",
+        "mn": "cây",
         "ex": ""
       },
       {
         "hz": "水平",
         "py": "shuǐpíng",
         "pos": "Danh từ",
-        "mn": "Trình độ",
+        "mn": "trình độ",
         "ex": ""
       },
       {
         "hz": "体育馆",
         "py": "tǐyùguǎn",
         "pos": "Danh từ",
-        "mn": "Nhà thi đấu thể dục thể thao",
+        "mn": "nhà thi đấu thể dục thể thao",
         "ex": ""
       },
       {
         "hz": "图书馆",
         "py": "túshūguǎn",
         "pos": "Danh từ",
-        "mn": "Thư viện",
+        "mn": "thư viện",
         "ex": ""
       },
       {
         "hz": "外地",
         "py": "wàidì",
         "pos": "Danh từ",
-        "mn": "Ngoại tỉnh, nơi khác",
+        "mn": "ngoại tỉnh, nơi khác",
         "ex": ""
       },
       {
         "hz": "网站",
         "py": "wǎngzhàn",
         "pos": "Danh từ",
-        "mn": "Trang web (website)",
+        "mn": "trang web (website)",
         "ex": ""
       },
       {
         "hz": "卫生间",
         "py": "wèishēngjiān",
         "pos": "Danh từ",
-        "mn": "Nhà vệ sinh",
+        "mn": "nhà vệ sinh",
         "ex": ""
       },
       {
         "hz": "屋子",
         "py": "wūzi",
         "pos": "Danh từ",
-        "mn": "Căn phòng, nhà",
+        "mn": "căn phòng, nhà",
         "ex": ""
       },
       {
         "hz": "西北",
         "py": "xīběi",
         "pos": "Danh từ",
-        "mn": "Tây Bắc",
+        "mn": "tây bắc",
         "ex": ""
       },
       {
         "hz": "小区",
         "py": "xiǎoqū",
         "pos": "Danh từ",
-        "mn": "Khu dân cư",
+        "mn": "khu dân cư",
         "ex": ""
       },
       {
         "hz": "校园",
         "py": "xiàoyuán",
         "pos": "Danh từ",
-        "mn": "Khuôn viên trường",
+        "mn": "khuôn viên trường",
         "ex": ""
       },
       {
         "hz": "中心",
         "py": "zhōngxīn",
         "pos": "Danh từ",
-        "mn": "Trung tâm",
+        "mn": "trung tâm",
         "ex": ""
       }
     ]
@@ -1597,77 +1597,77 @@ const hsk3Data = [
         "hz": "前天",
         "py": "qiántiān",
         "pos": "Danh từ",
-        "mn": "Ngày hôm kia",
+        "mn": "ngày hôm kia",
         "ex": ""
       },
       {
         "hz": "秋天",
         "py": "qiūtiān",
         "pos": "Danh từ",
-        "mn": "Mùa thu",
+        "mn": "mùa thu",
         "ex": ""
       },
       {
         "hz": "四季",
         "py": "sìjì",
         "pos": "Danh từ",
-        "mn": "Bốn mùa",
+        "mn": "bốn mùa",
         "ex": ""
       },
       {
         "hz": "夏天",
         "py": "xiàtiān",
         "pos": "Danh từ",
-        "mn": "Mùa hè",
+        "mn": "mùa hè",
         "ex": ""
       },
       {
         "hz": "新年",
         "py": "xīnnián",
         "pos": "Danh từ",
-        "mn": "Năm mới",
+        "mn": "năm mới",
         "ex": ""
       },
       {
         "hz": "休假",
         "py": "xiūjià",
         "pos": "Danh từ, Động từ",
-        "mn": "Nghỉ phép",
+        "mn": "nghỉ phép",
         "ex": ""
       },
       {
         "hz": "学期",
         "py": "xuéqī",
         "pos": "Danh từ",
-        "mn": "Học kỳ",
+        "mn": "học kỳ",
         "ex": ""
       },
       {
         "hz": "以后",
         "py": "yǐhòu",
         "pos": "Danh từ",
-        "mn": "Sau này",
+        "mn": "sau này",
         "ex": ""
       },
       {
         "hz": "以前",
         "py": "yǐqián",
         "pos": "Danh từ",
-        "mn": "Trước đây",
+        "mn": "trước đây",
         "ex": ""
       },
       {
         "hz": "周末",
         "py": "zhōumò",
         "pos": "Danh từ",
-        "mn": "Cuối tuần",
+        "mn": "cuối tuần",
         "ex": ""
       },
       {
         "hz": "最近",
         "py": "zuìjìn",
         "pos": "Danh từ, Phó từ",
-        "mn": "Gần đây",
+        "mn": "gần đây",
         "ex": "最近：我最近很忙。"
       }
     ]
@@ -1721,35 +1721,35 @@ const hsk3Data = [
         "hz": "司机",
         "py": "sījī",
         "pos": "Danh từ",
-        "mn": "Tài xế",
+        "mn": "tài xế",
         "ex": ""
       },
       {
         "hz": "员",
         "py": "yuán",
         "pos": "Danh từ",
-        "mn": "Viên (nhân viên)",
+        "mn": "viên (nhân viên)",
         "ex": ""
       },
       {
         "hz": "运动员",
         "py": "yùndòngyuán",
         "pos": "Danh từ",
-        "mn": "Vận động viên",
+        "mn": "vận động viên",
         "ex": ""
       },
       {
         "hz": "校长",
         "py": "xiàozhǎng",
         "pos": "Danh từ",
-        "mn": "Hiệu trưởng",
+        "mn": "hiệu trưởng",
         "ex": ""
       },
       {
         "hz": "作业",
         "py": "zuòyè",
         "pos": "Danh từ",
-        "mn": "Bài tập",
+        "mn": "bài tập",
         "ex": ""
       }
     ]
@@ -1789,7 +1789,7 @@ const hsk3Data = [
         "hz": "比如",
         "py": "bǐrú",
         "pos": "Động từ",
-        "mn": "Ví dụ",
+        "mn": "ví dụ",
         "ex": "比如：我喜欢水果，比如苹果。"
       },
       {
@@ -2002,98 +2002,98 @@ const hsk3Data = [
         "hz": "凉快",
         "py": "liángkuai",
         "pos": "Tính từ",
-        "mn": "Mát mẻ",
+        "mn": "mát mẻ",
         "ex": "凉快：今天很凉快。"
       },
       {
         "hz": "难",
         "py": "nán",
         "pos": "Tính từ, Động từ",
-        "mn": "Khó",
+        "mn": "khó",
         "ex": "难：这个问题有点儿难。"
       },
       {
         "hz": "难看",
         "py": "nánkàn",
         "pos": "Tính từ",
-        "mn": "Xấu, khó nhìn",
+        "mn": "xấu, khó nhìn",
         "ex": "难看：这件衣服不好看，很难看。"
       },
       {
         "hz": "爬",
         "py": "pá",
         "pos": "Động từ",
-        "mn": "Leo, trèo, bò",
+        "mn": "leo, trèo, bò",
         "ex": "爬：孩子在地上爬。"
       },
       {
         "hz": "胖",
         "py": "pàng",
         "pos": "Tính từ",
-        "mn": "Béo, mập",
+        "mn": "béo, mập",
         "ex": "胖：他有点儿胖。"
       },
       {
         "hz": "奇怪",
         "py": "qíguài",
         "pos": "Tính từ",
-        "mn": "Kỳ lạ, quái lạ",
+        "mn": "kỳ lạ, quái lạ",
         "ex": "奇怪：这件事很奇怪。"
       },
       {
         "hz": "清楚",
         "py": "qīngchu",
         "pos": "Tính từ, Động từ",
-        "mn": "Rõ ràng, sạch sẽ",
+        "mn": "rõ ràng, sạch sẽ",
         "ex": "清楚：我听得很清楚。"
       },
       {
         "hz": "全",
         "py": "quán",
         "pos": "",
-        "mn": "Toàn bộ, tất cả",
+        "mn": "toàn bộ, tất cả",
         "ex": "全：我们全都来了。"
       },
       {
         "hz": "热情",
         "py": "rèqíng",
         "pos": "Tính từ",
-        "mn": "Nhiệt tình, nhiệt huyết",
+        "mn": "nhiệt tình, nhiệt huyết",
         "ex": "热情：他对人很热情。"
       },
       {
         "hz": "认真",
         "py": "rènzhēn",
         "pos": "Tính từ",
-        "mn": "Nghiêm túc, chăm chỉ",
+        "mn": "nghiêm túc, chăm chỉ",
         "ex": "认真：她学习很认真。"
       },
       {
         "hz": "容易",
         "py": "róngyì",
         "pos": "Tính từ",
-        "mn": "Dễ dàng",
+        "mn": "dễ dàng",
         "ex": "容易：这个问题不容易。"
       },
       {
         "hz": "试",
         "py": "shì",
         "pos": "Động từ",
-        "mn": "Thử",
+        "mn": "thử",
         "ex": "试：你可以试一下。"
       },
       {
         "hz": "受到",
         "py": "shòudào",
         "pos": "Động từ",
-        "mn": "Nhận được, bị (tác động)",
+        "mn": "nhận được, bị (tác động)",
         "ex": "受到：他受到了老师的表扬。"
       },
       {
         "hz": "瘦",
         "py": "shòu",
         "pos": "Tính từ",
-        "mn": "Gầy",
+        "mn": "gầy",
         "ex": "瘦：她很瘦。"
       }
     ]
@@ -2105,112 +2105,112 @@ const hsk3Data = [
         "hz": "提高",
         "py": "tígāo",
         "pos": "Động từ",
-        "mn": "Nâng cao",
+        "mn": "nâng cao",
         "ex": "提高：我要提高中文水平。"
       },
       {
         "hz": "甜",
         "py": "tián",
         "pos": "Tính từ",
-        "mn": "Ngọt",
+        "mn": "ngọt",
         "ex": "甜：这个苹果很甜。"
       },
       {
         "hz": "听说",
         "py": "tīngshuō",
         "pos": "Động từ",
-        "mn": "Nghe nói",
+        "mn": "nghe nói",
         "ex": "听说：我听说他要结婚了。"
       },
       {
         "hz": "突然",
         "py": "tūrán",
         "pos": "Tính từ",
-        "mn": "Đột nhiên",
+        "mn": "đột nhiên",
         "ex": "突然：他突然笑了。"
       },
       {
         "hz": "像",
         "py": "xiàng",
         "pos": "Động từ",
-        "mn": "Giống như",
+        "mn": "giống như",
         "ex": "像：他长得像爸爸。"
       },
       {
         "hz": "小心",
         "py": "xiǎoxīn",
         "pos": "Tính từ",
-        "mn": "Cẩn thận",
+        "mn": "cẩn thận",
         "ex": "小心：过马路要小心。"
       },
       {
         "hz": "新鲜",
         "py": "xīnxiān",
         "pos": "Tính từ",
-        "mn": "Tươi mới",
+        "mn": "tươi mới",
         "ex": "新鲜：这些水果很新鲜。"
       },
       {
         "hz": "选",
         "py": "xuǎn",
         "pos": "Động từ",
-        "mn": "Chọn",
+        "mn": "chọn",
         "ex": "选：我选这个。"
       },
       {
         "hz": "选择",
         "py": "xuǎnzé",
         "pos": "Động từ",
-        "mn": "Lựa chọn",
+        "mn": "lựa chọn",
         "ex": "选择：这是一个重要的选择。"
       },
       {
         "hz": "一样",
         "py": "yíyàng",
         "pos": "Tính từ",
-        "mn": "Giống nhau",
+        "mn": "giống nhau",
         "ex": "一样：我们都一样。"
       },
       {
         "hz": "有名",
         "py": "yǒumíng",
         "pos": "Tính từ",
-        "mn": "Nổi tiếng",
+        "mn": "nổi tiếng",
         "ex": "有名：这个地方很有名。"
       },
       {
         "hz": "有用",
         "py": "yǒuyòng",
         "pos": "Tính từ",
-        "mn": "Hữu ích",
+        "mn": "hữu ích",
         "ex": "有用：这本书很有用。"
       },
       {
         "hz": "脏",
         "py": "zāng",
         "pos": "Tính từ",
-        "mn": "Bẩn",
+        "mn": "bẩn",
         "ex": "脏：衣服很脏。"
       },
       {
         "hz": "长",
         "py": "zhǎng",
         "pos": "Động từ",
-        "mn": "Lớn lên / Trưởng",
+        "mn": "lớn lên / trưởng",
         "ex": "长：这条路很长。"
       },
       {
         "hz": "只能",
         "py": "zhǐ néng",
         "pos": "",
-        "mn": "Chỉ có thể",
+        "mn": "chỉ có thể",
         "ex": "只能：我今天只能在家。"
       },
       {
         "hz": "主要",
         "py": "zhǔyào",
         "pos": "Tính từ",
-        "mn": "Chủ yếu",
+        "mn": "chủ yếu",
         "ex": "主要：这个问题 rất chủ yếu。"
       },
       {
