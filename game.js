@@ -227,7 +227,8 @@ document.addEventListener('DOMContentLoaded', () => {
             const tile = document.createElement('div');
             tile.className = 'tile';
             tile.dataset.index = index;
-            tile.innerHTML = `<div class="hz">${word.hz}</div>`;
+            const lenClass = word.hz.length >= 3 ? 'len-3' : (word.hz.length === 2 ? 'len-2' : 'len-1');
+            tile.innerHTML = `<div class="hz ${lenClass}" lang="zh-CN">${word.hz}</div>`;
             tile.onclick = () => handleTileClick(index);
             wordGrid.appendChild(tile);
         });
@@ -405,6 +406,7 @@ document.addEventListener('DOMContentLoaded', () => {
             tile.classList.add('revealed-poison');
             tile.innerHTML += `
                 <div class="reveal-overlay">
+                    <div class="hz-mini" lang="zh-CN">${word.hz}</div>
                     <div class="py">${word.py}</div>
                     <div class="mn">${word.mn.toLowerCase()}</div>
                     <div class="reveal-result">BÌNH ĐỘC!!!</div>
@@ -464,6 +466,7 @@ document.addEventListener('DOMContentLoaded', () => {
             tile.classList.add('revealed-safe');
             tile.innerHTML += `
                 <div class="reveal-overlay">
+                    <div class="hz-mini" lang="zh-CN">${word.hz}</div>
                     <div class="py">${word.py}</div>
                     <div class="mn">${word.mn.toLowerCase()}</div>
                     <div class="reveal-result">AN TOÀN</div>
@@ -576,7 +579,7 @@ document.addEventListener('DOMContentLoaded', () => {
         allWords.forEach(w => {
             const tr = document.createElement('tr');
             tr.innerHTML = `
-                <td class="hz">${w.hz}</td>
+                <td class="hz" lang="zh-CN">${w.hz}</td>
                 <td class="py">${w.py}</td>
                 <td class="mn">${w.mn.toLowerCase()}</td>
             `;
