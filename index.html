@@ -51,8 +51,13 @@
         <!-- Lesson Selection -->
         <section id="lesson-selection" class="screen">
             <div class="header">
-                <button class="back-btn">← Quay lại</button>
-                <h2>Chọn Chủ Đề</h2>
+                <div class="header-left">
+                    <button class="back-btn">← Quay lại</button>
+                    <h2>Chọn Chủ Đề</h2>
+                </div>
+                <div class="header-right">
+                    <button class="lms-action-btn" onclick="if(window.LMSAdapter) window.LMSAdapter.toggleFullscreen();" title="Toàn màn hình">⛶ Toàn màn hình</button>
+                </div>
             </div>
             <div class="lesson-grid">
                 <!-- Themes will be injected here -->
@@ -70,6 +75,7 @@
         <div class="bubble"></div>
     </div>
 
+    <script src="lms-adapter.js"></script>
     <script src="data.js"></script>
     <script src="audio-manager.js"></script>
     <script src="menu.js?v=2.0"></script>

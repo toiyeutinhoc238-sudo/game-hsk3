@@ -55,11 +55,16 @@
         <!-- Game Screen -->
         <section id="game-screen" class="screen">
             <div class="game-header">
-                <div class="lesson-info">
-                    <span id="current-lesson-title">Chủ đề 1</span>
-                    <h3 id="current-lesson-name">...</h3>
+                <div class="header-left">
+                    <button class="back-btn">← Đổi chủ đề</button>
+                    <div class="lesson-info">
+                        <span id="current-lesson-title">Chủ đề 1</span>
+                        <h3 id="current-lesson-name">...</h3>
+                    </div>
                 </div>
-
+                <div class="header-right">
+                    <button class="lms-action-btn" onclick="if(window.LMSAdapter) window.LMSAdapter.toggleFullscreen();" title="Toàn màn hình">⛶ Toàn màn hình</button>
+                </div>
             </div>
 
             <div class="game-layout">
@@ -155,6 +160,7 @@
         <div class="bubble"></div>
     </div>
 
+    <script src="lms-adapter.js"></script>
     <script src="data.js"></script>
     <script src="audio-manager.js"></script>
     <script src="game.js?v=2.0"></script>

@@ -41,7 +41,21 @@ document.addEventListener('DOMContentLoaded', () => {
     function playSound(type) {
         if (sounds[type]) {
             sounds[type].currentTime = 0;
-            sounds[type].play().catch(e => console.log("Audio play blocked"));
+            const promise = sounds[type].play();
+            if (promise !== undefined) {
+                promise.catch(() => {
+                    // Fallback to Web Audio API synthesizer for LMS intranet / firewalled schools
+                    if (window.LMSAdapter) {
+                        if (type === 'correct') window.LMSAdapter.playChime();
+                        else if (type === 'wrong') window.LMSAdapter.playBuzz();
+                        else if (type === 'magic') window.LMSAdapter.playMagic();
+                    }
+                });
+            }
+        } else if (window.LMSAdapter) {
+            if (type === 'correct') window.LMSAdapter.playChime();
+            else if (type === 'wrong') window.LMSAdapter.playBuzz();
+            else if (type === 'magic') window.LMSAdapter.playMagic();
         }
     }
 
@@ -585,6 +599,15 @@ document.addEventListener('DOMContentLoaded', () => {
             `;
             tableBody.appendChild(tr);
         });
+
+        // Báo cáo điểm số và tiến độ tới hệ thống LMS (Moodle, Canvas, SCORM, iFrame)
+        if (window.LMSAdapter) {
+            const highestScore = Math.max(...scores, 10);
+            window.LMSAdapter.recordScore(highestScore, 250, {
+                theme: currentLessonDisplay,
+                winner: msg
+            });
+        }
 
         setTimeout(() => {
             if (window.gameAudio && !window.gameAudio.isMuted) {
