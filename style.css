@@ -483,6 +483,11 @@ body {
 }
 
 /* 3. Màn Hình Chọn Đội Chơi (Team Selection) */
+#team-selection .header {
+    justify-content: center;
+    text-align: center;
+}
+
 .team-options {
     display: flex;
     flex-wrap: wrap;
