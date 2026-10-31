@@ -11,7 +11,7 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Lexend:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="style.css?v=2.2">
+    <link rel="stylesheet" href="style.css?v=2.5">
 </head>
 
 <body>
@@ -43,6 +43,12 @@
 
             <div class="header">
                 <h2>Số Lượng Đội Chơi</h2>
+                <div class="header-right">
+                    <button class="lms-window-btn" title="Hiển thị ở cửa sổ mới">
+                        <span class="btn-icon">↗</span>
+                        <span class="btn-text">Cửa sổ mới</span>
+                    </button>
+                </div>
             </div>
             <div class="team-options">
                 <button class="team-btn" data-teams="2">2 Đội Đối Kháng</button>
@@ -60,6 +66,12 @@
                         <span id="current-lesson-title">Chủ đề 1</span>
                         <h3 id="current-lesson-name">...</h3>
                     </div>
+                </div>
+                <div class="header-right">
+                    <button class="lms-window-btn" title="Hiển thị ở cửa sổ mới">
+                        <span class="btn-icon">↗</span>
+                        <span class="btn-text">Cửa sổ mới</span>
+                    </button>
                 </div>
             </div>
 
@@ -145,6 +157,22 @@
                 </div>
             </div>
         </div>
+        <!-- Popup Sync Overlay (Hiển thị trên LMS khi Cửa Sổ Mới đang hoạt động) -->
+        <div id="popup-sync-overlay" class="modal-overlay">
+            <div class="modal sync-modal">
+                <div class="sync-glow-orb">🔮</div>
+                <h2>Trò Chơi Đang Mở Ở Cửa Sổ Mới</h2>
+                <p class="sync-desc">Trò chơi đang hoạt động trên một cửa sổ riêng biệt để mang lại tầm nhìn và không gian tốt nhất.</p>
+                <div class="sync-status">
+                    <span class="pulse-dot"></span> Đang đồng bộ tiến trình trực tiếp...
+                </div>
+                <p class="sync-subtext">Khi bạn tắt cửa sổ mới đó, màn hình này sẽ tự động quay về khoảnh khắc đang chơi và tiếp tục liền mạch.</p>
+                <div class="sync-btn-group">
+                    <button id="resume-here-btn" class="huge-btn">Quay lại chơi tại đây</button>
+                    <button id="focus-popup-btn" class="back-btn">Chuyển sang Cửa Sổ Mới</button>
+                </div>
+            </div>
+        </div>
     </div>
 
     <!-- Potion Bubble Background -->
@@ -156,10 +184,11 @@
         <div class="bubble"></div>
     </div>
 
-    <script src="lms-adapter.js"></script>
-    <script src="data.js"></script>
-    <script src="audio-manager.js"></script>
-    <script src="game.js?v=2.0"></script>
+    <script src="lms-adapter.js?v=2.5"></script>
+    <script src="sync-manager.js?v=2.5"></script>
+    <script src="data.js?v=2.5"></script>
+    <script src="audio-manager.js?v=2.5"></script>
+    <script src="game.js?v=2.5"></script>
 </body>
 
 </html>
