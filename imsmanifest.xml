@@ -26,9 +26,12 @@
       <file href="style.css" />
       <file href="data.js" />
       <file href="audio-manager.js" />
+      <file href="sync-manager.js" />
       <file href="lms-adapter.js" />
       <file href="game.js" />
       <file href="menu.js" />
+      <file href="nhac_nen/halloween.mp3" />
+      <file href="nhac_nen/chienthang.mp3" />
     </resource>
   </resources>
 </manifest>

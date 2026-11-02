@@ -1,450 +1,704 @@
 /**
- * SyncManager - Hệ thống đồng bộ 2 chiều thời gian thực giữa màn hình LMS và Cửa sổ mới (Popup)
+ * SyncManager - Hệ thống đồng bộ 2 chiều thời gian thực giữa màn hình LMS và Cửa Sổ Mới (Standalone Window)
+ * Kế thừa toàn bộ kiến trúc xuất sắc của Game Tiếng Trung HSK 2 / HSK 4:
  * 
- * Tính năng:
- * - Khi mở cửa sổ mới từ LMS: Cửa sổ mới kế thừa chính xác 100% khoảnh khắc đang chơi (điểm, lượt, ô đã mở, vị trí bình độc, thời gian timer).
- * - Trong khi chơi ở cửa sổ mới: Mọi tương tác được đồng bộ liên tục qua BroadcastChannel, localStorage và postMessage.
- * - Khi tắt cửa sổ mới (bấm dấu X hoặc đóng tab): Màn hình LMS tự động quay về khoảnh khắc đang chơi đó và tiếp tục liền mạch.
- * - Nếu bấm "Tiếp tục tại màn hình này" trên LMS: Tự động khôi phục và tiếp tục trực tiếp tại LMS.
+ * - 4-tier Window Opening: Sized popup -> Named window -> _blank -> Anchor click fallback (bảo đảm 100% mở được trên mọi LMS iframe)
+ * - Đồng bộ âm thanh toàn diện: Kế thừa chính xác currentTime và trạng thái Mute khi mở và khi đóng cửa sổ
+ * - Heartbeat Guard: Khắc phục lỗi Chromium đánh dấu child.closed = true sớm trong sandbox iframe của LMS
+ * - Real-time Overlay: Hiển thị chủ đề, vòng chơi, trạng thái và điểm số trực tiếp trên màn hình LMS
+ * - 3 kênh truyền tin: BroadcastChannel + postMessage (opener/child) + safeStorage / storage event
  */
+
 (function (window) {
     'use strict';
 
-    const STORAGE_KEY = 'HSK3_SYNC_GAME_STATE';
-    const POPUP_ACTIVE_KEY = 'HSK3_POPUP_IS_OPEN';
-    const CHANNEL_NAME = 'hsk3_game_sync_channel';
+    const STORAGE_KEY = 'hsk3_synced_state';
+    const CHANNEL_NAME = 'hsk3_game_sync';
 
-    let isPopup = false;
-    let popupRef = null;
-    let pollInterval = null;
-    let broadcastChannel = null;
-    let gameHandlers = null;
-    let latestState = null;
+    const storage = window.safeStorage || {
+        getItem(k, d = null) { try { const v = localStorage.getItem(k); return v !== null ? v : d; } catch(e) { return d; } },
+        setItem(k, v) { try { localStorage.setItem(k, v); } catch(e) {} },
+        removeItem(k) { try { localStorage.removeItem(k); } catch(e) {} }
+    };
 
-    // Kiểm tra xem trang hiện tại có đang chạy dưới dạng Cửa sổ mới (Popup) hay không
-    const urlParams = new URLSearchParams(window.location.search);
-    if (urlParams.get('popup') === '1' || window.name === 'HSK3_GAME_POPUP') {
-        isPopup = true;
+    const params = new URLSearchParams(window.location.search);
+    const isPopout = params.get('popout') === '1' || params.get('popup') === '1' || (window.opener && window.opener !== window && (window.name === 'HSK3_Standalone_Game' || window.name === 'HSK3_GAME_POPUP'));
+    window.isChildWindow = isPopout;
+
+    if (isPopout) {
+        document.body.classList.add('is-child-window');
     }
 
-    // Khởi tạo BroadcastChannel nếu trình duyệt hỗ trợ
+    let syncChannel = null;
     try {
-        if (typeof BroadcastChannel !== 'undefined') {
-            broadcastChannel = new BroadcastChannel(CHANNEL_NAME);
+        if ('BroadcastChannel' in window) {
+            syncChannel = new BroadcastChannel(CHANNEL_NAME);
         }
-    } catch (e) {
-        console.warn('[SyncManager] BroadcastChannel không khả dụng:', e);
+    } catch (e) {}
+
+    let gameHandlers = null;
+    let childWin = null;
+    let popoutPollInterval = null;
+    let latestSyncedState = null;
+    let lastChildMessageTime = 0;
+
+    // Khôi phục snapshot ban đầu nếu là Cửa Sổ Mới hoặc host vừa resume
+    let initialSyncedState = null;
+    if (isPopout || params.get('resume_sync') === '1') {
+        try {
+            const raw = storage.getItem(STORAGE_KEY);
+            if (raw) {
+                const parsed = JSON.parse(raw);
+                if (parsed && (Date.now() - (parsed.timestamp || 0) < 7200000)) {
+                    initialSyncedState = parsed;
+                }
+            }
+        } catch (e) {}
+        try {
+            if (!initialSyncedState && window.opener && window.opener.__HSK3_LATEST_STATE__) {
+                initialSyncedState = window.opener.__HSK3_LATEST_STATE__;
+            }
+        } catch (e) {}
     }
 
-    const SyncManager = {
-        isPopup: isPopup,
+    // Gửi tín hiệu sẵn sàng từ Child tới Host
+    if (isPopout && window.opener && !window.opener.closed) {
+        try {
+            window.opener.postMessage({ type: 'HSK3_CHILD_READY', timestamp: Date.now() }, '*');
+        } catch (e) {}
+    }
 
-        /**
-         * Đăng ký bộ xử lý trạng thái từ game.js hoặc menu.js
-         */
-        registerGame(handlers) {
-            gameHandlers = handlers;
+    /**
+     * Cập nhật thông tin trực tiếp trên modal đồng bộ của LMS
+     */
+    function updateSyncOverlayInfo(state) {
+        if (!state) return;
+        const topicEl = document.getElementById('sync-overlay-topic');
+        const phaseEl = document.getElementById('sync-overlay-phase');
+        const scoreEl = document.getElementById('sync-overlay-score');
+        const badgeEl = document.getElementById('sync-overlay-badge');
 
-            // Nếu đây là Cửa sổ mới, khôi phục trạng thái ban đầu ngay khi sẵn sàng
-            if (isPopup) {
-                this.initAsPopup();
+        if (topicEl) {
+            topicEl.textContent = state.currentLessonDisplay || state.topicName || "Chủ đề HSK 3";
+        }
+
+        if (phaseEl) {
+            if (state.isGameOver) {
+                phaseEl.textContent = "Đã kết thúc";
+                phaseEl.style.color = "var(--secondary, #00d2d3)";
+            } else if (state.stage === 'POISONING') {
+                phaseEl.textContent = `Trời Tối: Đội ${state.poisoningTeamIndex !== undefined ? state.poisoningTeamIndex + 1 : 1} giấu độc`;
             } else {
-                this.initAsHost();
+                phaseEl.textContent = `Trời Sáng: Lượt Đội ${state.currentTurn !== undefined ? state.currentTurn + 1 : 1}`;
+            }
+        }
 
-                // Kiểm tra xem host có vừa được điều hướng tới đây khi popup đóng không
-                try {
-                    if (sessionStorage.getItem('HSK3_JUST_CLOSED_POPUP') === 'true') {
-                        sessionStorage.removeItem('HSK3_JUST_CLOSED_POPUP');
-                        const pendingState = this.loadSavedState();
-                        if (pendingState && gameHandlers && typeof gameHandlers.applyState === 'function') {
-                            setTimeout(() => {
-                                gameHandlers.applyState(pendingState);
-                                this.showToast('✨ Đã tiếp tục trò chơi từ cửa sổ mới!');
-                            }, 100);
+        if (scoreEl) {
+            if (Array.isArray(state.scores) && state.scores.length > 0) {
+                const teamScores = state.scores.slice(0, state.teamCount || 2).map((s, i) => `Đ${i + 1}: ${s}đ`).join(' | ');
+                scoreEl.textContent = teamScores;
+            } else {
+                scoreEl.textContent = "0 đ";
+            }
+        }
+
+        if (state.isGameOver && badgeEl) {
+            badgeEl.innerHTML = `<span class="sync-dot" style="background:#ef4444;box-shadow:0 0 8px #ef4444;"></span><span>TRẬN ĐẤU ĐÃ KẾT THÚC</span>`;
+        }
+    }
+
+    /**
+     * Thu thập snapshot toàn bộ trạng thái game hiện tại (bao gồm cả Audio)
+     */
+    function getGameStateSnapshot() {
+        let base = {};
+        if (gameHandlers && typeof gameHandlers.getState === 'function') {
+            base = gameHandlers.getState() || {};
+        }
+
+        const bgMusic = window.bgMusic || (window.gameAudio ? window.gameAudio.music : null);
+        const curAudioTime = bgMusic ? Number(bgMusic.currentTime.toFixed(2)) : 0;
+        const isMuted = window.gameAudio ? window.gameAudio.isMuted : false;
+
+        return {
+            version: '3.0',
+            timestamp: Date.now(),
+            page: window.location.pathname.includes('game.html') ? 'game.html' : 'index.html',
+            ...base,
+            // Đồng bộ âm thanh
+            isMuted: isMuted,
+            audioCurrentTime: curAudioTime,
+            audioPlaying: !isMuted && bgMusic && !bgMusic.paused
+        };
+    }
+
+    /**
+     * Áp dụng snapshot trạng thái (bao gồm khôi phục âm thanh)
+     */
+    function applyGameStateSnapshot(snapshot) {
+        if (!snapshot) return false;
+
+        // 1. Áp dụng âm thanh
+        if (typeof snapshot.isMuted === 'boolean' && window.gameAudio) {
+            window.gameAudio.setMuted(snapshot.isMuted);
+        }
+
+        const bgMusic = window.bgMusic || (window.gameAudio ? window.gameAudio.music : null);
+        if (isFinite(snapshot.audioCurrentTime) && bgMusic) {
+            try {
+                if (bgMusic.duration && snapshot.audioCurrentTime >= bgMusic.duration) {
+                    bgMusic.currentTime = snapshot.audioCurrentTime % bgMusic.duration;
+                } else {
+                    bgMusic.currentTime = snapshot.audioCurrentTime;
+                }
+            } catch (e) {}
+        }
+
+        // 2. Áp dụng trạng thái game
+        if (gameHandlers && typeof gameHandlers.applyState === 'function') {
+            gameHandlers.applyState(snapshot);
+        }
+
+        // 3. Tiếp tục phát nhạc nếu không mute và không phải LMS Host đang chờ child window
+        if (window.gameAudio && !window.gameAudio.isMuted && (!childWin || childWin.closed)) {
+            if (bgMusic && bgMusic.paused) {
+                window.safePlayAudio ? window.safePlayAudio(bgMusic) : bgMusic.play().catch(() => {});
+            }
+        }
+
+        return true;
+    }
+
+    /**
+     * Lưu và phát tán trạng thái tới các cửa sổ khác
+     */
+    function saveAndBroadcastState(customSnapshot = null, isClosing = false) {
+        const snapshot = customSnapshot || getGameStateSnapshot();
+        if (isClosing) snapshot.isPopoutClosing = true;
+        latestSyncedState = snapshot;
+        window.__HSK3_LATEST_STATE__ = snapshot;
+
+        try {
+            storage.setItem(STORAGE_KEY, JSON.stringify(snapshot));
+            if (isClosing) {
+                localStorage.setItem('hsk3_popout_closed', Date.now().toString());
+            }
+        } catch (e) {}
+
+        const msgType = isClosing ? 'HSK3_POPOUT_CLOSED' : 'HSK3_STATE_UPDATE';
+        const msg = { type: msgType, state: snapshot, timestamp: Date.now() };
+
+        if (syncChannel) {
+            try { syncChannel.postMessage(msg); } catch (e) {}
+        }
+
+        if (isPopout && window.opener && !window.opener.closed) {
+            try { window.opener.postMessage(msg, '*'); } catch (e) {}
+        } else if (childWin && !childWin.closed) {
+            try { childWin.postMessage(msg, '*'); } catch (e) {}
+        }
+
+        updateSyncOverlayInfo(snapshot);
+    }
+
+    /**
+     * Xử lý tin nhắn đồng bộ đến (từ Host hoặc Child)
+     */
+    function handleIncomingSync(data) {
+        if (!data) return;
+        lastChildMessageTime = Date.now();
+        const type = data.type || data.action;
+        const state = data.state;
+
+        if (type === 'HSK3_HEARTBEAT') {
+            return;
+        }
+
+        // 1. Đồng bộ âm thanh riêng biệt
+        if (type === 'HSK3_AUDIO_SYNC') {
+            if (typeof data.isMuted === 'boolean' && window.gameAudio) {
+                window.gameAudio.handleIncomingSync(data);
+            }
+            return;
+        }
+
+        // 2. Handshake: Child sẵn sàng, Host gửi ngay full state hiện tại
+        if (type === 'HSK3_CHILD_READY' && !isPopout) {
+            const currentSnap = getGameStateSnapshot();
+            if (childWin && !childWin.closed) {
+                try { childWin.postMessage({ type: 'HSK3_STATE_SYNC', state: currentSnap }, '*'); } catch (e) {}
+            }
+            if (syncChannel) {
+                try { syncChannel.postMessage({ type: 'HSK3_STATE_SYNC', state: currentSnap }); } catch (e) {}
+            }
+            return;
+        }
+
+        // 3. Màn hình LMS Host nhận cập nhật từ Child
+        if (!isPopout) {
+            if (state) {
+                latestSyncedState = state;
+                window.__HSK3_LATEST_STATE__ = state;
+                updateSyncOverlayInfo(state);
+
+                // Báo điểm lên SCORM nếu kết thúc
+                if (window.LMSAdapter && state.isGameOver && typeof state.winnerScore === 'number') {
+                    window.LMSAdapter.recordScore(state.winnerScore, 250, {
+                        winner: state.winnerText || '',
+                        theme: state.currentLessonDisplay || ''
+                    });
+                }
+            }
+
+            if (type === 'HSK3_POPOUT_CLOSED' || (state && state.isPopoutClosing)) {
+                resumeInLmsWindow(false);
+            }
+        } else {
+            // 4. Cửa Sổ Mới Child nhận cập nhật từ Host
+            if ((type === 'HSK3_STATE_SYNC' || type === 'HSK3_STATE_UPDATE') && state) {
+                applyGameStateSnapshot(state);
+            } else if (type === 'HSK3_HOST_RESUMED') {
+                if (window.LMSAdapter && typeof window.LMSAdapter.showToast === 'function') {
+                    window.LMSAdapter.showToast("👉 Đang tiếp tục chơi trên màn hình LMS.");
+                }
+            }
+        }
+    }
+
+    if (syncChannel) {
+        syncChannel.onmessage = (e) => handleIncomingSync(e.data);
+    }
+    window.addEventListener('message', (e) => handleIncomingSync(e.data));
+    window.addEventListener('storage', (e) => {
+        if (e.key === STORAGE_KEY && e.newValue) {
+            try {
+                const parsed = JSON.parse(e.newValue);
+                if (parsed) {
+                    handleIncomingSync({
+                        type: parsed.isPopoutClosing ? 'HSK3_POPOUT_CLOSED' : 'HSK3_STATE_UPDATE',
+                        state: parsed
+                    });
+                }
+            } catch (err) {}
+        }
+    });
+
+    /**
+     * Chiến lược mở Cửa Sổ Mới 4 cấp độ (Multi-tier Strategy chuẩn HSK 2 / HSK 4)
+     */
+    function openGameInNewWindow(e) {
+        if (e && e.preventDefault) e.preventDefault();
+        if (window.LMSAdapter) window.LMSAdapter.playSynthesizedSound('tap');
+
+        if (isPopout) {
+            closePopoutAndReturnToLMS();
+            return;
+        }
+
+        // 1. Tạm dừng timer nếu đang ở màn hình chơi
+        if (gameHandlers && typeof gameHandlers.onPopupOpened === 'function') {
+            gameHandlers.onPopupOpened();
+        }
+
+        // 2. Chụp vị trí nhạc hiện tại trước khi tạm dừng
+        const bgMusic = window.bgMusic || (window.gameAudio ? window.gameAudio.music : null);
+        const currentAudioTime = bgMusic ? Number(bgMusic.currentTime.toFixed(2)) : 0;
+        const isMuted = window.gameAudio ? window.gameAudio.isMuted : false;
+
+        if (bgMusic && !bgMusic.paused) {
+            try { bgMusic.pause(); } catch (err) {}
+        }
+
+        // 3. Snapshot trạng thái hiện tại
+        const snapshot = getGameStateSnapshot();
+        snapshot.isLmsWaiting = true;
+        snapshot.syncSessionId = 'sync_' + Date.now();
+        snapshot.audioCurrentTime = currentAudioTime;
+        snapshot.isMuted = isMuted;
+
+        try {
+            storage.setItem(STORAGE_KEY, JSON.stringify(snapshot));
+            storage.setItem('hsk3_active_session', snapshot.syncSessionId);
+        } catch (err) {}
+        window.__HSK3_LATEST_STATE__ = snapshot;
+
+        if (syncChannel) {
+            try { syncChannel.postMessage({ type: 'HSK3_SYNC_INIT', state: snapshot }); } catch (e) {}
+        }
+
+        // 4. Hiển thị Overlay trên màn hình LMS
+        const overlay = document.getElementById('sync-active-modal') || document.getElementById('popup-sync-overlay');
+        if (overlay) {
+            overlay.classList.add('show');
+            overlay.classList.add('active');
+            overlay.style.display = 'flex';
+            updateSyncOverlayInfo(snapshot);
+        }
+
+        // 5. Xây dựng URL chứa chính xác tham số phiên, audioTime và muted
+        const targetUrl = new URL(window.location.href);
+        targetUrl.searchParams.delete('state');
+        targetUrl.hash = '';
+        targetUrl.searchParams.set('popout', '1');
+        targetUrl.searchParams.set('session', snapshot.syncSessionId);
+        targetUrl.searchParams.set('audioTime', currentAudioTime);
+        targetUrl.searchParams.set('muted', isMuted ? '1' : '0');
+
+        const scrWidth = (window.screen && window.screen.availWidth) || window.innerWidth || 1280;
+        const scrHeight = (window.screen && window.screen.availHeight) || window.innerHeight || 800;
+        const width = Math.min(1240, scrWidth - 40);
+        const height = Math.min(760, scrHeight - 60);
+        const left = Math.max(0, Math.floor((scrWidth - width) / 2));
+        const top = Math.max(0, Math.floor((scrHeight - height) / 2));
+        const windowFeatures = `width=${width},height=${height},left=${left},top=${top},resizable=yes,scrollbars=yes`;
+
+        let child = null;
+
+        // Strategy 1: Cửa sổ Popup độc lập với kích thước tối ưu
+        try {
+            child = window.open(targetUrl.toString(), 'HSK3_Standalone_Game', windowFeatures);
+        } catch (err) {
+            console.warn("[Popout] Strategy 1 failed:", err);
+        }
+
+        // Strategy 2: Cửa sổ có tên không kèm features
+        if (!child || child.closed || typeof child.closed === 'undefined') {
+            try {
+                child = window.open(targetUrl.toString(), 'HSK3_Standalone_Game');
+            } catch (err) {
+                console.warn("[Popout] Strategy 2 failed:", err);
+            }
+        }
+
+        // Strategy 3: Tab mới tiêu chuẩn (_blank)
+        if (!child || child.closed || typeof child.closed === 'undefined') {
+            try {
+                child = window.open(targetUrl.toString(), '_blank');
+            } catch (err) {
+                console.warn("[Popout] Strategy 3 failed:", err);
+            }
+        }
+
+        // Strategy 4: Anchor Click Fallback (Vượt qua iframe sandbox nghiêm ngặt nhất)
+        if (!child || child.closed || typeof child.closed === 'undefined') {
+            try {
+                const a = document.createElement('a');
+                a.href = targetUrl.toString();
+                a.target = '_blank';
+                a.rel = 'noopener';
+                document.body.appendChild(a);
+                a.click();
+                document.body.removeChild(a);
+                child = true;
+            } catch (err) {
+                console.warn("[Popout] Strategy 4 failed:", err);
+            }
+        }
+
+        if (child) {
+            if (child !== true) {
+                childWin = child;
+                try { child.focus(); } catch (err) {}
+            }
+
+            if (window.LMSAdapter && window.LMSAdapter.showToast) {
+                window.LMSAdapter.showToast("🚀 Đang chơi tại cửa sổ mới! Màn hình LMS tạm dừng và chờ đồng bộ.");
+            }
+
+            if (popoutPollInterval) {
+                clearInterval(popoutPollInterval);
+                popoutPollInterval = null;
+            }
+
+            lastChildMessageTime = Date.now();
+
+            // Safe poller với Heartbeat Guard
+            setTimeout(() => {
+                if (!childWin || childWin === true) return;
+                popoutPollInterval = setInterval(() => {
+                    let isClosed = false;
+                    try {
+                        isClosed = !childWin || childWin.closed;
+                    } catch (err) {
+                        isClosed = false;
+                    }
+
+                    if (isClosed) {
+                        // Sửa lỗi Chromium LMS iframe sandbox: nếu child vẫn gửi heartbeat trong 5 giây qua, cửa sổ vẫn đang hoạt động!
+                        if (Date.now() - lastChildMessageTime < 5000) {
+                            return;
                         }
+                        clearInterval(popoutPollInterval);
+                        popoutPollInterval = null;
+                        childWin = null;
+                        resumeInLmsWindow(false);
                     }
-                } catch (e) {}
-            }
-        },
-
-        /**
-         * Lưu trạng thái an toàn (kết hợp localStorage & LMSAdapter)
-         */
-        saveState(state) {
-            if (!state) return;
-            state.timestamp = Date.now();
-            latestState = state;
-
-            const stateStr = JSON.stringify(state);
-            try {
-                if (window.LMSAdapter) {
-                    window.LMSAdapter.setStorage(STORAGE_KEY, stateStr);
-                } else if (window.localStorage) {
-                    window.localStorage.setItem(STORAGE_KEY, stateStr);
-                }
-            } catch (e) {
-                // Ignore storage quota or sandbox restrictions
-            }
-        },
-
-        /**
-         * Đọc trạng thái đã lưu
-         */
-        loadSavedState() {
-            try {
-                let stateStr = null;
-                if (window.LMSAdapter) {
-                    stateStr = window.LMSAdapter.getStorage(STORAGE_KEY, null);
-                } else if (window.localStorage) {
-                    stateStr = window.localStorage.getItem(STORAGE_KEY);
-                }
-                if (stateStr) {
-                    return JSON.parse(stateStr);
-                }
-            } catch (e) {
-                console.warn('[SyncManager] Không thể đọc state từ storage:', e);
-            }
-            return latestState;
-        },
-
-        /**
-         * Phát tán thay đổi trạng thái tới các cửa sổ khác
-         */
-        broadcastState(state) {
-            if (!state) return;
-            this.saveState(state);
-
-            const msg = {
-                type: 'STATE_UPDATE',
-                state: state,
-                isFromPopup: isPopup,
-                timestamp: Date.now()
-            };
-
-            // 1. BroadcastChannel (Cùng origin, đa tab/cửa sổ)
-            if (broadcastChannel) {
-                try {
-                    broadcastChannel.postMessage(msg);
-                } catch (e) {}
-            }
-
-            // 2. postMessage trực tiếp qua window.opener hoặc popupRef
-            try {
-                if (isPopup && window.opener && !window.opener.closed) {
-                    window.opener.postMessage(msg, '*');
-                } else if (!isPopup && popupRef && !popupRef.closed) {
-                    popupRef.postMessage(msg, '*');
-                }
-            } catch (e) {}
-        },
-
-        /**
-         * Thông báo trạng thái game vừa thay đổi (gọi từ game.js khi click, chuyển lượt, v.v.)
-         */
-        notifyChange() {
-            if (!gameHandlers || typeof gameHandlers.getState !== 'function') return;
-            const currentState = gameHandlers.getState();
-            this.broadcastState(currentState);
-        },
-
-        /**
-         * Khởi tạo dành cho CỬA SỔ MỚI (Popup Window)
-         */
-        initAsPopup() {
-            console.log('[SyncManager] Đang chạy ở chế độ Cửa Sổ Mới (Popup)');
-
-            // Ẩn tất cả nút "Mở cửa sổ mới" trên cửa sổ popup để tránh mở lồng nhau
-            document.querySelectorAll('.lms-window-btn').forEach(btn => {
-                btn.style.display = 'none';
-            });
-
-            // Lấy state ban đầu để tiếp tục
-            const initialState = this.loadSavedState();
-            if (initialState && gameHandlers && typeof gameHandlers.applyState === 'function') {
-                console.log('[SyncManager] Khôi phục trạng thái ban đầu cho cửa sổ mới:', initialState);
-                gameHandlers.applyState(initialState);
-            }
-
-            // Gửi tín hiệu sẵn sàng tới opener
-            if (window.opener && !window.opener.closed) {
-                try {
-                    window.opener.postMessage({
-                        type: 'POPUP_READY',
-                        timestamp: Date.now()
-                    }, '*');
-                } catch (e) {}
-            }
-
-            // Lắng nghe khi popup chuẩn bị đóng (X hoặc Alt+F4 hoặc tab close)
-            const handleClosing = () => {
-                if (gameHandlers && typeof gameHandlers.getState === 'function') {
-                    const finalState = gameHandlers.getState();
-                    this.saveState(finalState);
-                    const msg = {
-                        type: 'POPUP_CLOSING',
-                        state: finalState,
-                        timestamp: Date.now()
-                    };
-                    if (broadcastChannel) {
-                        try { broadcastChannel.postMessage(msg); } catch (e) {}
-                    }
-                    if (window.opener && !window.opener.closed) {
-                        try { window.opener.postMessage(msg, '*'); } catch (e) {}
-                    }
-                }
-                try {
-                    if (window.localStorage) {
-                        window.localStorage.setItem(POPUP_ACTIVE_KEY, 'false');
-                    }
-                } catch (e) {}
-            };
-
-            window.addEventListener('beforeunload', handleClosing);
-            window.addEventListener('pagehide', handleClosing);
-            window.addEventListener('unload', handleClosing);
-
-            // Đổi tiêu đề tab cho rõ ràng
-            document.title = "✦ [Cửa Sổ Riêng] " + document.title;
-        },
-
-        /**
-         * Khởi tạo dành cho MÀN HÌNH LMS (Host Window)
-         */
-        initAsHost() {
-            // Lắng nghe tin nhắn từ BroadcastChannel
-            if (broadcastChannel) {
-                broadcastChannel.onmessage = (event) => {
-                    this.handleIncomingMessage(event.data);
-                };
-            }
-
-            // Lắng nghe postMessage từ cửa sổ con
-            window.addEventListener('message', (event) => {
-                if (event.data && typeof event.data === 'object' && event.data.type) {
-                    this.handleIncomingMessage(event.data);
-                }
-            });
-
-            // Lắng nghe storage event (trường hợp tab khác cập nhật localStorage)
-            window.addEventListener('storage', (event) => {
-                if (event.key === STORAGE_KEY && event.newValue) {
-                    try {
-                        const parsed = JSON.parse(event.newValue);
-                        this.handleIncomingMessage({
-                            type: 'STATE_UPDATE',
-                            state: parsed,
-                            isFromPopup: true
-                        });
-                    } catch (e) {}
-                }
-            });
-
-            // Gắn sự kiện cho các nút "Cửa sổ mới"
-            document.querySelectorAll('.lms-window-btn').forEach(btn => {
-                btn.onclick = (e) => {
-                    e.preventDefault();
-                    e.stopPropagation();
-                    this.openPopup();
-                };
-            });
-
-            // Gắn sự kiện cho các nút trong modal đồng bộ trên LMS
-            const resumeBtn = document.getElementById('resume-here-btn');
-            if (resumeBtn) {
-                resumeBtn.onclick = () => {
-                    this.resumeInHost();
-                };
-            }
-
-            const focusBtn = document.getElementById('focus-popup-btn');
-            if (focusBtn) {
-                focusBtn.onclick = () => {
-                    if (popupRef && !popupRef.closed) {
-                        popupRef.focus();
-                    } else {
-                        this.openPopup();
-                    }
-                };
-            }
-        },
-
-        /**
-         * Xử lý tin nhắn gửi tới Host từ Popup
-         */
-        handleIncomingMessage(data) {
-            if (!data) return;
-
-            if (data.type === 'STATE_UPDATE' && data.state) {
-                latestState = data.state;
-                // Nếu cửa sổ này đang hiển thị overlay (chờ popup), cập nhật state ngầm
-                // để khi popup đóng sẽ áp dụng ngay
-            } else if (data.type === 'POPUP_CLOSING') {
-                if (data.state) latestState = data.state;
-                this.onPopupClosed();
-            }
-        },
-
-        /**
-         * Mở Cửa Sổ Mới từ LMS
-         */
-        openPopup() {
-            // 1. Lấy trạng thái hiện tại từ game hoặc menu
-            let currentState = null;
-            if (gameHandlers && typeof gameHandlers.getState === 'function') {
-                currentState = gameHandlers.getState();
-            }
-
-            if (currentState) {
-                this.saveState(currentState);
-            }
-
-            // 2. Xây dựng URL mở popup (giữ nguyên query params và thêm popup=1)
-            const currentUrl = new URL(window.location.href);
-            currentUrl.searchParams.set('popup', '1');
-
-            // 3. Tính toán kích thước & vị trí cửa sổ mới (khoảng 85% màn hình)
-            const width = Math.min(1180, Math.floor(window.screen.availWidth * 0.92));
-            const height = Math.min(820, Math.floor(window.screen.availHeight * 0.92));
-            const left = Math.max(0, Math.floor((window.screen.availWidth - width) / 2));
-            const top = Math.max(0, Math.floor((window.screen.availHeight - height) / 2));
-
-            const windowFeatures = `width=${width},height=${height},left=${left},top=${top},resizable=yes,scrollbars=yes,status=no,toolbar=no,menubar=no,location=no`;
-
-            // Nếu popup đã mở trước đó và chưa đóng, chỉ cần focus
-            if (popupRef && !popupRef.closed) {
-                popupRef.focus();
-                this.showHostOverlay();
-                return;
-            }
-
-            popupRef = window.open(currentUrl.toString(), 'HSK3_GAME_POPUP', windowFeatures);
-
-            if (!popupRef || popupRef.closed || typeof popupRef.closed === 'undefined') {
-                alert('Trình duyệt đang chặn mở cửa sổ mới! Vui lòng bấm vào biểu tượng Cho phép Pop-up trên thanh địa chỉ của trình duyệt.');
-                return;
-            }
-
-            try {
-                if (window.localStorage) {
-                    window.localStorage.setItem(POPUP_ACTIVE_KEY, 'true');
-                }
-            } catch (e) {}
-
-            // Thông báo tới gameHandlers tạm dừng âm thanh / timer bên LMS
-            if (gameHandlers && typeof gameHandlers.onPopupOpened === 'function') {
-                gameHandlers.onPopupOpened();
-            }
-
-            // Hiển thị overlay thông báo trên màn hình LMS
-            this.showHostOverlay();
-
-            // Khởi động vòng lặp kiểm tra xem popup có bị người dùng đóng qua dấu X không
-            if (pollInterval) clearInterval(pollInterval);
-            pollInterval = setInterval(() => {
-                if (!popupRef || popupRef.closed) {
-                    clearInterval(pollInterval);
-                    pollInterval = null;
-                    this.onPopupClosed();
-                }
-            }, 400);
-        },
-
-        /**
-         * Hiển thị overlay trên màn hình LMS khi Cửa Sổ Mới đang hoạt động
-         */
-        showHostOverlay() {
-            const overlay = document.getElementById('popup-sync-overlay');
+                }, 1000);
+            }, 3000);
+        } else {
             if (overlay) {
-                overlay.classList.add('active');
-            }
-        },
-
-        /**
-         * Ẩn overlay trên màn hình LMS
-         */
-        hideHostOverlay() {
-            const overlay = document.getElementById('popup-sync-overlay');
-            if (overlay) {
+                overlay.classList.remove('show');
                 overlay.classList.remove('active');
+                overlay.style.display = 'none';
             }
-        },
-
-        /**
-         * Xử lý khi Cửa Sổ Mới đóng -> Quay lại khoảnh khắc đang chơi trên màn hình LMS
-         */
-        onPopupClosed() {
-            if (pollInterval) {
-                clearInterval(pollInterval);
-                pollInterval = null;
+            if (!isMuted && bgMusic && bgMusic.paused) {
+                window.safePlayAudio ? window.safePlayAudio(bgMusic) : bgMusic.play().catch(() => {});
             }
-            popupRef = null;
+            if (window.LMSAdapter && window.LMSAdapter.showToast) {
+                window.LMSAdapter.showToast("⚠️ Vui lòng cho phép popup trên trình duyệt của bạn!");
+            }
+        }
+    }
 
+    function focusChildWindow() {
+        if (window.LMSAdapter) window.LMSAdapter.playSynthesizedSound('tap');
+        let isAlive = false;
+        if (childWin) {
+            try { isAlive = !childWin.closed; } catch (e) { isAlive = false; }
+        }
+        if (isAlive) {
+            try { childWin.focus(); return; } catch (e) {}
+        }
+        openGameInNewWindow();
+    }
+
+    /**
+     * Khôi phục chơi tiếp tục tại màn hình LMS
+     */
+    function resumeInLmsWindow(forceCloseChild = false) {
+        if (window.LMSAdapter) window.LMSAdapter.playSynthesizedSound('tap');
+        if (popoutPollInterval) {
+            clearInterval(popoutPollInterval);
+            popoutPollInterval = null;
+        }
+
+        if (childWin) {
             try {
-                if (window.localStorage) {
-                    window.localStorage.setItem(POPUP_ACTIVE_KEY, 'false');
-                }
+                if (!childWin.closed) childWin.close();
             } catch (e) {}
+            childWin = null;
+        }
 
-            this.hideHostOverlay();
+        const overlay = document.getElementById('sync-active-modal') || document.getElementById('popup-sync-overlay');
+        if (overlay) {
+            overlay.classList.remove('show');
+            overlay.classList.remove('active');
+            overlay.style.display = 'none';
+        }
 
-            // Đọc lại trạng thái mới nhất đạt được từ cửa sổ mới
-            const stateToRestore = this.loadSavedState() || latestState;
-
-            if (stateToRestore) {
-                // Nếu popup đang ở game.html nhưng host hiện tại đang ở index.html:
-                if (stateToRestore.page === 'game.html' && window.location.pathname.indexOf('game.html') === -1) {
-                    try {
-                        sessionStorage.setItem('HSK3_JUST_CLOSED_POPUP', 'true');
-                    } catch (e) {}
-                    const param = stateToRestore.currentLessonParam || `chude${(stateToRestore.currentLesson || 0) + 1}`;
-                    window.location.href = `game.html?${param}`;
-                    return;
-                }
-
-                if (gameHandlers && typeof gameHandlers.applyState === 'function') {
-                    console.log('[SyncManager] Khôi phục trạng thái mới nhất về màn hình LMS:', stateToRestore);
-                    gameHandlers.applyState(stateToRestore);
+        let stateToApply = latestSyncedState;
+        try {
+            const raw = storage.getItem(STORAGE_KEY);
+            if (raw) {
+                const parsed = JSON.parse(raw);
+                if (parsed) {
+                    if (!stateToApply || (parsed.timestamp && parsed.timestamp > (stateToApply.timestamp || 0)) || parsed.isGameOver) {
+                        stateToApply = parsed;
+                    }
                 }
             }
+        } catch (e) {}
 
+        // Nếu Child đang ở game.html nhưng Host hiện đang ở index.html: điều hướng host sang game.html
+        if (stateToApply && stateToApply.page === 'game.html' && !window.location.pathname.includes('game.html')) {
+            if (window.LMSAdapter && window.LMSAdapter.markInternalNavigation) {
+                window.LMSAdapter.markInternalNavigation();
+            }
+            const param = stateToApply.currentLessonParam || `chude${(stateToApply.currentLesson || 0) + 1}`;
+            window.location.href = `game.html?${param}&resume_sync=1`;
+            return;
+        }
+
+        if (stateToApply) {
+            applyGameStateSnapshot(stateToApply);
+            if (window.LMSAdapter && window.LMSAdapter.showToast) {
+                window.LMSAdapter.showToast("🎮 Đã đồng bộ tiến trình! Tiếp tục chơi trên màn hình LMS.");
+            }
+        } else {
+            const bgMusic = window.bgMusic || (window.gameAudio ? window.gameAudio.music : null);
+            const isMuted = window.gameAudio ? window.gameAudio.isMuted : false;
+            if (!isMuted && bgMusic && bgMusic.paused) {
+                window.safePlayAudio ? window.safePlayAudio(bgMusic) : bgMusic.play().catch(() => {});
+            }
             if (gameHandlers && typeof gameHandlers.onPopupClosed === 'function') {
                 gameHandlers.onPopupClosed();
             }
+        }
 
-            this.showToast('✨ Đã tiếp tục trò chơi từ cửa sổ mới!');
+        // Báo cho child (nếu còn) là host đã resume
+        if (childWin && !childWin.closed) {
+            try { childWin.postMessage({ type: 'HSK3_HOST_RESUMED' }, '*'); } catch (e) {}
+        }
+        if (syncChannel) {
+            try { syncChannel.postMessage({ type: 'HSK3_HOST_RESUMED' }); } catch (e) {}
+        }
+    }
+
+    /**
+     * Đóng Cửa Sổ Mới và quay về màn hình LMS
+     */
+    function closePopoutAndReturnToLMS() {
+        const finalSnapshot = getGameStateSnapshot();
+        finalSnapshot.isPopoutClosing = true;
+        saveAndBroadcastState(finalSnapshot, true);
+
+        // Phát tín hiệu audio sync lần cuối
+        if (window.gameAudio) {
+            window.gameAudio.broadcastAudioSync();
+        }
+
+        if (window.opener && !window.opener.closed) {
+            try { window.opener.focus(); } catch (e) {}
+        }
+        window.close();
+    }
+
+    // Thiết lập giao diện cho Cửa Sổ Mới
+    if (isPopout) {
+        // Heartbeat liên tục mỗi 1.5 giây
+        setInterval(() => {
+            const hb = { type: 'HSK3_HEARTBEAT', timestamp: Date.now() };
+            if (syncChannel) {
+                try { syncChannel.postMessage(hb); } catch (e) {}
+            }
+            if (window.opener && !window.opener.closed) {
+                try { window.opener.postMessage(hb, '*'); } catch (e) {}
+            }
+        }, 1500);
+
+        const setupPopoutBtn = () => {
+            const popBtn = document.getElementById('popout-btn');
+            if (popBtn) {
+                popBtn.title = "Quay về màn hình LMS (Đóng cửa sổ này)";
+                popBtn.setAttribute('aria-label', "Quay về màn hình LMS");
+                popBtn.innerHTML = `
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" style="pointer-events: none;">
+                        <polyline points="9 14 4 9 9 4"></polyline>
+                        <path d="M20 20v-7a4 4 0 0 0-4-4H4"></path>
+                    </svg>
+                `;
+                popBtn.onclick = function (e) {
+                    if (e && e.preventDefault) e.preventDefault();
+                    closePopoutAndReturnToLMS();
+                };
+            }
+
+            // Đồng thời đổi các nút .lms-window-btn thành nút quay về
+            document.querySelectorAll('.lms-window-btn').forEach(btn => {
+                btn.title = "Quay về màn hình LMS";
+                btn.innerHTML = `<span class="btn-icon">↩</span><span class="btn-text">Về LMS</span>`;
+                btn.onclick = function (e) {
+                    if (e && e.preventDefault) e.preventDefault();
+                    closePopoutAndReturnToLMS();
+                };
+            });
+        };
+
+        if (document.readyState === 'loading') {
+            document.addEventListener('DOMContentLoaded', setupPopoutBtn);
+        } else {
+            setupPopoutBtn();
+        }
+
+        const handleUnload = () => {
+            const finalSnapshot = getGameStateSnapshot();
+            finalSnapshot.isPopoutClosing = true;
+            saveAndBroadcastState(finalSnapshot, true);
+        };
+        window.addEventListener('beforeunload', handleUnload);
+        window.addEventListener('pagehide', handleUnload);
+    } else {
+        const setupHostBtns = () => {
+            const popBtn = document.getElementById('popout-btn');
+            if (popBtn) {
+                popBtn.title = "Mở ở cửa sổ mới (Đồng bộ tiến trình)";
+                popBtn.setAttribute('aria-label', "Mở ở cửa sổ mới");
+                popBtn.onclick = function (e) {
+                    if (e && e.preventDefault) e.preventDefault();
+                    openGameInNewWindow(e);
+                };
+            }
+
+            document.querySelectorAll('.lms-window-btn').forEach(btn => {
+                btn.onclick = function (e) {
+                    if (e && e.preventDefault) e.preventDefault();
+                    openGameInNewWindow(e);
+                };
+            });
+        };
+
+        if (document.readyState === 'loading') {
+            document.addEventListener('DOMContentLoaded', setupHostBtns);
+        } else {
+            setupHostBtns();
+        }
+    }
+
+    const SyncManager = {
+        isPopup: isPopout,
+        isPopout: isPopout,
+        childWin: childWin,
+
+        hasActiveChild() {
+            return !isPopout && childWin && !childWin.closed;
         },
 
-        /**
-         * Người dùng bấm nút "Tiếp tục tại màn hình này" trên LMS
-         */
+        registerGame(handlers) {
+            gameHandlers = handlers;
+            if (initialSyncedState) {
+                applyGameStateSnapshot(initialSyncedState);
+            }
+        },
+
+        notifyChange() {
+            saveAndBroadcastState();
+        },
+
+        openPopup() {
+            openGameInNewWindow();
+        },
+
         resumeInHost() {
-            if (popupRef && !popupRef.closed) {
-                try {
-                    popupRef.close();
-                } catch (e) {}
-            }
-            this.onPopupClosed();
+            resumeInLmsWindow(true);
         },
 
-        /**
-         * Hiển thị thông báo nhỏ gọn (Toast)
-         */
-        showToast(message) {
-            let toast = document.getElementById('sync-toast');
-            if (!toast) {
-                toast = document.createElement('div');
-                toast.id = 'sync-toast';
-                toast.className = 'sync-toast';
-                document.body.appendChild(toast);
+        showHostOverlay() {
+            const overlay = document.getElementById('sync-active-modal') || document.getElementById('popup-sync-overlay');
+            if (overlay) {
+                overlay.classList.add('show');
+                overlay.classList.add('active');
+                overlay.style.display = 'flex';
             }
-            toast.textContent = message;
-            toast.classList.add('show');
-            setTimeout(() => {
-                toast.classList.remove('show');
-            }, 2500);
+        },
+
+        hideHostOverlay() {
+            const overlay = document.getElementById('sync-active-modal') || document.getElementById('popup-sync-overlay');
+            if (overlay) {
+                overlay.classList.remove('show');
+                overlay.classList.remove('active');
+                overlay.style.display = 'none';
+            }
+        },
+
+        saveState(state) {
+            saveAndBroadcastState(state);
+        },
+
+        loadSavedState() {
+            try {
+                const raw = storage.getItem(STORAGE_KEY);
+                if (raw) return JSON.parse(raw);
+            } catch (e) {}
+            return latestSyncedState;
         }
     };
 
     window.SyncManager = SyncManager;
+    window.openGameInNewWindow = openGameInNewWindow;
+    window._fullOpenGameInNewWindow = openGameInNewWindow;
+    window.openStandaloneWindow = openGameInNewWindow;
+    window.focusChildWindow = focusChildWindow;
+    window.resumeInLmsWindow = resumeInLmsWindow;
+    window.closePopoutAndReturnToLMS = closePopoutAndReturnToLMS;
 
 })(window);

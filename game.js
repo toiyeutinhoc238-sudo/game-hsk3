@@ -165,7 +165,20 @@ document.addEventListener('DOMContentLoaded', () => {
                     showScreen('teams');
                     if (window.SyncManager) window.SyncManager.notifyChange();
                 } else {
-                    window.location.href = 'index.html';
+                    let targetUrl = 'index.html';
+                    const p = new URLSearchParams(window.location.search);
+                    const isPop = p.get('popout') === '1' || p.get('popup') === '1' || (window.SyncManager && window.SyncManager.isPopup);
+                    if (isPop) targetUrl += '?popout=1';
+                    if (window.bgMusic) {
+                        targetUrl += (targetUrl.includes('?') ? '&' : '?') + `audioTime=${Number(window.bgMusic.currentTime.toFixed(2))}`;
+                    }
+                    if (window.gameAudio) {
+                        targetUrl += `&muted=${window.gameAudio.isMuted ? '1' : '0'}`;
+                    }
+                    if (window.LMSAdapter && window.LMSAdapter.markInternalNavigation) {
+                        window.LMSAdapter.markInternalNavigation();
+                    }
+                    window.location.href = targetUrl;
                 }
             };
         });
@@ -699,12 +712,18 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // --- State Serialization & Restoration (Đồng bộ 2 chiều LMS <-> Cửa sổ mới) ---
     function getGameState() {
+        const bgMusic = window.bgMusic || (window.gameAudio ? window.gameAudio.music : null);
+        const curAudioTime = bgMusic ? Number(bgMusic.currentTime.toFixed(2)) : 0;
+        const isMuted = window.gameAudio ? window.gameAudio.isMuted : false;
+        const maxScore = scores && scores.length > 0 ? Math.max(...scores) : 0;
+
         return {
             page: 'game.html',
             activeScreen: screens.game && screens.game.classList.contains('active') ? 'game' : 'teams',
             currentLesson: currentLesson,
             currentLessonParam: currentLessonParam,
             currentLessonDisplay: currentLessonDisplay,
+            topicName: hsk3Data[currentLesson] ? hsk3Data[currentLesson].theme : currentLessonDisplay,
             teamCount: teamCount,
             scores: [...scores],
             currentTurn: currentTurn,
@@ -722,7 +741,12 @@ document.addEventListener('DOMContentLoaded', () => {
             startPhaseBtnHidden: startPhaseBtn ? startPhaseBtn.classList.contains('hidden') : true,
             startPhaseBtnText: startPhaseBtn ? startPhaseBtn.textContent : '',
             resultModalActive: document.getElementById('result-modal') ? document.getElementById('result-modal').classList.contains('active') : false,
-            winnerText: document.getElementById('winner-text') ? document.getElementById('winner-text').textContent : ''
+            winnerText: document.getElementById('winner-text') ? document.getElementById('winner-text').textContent : '',
+            winnerScore: maxScore,
+            // Đồng bộ âm thanh
+            isMuted: isMuted,
+            audioCurrentTime: curAudioTime,
+            audioPlaying: !isMuted && bgMusic && !bgMusic.paused
         };
     }
 
@@ -730,6 +754,22 @@ document.addEventListener('DOMContentLoaded', () => {
         if (!state) return;
         stopTimer();
         clearInterval(cooldownInterval);
+
+        // 1. Khôi phục trạng thái âm thanh
+        if (typeof state.isMuted === 'boolean' && window.gameAudio) {
+            window.gameAudio.setMuted(state.isMuted);
+        }
+
+        const bgMusic = window.bgMusic || (window.gameAudio ? window.gameAudio.music : null);
+        if (isFinite(state.audioCurrentTime) && bgMusic) {
+            try {
+                if (bgMusic.duration && state.audioCurrentTime >= bgMusic.duration) {
+                    bgMusic.currentTime = state.audioCurrentTime % bgMusic.duration;
+                } else {
+                    bgMusic.currentTime = state.audioCurrentTime;
+                }
+            } catch (e) {}
+        }
 
         if (typeof state.currentLesson === 'number' && hsk3Data[state.currentLesson]) {
             currentLesson = state.currentLesson;
@@ -843,6 +883,14 @@ document.addEventListener('DOMContentLoaded', () => {
             }
         } else {
             showScreen('teams');
+        }
+
+        // Tiếp tục phát nhạc nếu không mute và không có popup con đang hoạt động
+        const isHostWaiting = window.SyncManager && window.SyncManager.hasActiveChild && window.SyncManager.hasActiveChild();
+        if (window.gameAudio && !window.gameAudio.isMuted && !isHostWaiting) {
+            if (bgMusic && bgMusic.paused) {
+                window.safePlayAudio ? window.safePlayAudio(bgMusic) : bgMusic.play().catch(() => {});
+            }
         }
     }
 

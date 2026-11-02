@@ -11,10 +11,97 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Lexend:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="style.css?v=2.5">
+    <link rel="stylesheet" href="style.css?v=3.0">
+    <script>
+        // Early instant click handler (guarantees popup opens immediately even before full scripts load)
+        window.openGameInNewWindow = function (e) {
+            if (e && e.preventDefault) e.preventDefault();
+            const params = new URLSearchParams(window.location.search);
+            const isPop = params.get('popout') === '1' || params.get('popup') === '1' || (window.opener && (window.name === 'HSK3_Standalone_Game' || window.name === 'HSK3_GAME_POPUP'));
+            if (isPop) {
+                if (typeof window.closePopoutAndReturnToLMS === 'function') {
+                    window.closePopoutAndReturnToLMS();
+                } else {
+                    if (window.opener && !window.opener.closed) {
+                        try { window.opener.focus(); } catch (err) {}
+                    }
+                    window.close();
+                }
+                return;
+            }
+            if (typeof window._fullOpenGameInNewWindow === 'function') {
+                window._fullOpenGameInNewWindow(e);
+            }
+        };
+    </script>
 </head>
 
 <body>
+    <!-- Top Control Bar (Fixed Top Right: Popout Window, Sound - HSK 2 / HSK 4 Architecture) -->
+    <div class="top-controls">
+        <button id="popout-btn" class="control-btn" onclick="openGameInNewWindow(event)" title="Mở ở cửa sổ mới (Đồng bộ tiến trình)" aria-label="Mở ở cửa sổ mới">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" style="pointer-events: none;">
+                <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path>
+                <polyline points="15 3 21 3 21 9"></polyline>
+                <line x1="10" y1="14" x2="21" y2="3"></line>
+            </svg>
+        </button>
+        <button id="musicToggle" class="control-btn sound-control" onclick="toggleMusic(event)" title="Bật/Tắt nhạc nền" aria-label="Bật/Tắt nhạc nền">
+            <span class="icon">🔊</span>
+        </button>
+    </div>
+
+    <!-- LMS Toast Notification -->
+    <div id="lms-toast" class="lms-toast"></div>
+
+    <!-- Popout Active Sync Overlay (When playing in separate window - HSK 2 Architecture) -->
+    <div id="sync-active-modal" class="sync-modal" style="display: none; z-index: 2200;">
+        <div class="sync-modal-content glass">
+            <div id="sync-overlay-badge" class="sync-badge">
+                <span class="sync-dot"></span>
+                <span>ĐỒNG BỘ THỜI GIAN THỰC</span>
+            </div>
+            <div class="sync-icon-box">
+                <span style="font-size: 2.8rem; filter: drop-shadow(0 0 12px rgba(125,95,255,0.8));">🔮</span>
+            </div>
+
+            <h2 class="sync-title">Trò Chơi Đang Mở Ở Cửa Sổ Mới</h2>
+            <p class="sync-description">
+                Bạn đang chơi trên cửa sổ mới. Mọi câu hỏi, vị trí bình độc và điểm số đang được tự động đồng bộ về LMS theo thời gian thực.
+            </p>
+
+            <div class="sync-status-card">
+                <div class="sync-info-item">
+                    <span class="sync-info-label">Chủ đề</span>
+                    <span id="sync-overlay-topic" class="sync-info-val">-</span>
+                </div>
+                <div class="sync-info-item">
+                    <span class="sync-info-label">Trạng thái</span>
+                    <span id="sync-overlay-phase" class="sync-info-val">-</span>
+                </div>
+                <div class="sync-info-item">
+                    <span class="sync-info-label">Điểm số</span>
+                    <span id="sync-overlay-score" class="sync-info-val">0 đ</span>
+                </div>
+            </div>
+
+            <p style="color: rgba(255,255,255,0.7); font-size: 0.85rem; margin-top: 0.5rem; margin-bottom: 1.25rem;">
+                💡 <em>Khi bạn đóng cửa sổ đó, màn hình LMS này sẽ tự động quay trở lại đúng khoảnh khắc bạn đang chơi.</em>
+            </p>
+
+            <div class="sync-modal-actions">
+                <button class="btn-secondary sync-focus-btn" onclick="focusChildWindow()">
+                    🗗 Chuyển Sang Cửa Sổ Mới
+                </button>
+                <button class="btn-secondary sync-resume-btn" onclick="resumeInLmsWindow(true)">
+                    ▶ Tiếp Tục Chơi Tại Màn Hình Này
+                </button>
+            </div>
+        </div>
+    </div>
+    <!-- Legacy compatibility ID -->
+    <div id="popup-sync-overlay" style="display: none;"></div>
+
     <!-- Fixed Background Layers for crisp display on all mobile/tablet/desktop browsers -->
     <div class="bg-fixed-layer"></div>
     <div class="bg-overlay-layer"></div>
@@ -30,6 +117,7 @@
                                                      2 2 2 0 -1.5" />
             </filter>
         </svg>
+
         <!-- Team Selection (Initially Active) -->
         <section id="team-selection" class="screen active">
             <div class="witch-container boy-container sitting">
@@ -44,7 +132,7 @@
             <div class="header">
                 <h2>Số Lượng Đội Chơi</h2>
                 <div class="header-right">
-                    <button class="lms-window-btn" title="Hiển thị ở cửa sổ mới">
+                    <button class="lms-window-btn" onclick="openGameInNewWindow(event)" title="Hiển thị ở cửa sổ mới">
                         <span class="btn-icon">↗</span>
                         <span class="btn-text">Cửa sổ mới</span>
                     </button>
@@ -68,7 +156,7 @@
                     </div>
                 </div>
                 <div class="header-right">
-                    <button class="lms-window-btn" title="Hiển thị ở cửa sổ mới">
+                    <button class="lms-window-btn" onclick="openGameInNewWindow(event)" title="Hiển thị ở cửa sổ mới">
                         <span class="btn-icon">↗</span>
                         <span class="btn-text">Cửa sổ mới</span>
                     </button>
@@ -157,22 +245,6 @@
                 </div>
             </div>
         </div>
-        <!-- Popup Sync Overlay (Hiển thị trên LMS khi Cửa Sổ Mới đang hoạt động) -->
-        <div id="popup-sync-overlay" class="modal-overlay">
-            <div class="modal sync-modal">
-                <div class="sync-glow-orb">🔮</div>
-                <h2>Trò Chơi Đang Mở Ở Cửa Sổ Mới</h2>
-                <p class="sync-desc">Trò chơi đang hoạt động trên một cửa sổ riêng biệt để mang lại tầm nhìn và không gian tốt nhất.</p>
-                <div class="sync-status">
-                    <span class="pulse-dot"></span> Đang đồng bộ tiến trình trực tiếp...
-                </div>
-                <p class="sync-subtext">Khi bạn tắt cửa sổ mới đó, màn hình này sẽ tự động quay về khoảnh khắc đang chơi và tiếp tục liền mạch.</p>
-                <div class="sync-btn-group">
-                    <button id="resume-here-btn" class="huge-btn">Quay lại chơi tại đây</button>
-                    <button id="focus-popup-btn" class="back-btn">Chuyển sang Cửa Sổ Mới</button>
-                </div>
-            </div>
-        </div>
     </div>
 
     <!-- Potion Bubble Background -->
@@ -184,11 +256,11 @@
         <div class="bubble"></div>
     </div>
 
-    <script src="lms-adapter.js?v=2.5"></script>
-    <script src="sync-manager.js?v=2.5"></script>
-    <script src="data.js?v=2.5"></script>
-    <script src="audio-manager.js?v=2.5"></script>
-    <script src="game.js?v=2.5"></script>
+    <script src="lms-adapter.js?v=3.0"></script>
+    <script src="sync-manager.js?v=3.0"></script>
+    <script src="data.js?v=3.0"></script>
+    <script src="audio-manager.js?v=3.0"></script>
+    <script src="game.js?v=3.0"></script>
 </body>
 
 </html>

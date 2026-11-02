@@ -47,10 +47,28 @@ document.addEventListener('DOMContentLoaded', () => {
                     <div class="title">${themeName}</div>
                 `;
                 card.onclick = () => {
-                    let targetUrl = `game.html?${urlParam}`;
-                    if (window.SyncManager && window.SyncManager.isPopup) {
-                        targetUrl += '&popup=1';
+                    if (window.LMSAdapter) {
+                        window.LMSAdapter.playSynthesizedSound('select');
                     }
+                    if (window.LMSAdapter && window.LMSAdapter.markInternalNavigation) {
+                        window.LMSAdapter.markInternalNavigation();
+                    }
+
+                    let targetUrl = `game.html?${urlParam}`;
+                    const params = new URLSearchParams(window.location.search);
+                    const isPop = params.get('popout') === '1' || params.get('popup') === '1' || (window.SyncManager && window.SyncManager.isPopup);
+                    if (isPop) {
+                        targetUrl += '&popout=1';
+                    }
+
+                    // Kế thừa chính xác currentTime và mute state khi chuyển từ menu sang game
+                    if (window.bgMusic) {
+                        targetUrl += `&audioTime=${Number(window.bgMusic.currentTime.toFixed(2))}`;
+                    }
+                    if (window.gameAudio) {
+                        targetUrl += `&muted=${window.gameAudio.isMuted ? '1' : '0'}`;
+                    }
+
                     window.location.href = targetUrl;
                 };
                 lessonGrid.appendChild(card);
@@ -59,12 +77,14 @@ document.addEventListener('DOMContentLoaded', () => {
 
         // Event Listeners
         document.getElementById('start-btn').onclick = () => {
+            if (window.LMSAdapter) window.LMSAdapter.playSynthesizedSound('click');
             showScreen('lessons');
             if (window.SyncManager) window.SyncManager.notifyChange();
         };
         
         document.querySelectorAll('.back-btn').forEach(btn => {
             btn.onclick = () => {
+                if (window.LMSAdapter) window.LMSAdapter.playSynthesizedSound('tap');
                 if (screens.lessons && screens.lessons.classList.contains('active')) {
                     showScreen('splash');
                     if (window.SyncManager) window.SyncManager.notifyChange();
@@ -77,7 +97,8 @@ document.addEventListener('DOMContentLoaded', () => {
             window.SyncManager.registerGame({
                 getState: () => ({
                     page: 'index.html',
-                    activeScreen: (screens.lessons && screens.lessons.classList.contains('active')) ? 'lessons' : 'splash'
+                    activeScreen: (screens.lessons && screens.lessons.classList.contains('active')) ? 'lessons' : 'splash',
+                    topicName: 'Đang chọn chủ đề'
                 }),
                 applyState: (state) => {
                     if (!state) return;
