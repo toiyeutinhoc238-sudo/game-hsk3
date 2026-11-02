@@ -64,7 +64,9 @@
             const raw = storage.getItem(STORAGE_KEY);
             if (raw) {
                 const parsed = JSON.parse(raw);
-                if (parsed && (Date.now() - (parsed.timestamp || 0) < 7200000)) {
+                const urlSession = params.get('session');
+                const isSessionValid = !urlSession || !parsed.syncSessionId || parsed.syncSessionId === urlSession;
+                if (parsed && isSessionValid && (Date.now() - (parsed.timestamp || 0) < 7200000)) {
                     if (!initialSyncedState || (parsed.timestamp && parsed.timestamp > (initialSyncedState.timestamp || 0))) {
                         initialSyncedState = parsed;
                     }

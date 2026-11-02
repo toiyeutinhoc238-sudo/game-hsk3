@@ -203,7 +203,10 @@ document.addEventListener('DOMContentLoaded', () => {
             document.getElementById('main-menu-btn').onclick = () => window.location.href = 'index.html';
         }
         document.getElementById('play-again-btn').onclick = () => {
-            document.getElementById('result-modal').classList.remove('active');
+            const resModal = document.getElementById('result-modal');
+            if (resModal) resModal.classList.remove('active');
+            const winnerTextEl = document.getElementById('winner-text');
+            if (winnerTextEl) winnerTextEl.textContent = '';
             initGame();
         };
         document.getElementById('modal-close').onclick = () => {
@@ -233,6 +236,10 @@ document.addEventListener('DOMContentLoaded', () => {
     function initGame() {
         stopTimer();
         isGameOver = false;
+        const winnerTextEl = document.getElementById('winner-text');
+        if (winnerTextEl) winnerTextEl.textContent = '';
+        const resModal = document.getElementById('result-modal');
+        if (resModal) resModal.classList.remove('active');
         if (window.gameAudio && !window.gameAudio.isMuted) {
             window.gameAudio.music.play().catch(e => console.log("Music play failed"));
         }
@@ -767,6 +774,9 @@ document.addEventListener('DOMContentLoaded', () => {
         const maxScore = scores && scores.length > 0 ? Math.max(...scores) : 0;
         const howToPlayModal = document.getElementById('how-to-play-modal');
         const isHowToPlayActive = howToPlayModal ? howToPlayModal.classList.contains('active') : false;
+        const resModal = document.getElementById('result-modal');
+        const isResModalActive = resModal ? resModal.classList.contains('active') : false;
+        const hasActuallyEnded = !!(isGameOver || isResModalActive);
 
         return {
             page: 'game.html',
@@ -784,17 +794,17 @@ document.addEventListener('DOMContentLoaded', () => {
             poisonIndices: [...poisonIndices],
             revealedIndices: Array.from(revealedIndices),
             eliminatedTeams: Array.from(eliminatedTeams),
-            isGameOver: isGameOver,
+            isGameOver: hasActuallyEnded,
             gameWords: (currentSessionWords && currentSessionWords.length > 0) ? currentSessionWords : (this.gameWords || null),
             timeLeft: timeLeft,
-            timerActive: !!timerInterval && timeLeft > 0,
+            timerActive: !hasActuallyEnded && !!timerInterval && timeLeft > 0,
             phaseIndicatorText: phaseIndicator ? phaseIndicator.textContent : '',
             startPhaseBtnHidden: startPhaseBtn ? startPhaseBtn.classList.contains('hidden') : true,
             startPhaseBtnText: startPhaseBtn ? startPhaseBtn.textContent : '',
             howToPlayModalActive: isHowToPlayActive,
-            resultModalActive: document.getElementById('result-modal') ? document.getElementById('result-modal').classList.contains('active') : false,
-            winnerText: document.getElementById('winner-text') ? document.getElementById('winner-text').textContent : '',
-            reviewListHTML: document.getElementById('review-list') ? document.getElementById('review-list').innerHTML : '',
+            resultModalActive: isResModalActive,
+            winnerText: (hasActuallyEnded && document.getElementById('winner-text')) ? document.getElementById('winner-text').textContent : '',
+            reviewListHTML: (hasActuallyEnded && document.getElementById('review-list')) ? document.getElementById('review-list').innerHTML : '',
             winnerScore: maxScore,
             // Đồng bộ âm thanh
             isMuted: isMuted,
@@ -854,10 +864,12 @@ document.addEventListener('DOMContentLoaded', () => {
         }
 
         const isHostWaiting = window.SyncManager && window.SyncManager.hasActiveChild && window.SyncManager.hasActiveChild();
-        const isEnded = !!(state.isGameOver || state.resultModalActive || (state.winnerText && state.winnerText.length > 5));
+        const isEnded = !!(state.isGameOver || state.resultModalActive);
+        const resModal = document.getElementById('result-modal');
 
-        // Khôi phục màn hình hiển thị
-        if (state.activeScreen === 'game' || isEnded) {
+        if (isEnded) {
+            isGameOver = true;
+            stopTimer();
             showScreen('game');
 
             const themeData = hsk3Data[currentLesson];
@@ -870,84 +882,93 @@ document.addEventListener('DOMContentLoaded', () => {
             updateScores();
             renderGrid();
 
-            // Khôi phục các ô chữ đã lật
-            const words = (currentSessionWords && currentSessionWords.length > 0) ? currentSessionWords : this.gameWords;
-            revealedIndices.forEach(idx => {
-                const tile = document.querySelector(`.tile[data-index="${idx}"]`);
-                if (tile && words && words[idx]) {
-                    const word = words[idx];
-                    const isPoison = poisonIndices.includes(idx);
-                    if (isPoison) {
-                        tile.classList.add('revealed-poison', 'tile-disappear');
-                        tile.innerHTML = `
-                            <div class="reveal-overlay">
-                                <div class="hz-mini" lang="zh-CN">${word.hz}</div>
-                                <div class="py">${word.py}</div>
-                                <div class="mn">${word.mn.toLowerCase()}</div>
-                                <div class="reveal-result">BÌNH ĐỘC!!!</div>
-                            </div>
-                        `;
-                    } else {
-                        tile.classList.add('revealed-safe', 'tile-disappear');
-                        tile.innerHTML = `
-                            <div class="reveal-overlay">
-                                <div class="hz-mini" lang="zh-CN">${word.hz}</div>
-                                <div class="py">${word.py}</div>
-                                <div class="mn">${word.mn.toLowerCase()}</div>
-                                <div class="reveal-result">AN TOÀN</div>
-                            </div>
-                        `;
+            const winnerTextEl = document.getElementById('winner-text');
+            if (winnerTextEl && state.winnerText) {
+                winnerTextEl.textContent = state.winnerText;
+            }
+            populateReviewList(currentLesson, state.reviewListHTML);
+            if (resModal) resModal.classList.add('active');
+        } else {
+            isGameOver = false;
+            if (resModal) resModal.classList.remove('active');
+
+            // Khôi phục màn hình hiển thị
+            if (state.activeScreen === 'game') {
+                showScreen('game');
+
+                const themeData = hsk3Data[currentLesson];
+                if (themeData) {
+                    document.getElementById('current-lesson-title').textContent = currentLessonDisplay || `Chủ đề ${currentLesson + 1}`;
+                    document.getElementById('current-lesson-name').textContent = themeData.theme;
+                }
+
+                renderTeams();
+                updateScores();
+                renderGrid();
+
+                // Khôi phục các ô chữ đã lật
+                const words = (currentSessionWords && currentSessionWords.length > 0) ? currentSessionWords : this.gameWords;
+                revealedIndices.forEach(idx => {
+                    const tile = document.querySelector(`.tile[data-index="${idx}"]`);
+                    if (tile && words && words[idx]) {
+                        const word = words[idx];
+                        const isPoison = poisonIndices.includes(idx);
+                        if (isPoison) {
+                            tile.classList.add('revealed-poison', 'tile-disappear');
+                            tile.innerHTML = `
+                                <div class="reveal-overlay">
+                                    <div class="hz-mini" lang="zh-CN">${word.hz}</div>
+                                    <div class="py">${word.py}</div>
+                                    <div class="mn">${word.mn.toLowerCase()}</div>
+                                    <div class="reveal-result">BÌNH ĐỘC!!!</div>
+                                </div>
+                            `;
+                        } else {
+                            tile.classList.add('revealed-safe', 'tile-disappear');
+                            tile.innerHTML = `
+                                <div class="reveal-overlay">
+                                    <div class="hz-mini" lang="zh-CN">${word.hz}</div>
+                                    <div class="py">${word.py}</div>
+                                    <div class="mn">${word.mn.toLowerCase()}</div>
+                                    <div class="reveal-result">AN TOÀN</div>
+                                </div>
+                            `;
+                        }
                     }
-                }
-            });
-
-            // Khôi phục banner thông báo và nút chuyển giai đoạn
-            if (state.phaseIndicatorText) {
-                phaseIndicator.textContent = state.phaseIndicatorText;
-            }
-
-            if (state.startPhaseBtnHidden) {
-                startPhaseBtn.classList.add('hidden');
-            } else {
-                startPhaseBtn.classList.remove('hidden');
-            }
-            if (state.startPhaseBtnText) {
-                startPhaseBtn.textContent = state.startPhaseBtnText;
-            }
-            if (stage === 'POISONING') {
-                startPhaseBtn.onclick = nextPoisoningTeam;
-                document.querySelectorAll('.team-card').forEach((c, i) => {
-                    c.classList.toggle('active', i === poisoningTeamIndex);
                 });
-            } else {
-                startPhaseBtn.onclick = startPlaying;
-                document.querySelectorAll('.team-card').forEach((c, i) => {
-                    c.classList.toggle('active', i === currentTurn);
-                });
-            }
 
-            // Khôi phục kết quả hoặc đồng hồ đếm ngược
-            if (isEnded) {
-                stopTimer();
-                isGameOver = true;
-                const winnerTextEl = document.getElementById('winner-text');
-                if (winnerTextEl && state.winnerText) {
-                    winnerTextEl.textContent = state.winnerText;
+                // Khôi phục banner thông báo và nút chuyển giai đoạn
+                if (state.phaseIndicatorText) {
+                    phaseIndicator.textContent = state.phaseIndicatorText;
                 }
-                populateReviewList(currentLesson, state.reviewListHTML);
-                const resModal = document.getElementById('result-modal');
-                if (resModal) resModal.classList.add('active');
-            } else {
-                const resModal = document.getElementById('result-modal');
-                if (resModal) resModal.classList.remove('active');
+
+                if (state.startPhaseBtnHidden) {
+                    startPhaseBtn.classList.add('hidden');
+                } else {
+                    startPhaseBtn.classList.remove('hidden');
+                }
+                if (state.startPhaseBtnText) {
+                    startPhaseBtn.textContent = state.startPhaseBtnText;
+                }
+                if (stage === 'POISONING') {
+                    startPhaseBtn.onclick = nextPoisoningTeam;
+                    document.querySelectorAll('.team-card').forEach((c, i) => {
+                        c.classList.toggle('active', i === poisoningTeamIndex);
+                    });
+                } else {
+                    startPhaseBtn.onclick = startPlaying;
+                    document.querySelectorAll('.team-card').forEach((c, i) => {
+                        c.classList.toggle('active', i === currentTurn);
+                    });
+                }
 
                 if (stage === 'PLAYING' && !isGameOver && !isHostWaiting) {
                     const remaining = typeof state.timeLeft === 'number' && state.timeLeft > 0 ? state.timeLeft : 15;
                     startTimer(remaining, nextTurn);
                 }
+            } else {
+                showScreen('teams');
             }
-        } else {
-            showScreen('teams');
         }
 
         // Khôi phục trạng thái bảng luật chơi (áp dụng cho cả màn hình chọn đội và màn chơi)
