@@ -5,13 +5,16 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, viewport-fit=cover">
     <meta name="google" content="notranslate">
+    <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+    <meta http-equiv="Pragma" content="no-cache">
+    <meta http-equiv="Expires" content="0">
     <title>HSK 3 - Thuốc độc của phù thuỷ</title>
     <!-- Khải Thể Webfont chuẩn thư pháp HSK (LXGW WenKai) -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/lxgw-wenkai-webfont@1.1.0/style.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Lexend:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="style.css?v=3.0">
+    <link rel="stylesheet" href="style.css?v=3.2">
     <script>
         // Early instant click handler (guarantees popup opens immediately even before full scripts load)
         window.openGameInNewWindow = function (e) {
@@ -238,7 +241,18 @@
                 <h2 id="winner-text">Chiến Thắng!</h2>
                 <div class="review-section">
                     <h3>Ôn tập từ vựng:</h3>
-                    <div id="review-list" class="review-list"></div>
+                    <div id="review-list" class="review-list">
+                        <table class="mystic-table">
+                            <thead>
+                                <tr>
+                                    <th>Từ vựng</th>
+                                    <th>Phiên âm</th>
+                                    <th>Nghĩa</th>
+                                </tr>
+                            </thead>
+                            <tbody id="review-table-body"></tbody>
+                        </table>
+                    </div>
                 </div>
                 <div class="result-actions">
                     <button id="play-again-btn" class="mystic-btn">Chơi Lại</button>
@@ -256,11 +270,11 @@
         <div class="bubble"></div>
     </div>
 
-    <script src="lms-adapter.js?v=3.0"></script>
-    <script src="sync-manager.js?v=3.0"></script>
-    <script src="data.js?v=3.0"></script>
-    <script src="audio-manager.js?v=3.0"></script>
-    <script src="game.js?v=3.0"></script>
+    <script src="lms-adapter.js?v=3.2"></script>
+    <script src="sync-manager.js?v=3.2"></script>
+    <script src="data.js?v=3.2"></script>
+    <script src="audio-manager.js?v=3.2"></script>
+    <script src="game.js?v=3.2"></script>
 </body>
 
 </html>

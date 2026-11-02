@@ -613,13 +613,43 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
-    function buildReviewTableHtml(lessonIdx) {
-        const themeData = (hsk3Data && hsk3Data[lessonIdx]) ? hsk3Data[lessonIdx] : null;
-        if (!themeData || !Array.isArray(themeData.words)) {
-            return '<p style="text-align: center; color: rgba(255,255,255,0.7);">Không có dữ liệu từ vựng.</p>';
+    function populateReviewList(lessonIdx, customHtml = null) {
+        const reviewList = document.getElementById('review-list');
+        if (!reviewList) return;
+
+        if (customHtml && customHtml.trim().length > 30) {
+            reviewList.innerHTML = customHtml;
+            return;
         }
+
+        let words = null;
+        if (typeof lessonIdx === 'number' && hsk3Data && hsk3Data[lessonIdx] && Array.isArray(hsk3Data[lessonIdx].words)) {
+            words = hsk3Data[lessonIdx].words;
+        } else if (Array.isArray(currentSessionWords) && currentSessionWords.length > 0) {
+            words = currentSessionWords;
+        }
+
+        if (!words || words.length === 0) {
+            const p = new URLSearchParams(window.location.search);
+            const paramKey = Array.from(p.keys()).find(k => k.startsWith('chude'));
+            if (paramKey) {
+                const match = paramKey.match(/chude(\d+)/);
+                if (match) {
+                    const idx = parseInt(match[1]) - 1;
+                    if (hsk3Data && hsk3Data[idx] && Array.isArray(hsk3Data[idx].words)) {
+                        words = hsk3Data[idx].words;
+                    }
+                }
+            }
+        }
+
+        if (!words || words.length === 0) {
+            reviewList.innerHTML = '<p style="text-align: center; color: rgba(255,255,255,0.7); padding: 1rem;">Không có dữ liệu từ vựng.</p>';
+            return;
+        }
+
         let rows = '';
-        themeData.words.forEach(w => {
+        words.forEach(w => {
             rows += `
                 <tr>
                     <td class="hz" lang="zh-CN">${w.hz}</td>
@@ -628,7 +658,8 @@ document.addEventListener('DOMContentLoaded', () => {
                 </tr>
             `;
         });
-        return `
+
+        reviewList.innerHTML = `
             <table class="mystic-table">
                 <thead>
                     <tr>
@@ -644,16 +675,19 @@ document.addEventListener('DOMContentLoaded', () => {
         `;
     }
 
+    function buildReviewTableHtml(lessonIdx) {
+        populateReviewList(lessonIdx);
+        const reviewList = document.getElementById('review-list');
+        return reviewList ? reviewList.innerHTML : '';
+    }
+
     function endGame(msg) {
         stopTimer();
         isGameOver = true;
         const winnerTextEl = document.getElementById('winner-text');
         if (winnerTextEl) winnerTextEl.textContent = msg;
 
-        const reviewList = document.getElementById('review-list');
-        if (reviewList) {
-            reviewList.innerHTML = buildReviewTableHtml(currentLesson);
-        }
+        populateReviewList(currentLesson);
 
         // Báo cáo điểm số và tiến độ tới hệ thống LMS (Moodle, Canvas, SCORM, iFrame)
         if (window.LMSAdapter) {
@@ -820,9 +854,10 @@ document.addEventListener('DOMContentLoaded', () => {
         }
 
         const isHostWaiting = window.SyncManager && window.SyncManager.hasActiveChild && window.SyncManager.hasActiveChild();
+        const isEnded = !!(state.isGameOver || state.resultModalActive || (state.winnerText && state.winnerText.length > 5));
 
         // Khôi phục màn hình hiển thị
-        if (state.activeScreen === 'game') {
+        if (state.activeScreen === 'game' || isEnded) {
             showScreen('game');
 
             const themeData = hsk3Data[currentLesson];
@@ -892,21 +927,14 @@ document.addEventListener('DOMContentLoaded', () => {
             }
 
             // Khôi phục kết quả hoặc đồng hồ đếm ngược
-            if (state.isGameOver || (state.resultModalActive && state.winnerText)) {
+            if (isEnded) {
                 stopTimer();
                 isGameOver = true;
                 const winnerTextEl = document.getElementById('winner-text');
                 if (winnerTextEl && state.winnerText) {
                     winnerTextEl.textContent = state.winnerText;
                 }
-                const reviewList = document.getElementById('review-list');
-                if (reviewList) {
-                    if (state.reviewListHTML && state.reviewListHTML.trim().length > 30) {
-                        reviewList.innerHTML = state.reviewListHTML;
-                    } else {
-                        reviewList.innerHTML = buildReviewTableHtml(currentLesson);
-                    }
-                }
+                populateReviewList(currentLesson, state.reviewListHTML);
                 const resModal = document.getElementById('result-modal');
                 if (resModal) resModal.classList.add('active');
             } else {
