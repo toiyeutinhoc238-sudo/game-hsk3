@@ -124,8 +124,24 @@
             }
         }
 
-        if (state.isGameOver && badgeEl) {
-            badgeEl.innerHTML = `<span class="sync-dot" style="background:#ef4444;box-shadow:0 0 8px #ef4444;"></span><span>TRẬN ĐẤU ĐÃ KẾT THÚC</span>`;
+        if (state.isGameOver) {
+            if (badgeEl) {
+                badgeEl.innerHTML = `<span class="sync-dot" style="background:#ef4444;box-shadow:0 0 8px #ef4444;"></span><span>TRẬN ĐẤU ĐÃ KẾT THÚC</span>`;
+            }
+            const modal = document.getElementById('sync-active-modal');
+            const titleEl = modal ? modal.querySelector('.sync-title') : null;
+            const descEl = modal ? modal.querySelector('.sync-description') : null;
+            const resumeBtn = modal ? modal.querySelector('.sync-resume-btn') : null;
+            if (titleEl) {
+                titleEl.textContent = state.winnerText ? "Chiến Thắng!" : "Trận Đấu Đã Kết Thúc";
+                titleEl.style.color = "var(--secondary, #00d2d3)";
+            }
+            if (descEl && state.winnerText) {
+                descEl.textContent = state.winnerText;
+            }
+            if (resumeBtn) {
+                resumeBtn.textContent = "📊 Xem Kết Quả & Ôn Tập Tại Màn Hình Này";
+            }
         }
     }
 

@@ -613,12 +613,22 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
-    function endGame(msg) {
-        stopTimer();
-        isGameOver = true;
-        document.getElementById('winner-text').textContent = msg;
-        const reviewList = document.getElementById('review-list');
-        reviewList.innerHTML = `
+    function buildReviewTableHtml(lessonIdx) {
+        const themeData = (hsk3Data && hsk3Data[lessonIdx]) ? hsk3Data[lessonIdx] : null;
+        if (!themeData || !Array.isArray(themeData.words)) {
+            return '<p style="text-align: center; color: rgba(255,255,255,0.7);">Không có dữ liệu từ vựng.</p>';
+        }
+        let rows = '';
+        themeData.words.forEach(w => {
+            rows += `
+                <tr>
+                    <td class="hz" lang="zh-CN">${w.hz}</td>
+                    <td class="py">${w.py}</td>
+                    <td class="mn">${(w.mn || '').toLowerCase()}</td>
+                </tr>
+            `;
+        });
+        return `
             <table class="mystic-table">
                 <thead>
                     <tr>
@@ -627,21 +637,23 @@ document.addEventListener('DOMContentLoaded', () => {
                         <th>Nghĩa</th>
                     </tr>
                 </thead>
-                <tbody id="review-table-body"></tbody>
+                <tbody id="review-table-body">
+                    ${rows}
+                </tbody>
             </table>
         `;
-        
-        const tableBody = document.getElementById('review-table-body');
-        const allWords = hsk3Data[currentLesson].words;
-        allWords.forEach(w => {
-            const tr = document.createElement('tr');
-            tr.innerHTML = `
-                <td class="hz" lang="zh-CN">${w.hz}</td>
-                <td class="py">${w.py}</td>
-                <td class="mn">${w.mn.toLowerCase()}</td>
-            `;
-            tableBody.appendChild(tr);
-        });
+    }
+
+    function endGame(msg) {
+        stopTimer();
+        isGameOver = true;
+        const winnerTextEl = document.getElementById('winner-text');
+        if (winnerTextEl) winnerTextEl.textContent = msg;
+
+        const reviewList = document.getElementById('review-list');
+        if (reviewList) {
+            reviewList.innerHTML = buildReviewTableHtml(currentLesson);
+        }
 
         // Báo cáo điểm số và tiến độ tới hệ thống LMS (Moodle, Canvas, SCORM, iFrame)
         if (window.LMSAdapter) {
@@ -657,7 +669,9 @@ document.addEventListener('DOMContentLoaded', () => {
                 window.gameAudio.music.pause();
             }
             playSound('win');
-            document.getElementById('result-modal').classList.add('active');
+            const resModal = document.getElementById('result-modal');
+            if (resModal) resModal.classList.add('active');
+            if (window.SyncManager) window.SyncManager.notifyChange();
         }, 1500);
 
         if (window.SyncManager) window.SyncManager.notifyChange();
@@ -746,6 +760,7 @@ document.addEventListener('DOMContentLoaded', () => {
             howToPlayModalActive: isHowToPlayActive,
             resultModalActive: document.getElementById('result-modal') ? document.getElementById('result-modal').classList.contains('active') : false,
             winnerText: document.getElementById('winner-text') ? document.getElementById('winner-text').textContent : '',
+            reviewListHTML: document.getElementById('review-list') ? document.getElementById('review-list').innerHTML : '',
             winnerScore: maxScore,
             // Đồng bộ âm thanh
             isMuted: isMuted,
@@ -881,15 +896,16 @@ document.addEventListener('DOMContentLoaded', () => {
                 stopTimer();
                 isGameOver = true;
                 const winnerTextEl = document.getElementById('winner-text');
-                if (winnerTextEl && state.winnerText) winnerTextEl.textContent = state.winnerText;
-                const reviewTableBody = document.getElementById('review-table-body');
-                if (reviewTableBody && hsk3Data[currentLesson]) {
-                    reviewTableBody.innerHTML = '';
-                    hsk3Data[currentLesson].words.forEach(w => {
-                        const tr = document.createElement('tr');
-                        tr.innerHTML = `<td class="hz" lang="zh-CN">${w.hz}</td><td class="py">${w.py}</td><td class="mn">${w.mn.toLowerCase()}</td>`;
-                        reviewTableBody.appendChild(tr);
-                    });
+                if (winnerTextEl && state.winnerText) {
+                    winnerTextEl.textContent = state.winnerText;
+                }
+                const reviewList = document.getElementById('review-list');
+                if (reviewList) {
+                    if (state.reviewListHTML && state.reviewListHTML.trim().length > 30) {
+                        reviewList.innerHTML = state.reviewListHTML;
+                    } else {
+                        reviewList.innerHTML = buildReviewTableHtml(currentLesson);
+                    }
                 }
                 const resModal = document.getElementById('result-modal');
                 if (resModal) resModal.classList.add('active');
