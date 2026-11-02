@@ -24,7 +24,7 @@
                     window.closePopoutAndReturnToLMS();
                 } else {
                     if (window.opener && !window.opener.closed) {
-                        try { window.opener.focus(); } catch (err) {}
+                        try { window.opener.focus(); } catch (err) { }
                     }
                     window.close();
                 }
@@ -40,14 +40,17 @@
 <body>
     <!-- Top Control Bar (Fixed Top Right: Popout Window, Sound - HSK 2 / HSK 4 Architecture) -->
     <div class="top-controls">
-        <button id="popout-btn" class="control-btn" onclick="openGameInNewWindow(event)" title="Mở ở cửa sổ mới (Đồng bộ tiến trình)" aria-label="Mở ở cửa sổ mới">
-            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" style="pointer-events: none;">
+        <button id="popout-btn" class="control-btn" onclick="openGameInNewWindow(event)"
+            title="Mở ở cửa sổ mới (Đồng bộ tiến trình)" aria-label="Mở ở cửa sổ mới">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"
+                stroke-linecap="round" stroke-linejoin="round" style="pointer-events: none;">
                 <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path>
                 <polyline points="15 3 21 3 21 9"></polyline>
                 <line x1="10" y1="14" x2="21" y2="3"></line>
             </svg>
         </button>
-        <button id="musicToggle" class="control-btn sound-control" onclick="toggleMusic(event)" title="Bật/Tắt nhạc nền" aria-label="Bật/Tắt nhạc nền">
+        <button id="musicToggle" class="control-btn sound-control" onclick="toggleMusic(event)" title="Bật/Tắt nhạc nền"
+            aria-label="Bật/Tắt nhạc nền">
             <span class="icon">🔊</span>
         </button>
     </div>
@@ -68,7 +71,8 @@
 
             <h2 class="sync-title">Trò Chơi Đang Mở Ở Cửa Sổ Mới</h2>
             <p class="sync-description">
-                Bạn đang chơi trên cửa sổ mới. Mọi tiến trình và âm thanh đang được tự động đồng bộ về LMS theo thời gian thực.
+                Bạn đang chơi trên cửa sổ mới. Mọi tiến trình và âm thanh đang được tự động đồng bộ về LMS theo thời
+                gian thực.
             </p>
 
             <div class="sync-status-card">
@@ -87,7 +91,8 @@
             </div>
 
             <p style="color: rgba(255,255,255,0.7); font-size: 0.85rem; margin-top: 0.5rem; margin-bottom: 1.25rem;">
-                💡 <em>Khi bạn đóng cửa sổ đó, màn hình LMS này sẽ tự động quay trở lại đúng khoảnh khắc bạn đang chơi.</em>
+                💡 <em>Khi bạn đóng cửa sổ đó, màn hình LMS này sẽ tự động quay trở lại đúng khoảnh khắc bạn đang
+                    chơi.</em>
             </p>
 
             <div class="sync-modal-actions">

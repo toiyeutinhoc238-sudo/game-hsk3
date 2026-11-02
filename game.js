@@ -145,17 +145,18 @@ document.addEventListener('DOMContentLoaded', () => {
         }
         showScreen('teams');
 
-        // Show Instructions automatically on game start (trừ khi đang chạy ở chế độ Cửa Sổ Mới Popup)
+        // Bảng luật chơi: Mặc định hiển thị khi vào chủ đề, đồng bộ 2 chiều qua SyncManager
         const instructionModal = document.getElementById('how-to-play-modal');
         if (instructionModal) {
-            if (window.SyncManager && window.SyncManager.isPopup) {
-                instructionModal.classList.remove('active');
-            } else {
-                instructionModal.classList.add('active');
-                document.getElementById('close-how-to-btn').onclick = () => {
+            const closeBtn = document.getElementById('close-how-to-btn');
+            if (closeBtn) {
+                closeBtn.onclick = () => {
+                    if (window.LMSAdapter) window.LMSAdapter.playSynthesizedSound('tap');
                     instructionModal.classList.remove('active');
+                    if (window.SyncManager) window.SyncManager.notifyChange();
                 };
             }
+            instructionModal.classList.add('active');
         }
 
         // Event Listeners
@@ -716,6 +717,8 @@ document.addEventListener('DOMContentLoaded', () => {
         const curAudioTime = bgMusic ? Number(bgMusic.currentTime.toFixed(2)) : 0;
         const isMuted = window.gameAudio ? window.gameAudio.isMuted : false;
         const maxScore = scores && scores.length > 0 ? Math.max(...scores) : 0;
+        const howToPlayModal = document.getElementById('how-to-play-modal');
+        const isHowToPlayActive = howToPlayModal ? howToPlayModal.classList.contains('active') : false;
 
         return {
             page: 'game.html',
@@ -740,6 +743,7 @@ document.addEventListener('DOMContentLoaded', () => {
             phaseIndicatorText: phaseIndicator ? phaseIndicator.textContent : '',
             startPhaseBtnHidden: startPhaseBtn ? startPhaseBtn.classList.contains('hidden') : true,
             startPhaseBtnText: startPhaseBtn ? startPhaseBtn.textContent : '',
+            howToPlayModalActive: isHowToPlayActive,
             resultModalActive: document.getElementById('result-modal') ? document.getElementById('result-modal').classList.contains('active') : false,
             winnerText: document.getElementById('winner-text') ? document.getElementById('winner-text').textContent : '',
             winnerScore: maxScore,
@@ -883,6 +887,16 @@ document.addEventListener('DOMContentLoaded', () => {
             }
         } else {
             showScreen('teams');
+        }
+
+        // Khôi phục trạng thái bảng luật chơi (áp dụng cho cả màn hình chọn đội và màn chơi)
+        const instructionModal = document.getElementById('how-to-play-modal');
+        if (instructionModal && typeof state.howToPlayModalActive === 'boolean') {
+            if (state.howToPlayModalActive) {
+                instructionModal.classList.add('active');
+            } else {
+                instructionModal.classList.remove('active');
+            }
         }
 
         // Tiếp tục phát nhạc nếu không mute và không có popup con đang hoạt động

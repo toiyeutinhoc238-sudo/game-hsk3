@@ -46,17 +46,19 @@
     let initialSyncedState = null;
     if (isPopout || params.get('resume_sync') === '1') {
         try {
+            if (window.opener && window.opener.__HSK3_LATEST_STATE__) {
+                initialSyncedState = window.opener.__HSK3_LATEST_STATE__;
+            }
+        } catch (e) {}
+        try {
             const raw = storage.getItem(STORAGE_KEY);
             if (raw) {
                 const parsed = JSON.parse(raw);
                 if (parsed && (Date.now() - (parsed.timestamp || 0) < 7200000)) {
-                    initialSyncedState = parsed;
+                    if (!initialSyncedState || (parsed.timestamp && parsed.timestamp > (initialSyncedState.timestamp || 0))) {
+                        initialSyncedState = parsed;
+                    }
                 }
-            }
-        } catch (e) {}
-        try {
-            if (!initialSyncedState && window.opener && window.opener.__HSK3_LATEST_STATE__) {
-                initialSyncedState = window.opener.__HSK3_LATEST_STATE__;
             }
         } catch (e) {}
     }
@@ -86,15 +88,25 @@
             if (state.isGameOver) {
                 phaseEl.textContent = "Đã kết thúc";
                 phaseEl.style.color = "var(--secondary, #00d2d3)";
+            } else if (state.howToPlayModalActive) {
+                phaseEl.textContent = "Xem luật chơi";
+                phaseEl.style.color = "#ffeb3b";
+            } else if (state.activeScreen === 'teams') {
+                phaseEl.textContent = "Chọn số đội";
+                phaseEl.style.color = "#55efc4";
             } else if (state.stage === 'POISONING') {
                 phaseEl.textContent = `Trời Tối: Đội ${state.poisoningTeamIndex !== undefined ? state.poisoningTeamIndex + 1 : 1} giấu độc`;
+                phaseEl.style.color = "#55efc4";
             } else {
                 phaseEl.textContent = `Trời Sáng: Lượt Đội ${state.currentTurn !== undefined ? state.currentTurn + 1 : 1}`;
+                phaseEl.style.color = "#55efc4";
             }
         }
 
         if (scoreEl) {
-            if (Array.isArray(state.scores) && state.scores.length > 0) {
+            if (state.activeScreen === 'teams') {
+                scoreEl.textContent = "Chưa chọn đội";
+            } else if (Array.isArray(state.scores) && state.scores.length > 0) {
                 const teamScores = state.scores.slice(0, state.teamCount || 2).map((s, i) => `Đ${i + 1}: ${s}đ`).join(' | ');
                 scoreEl.textContent = teamScores;
             } else {
