@@ -187,8 +187,8 @@ document.addEventListener('DOMContentLoaded', () => {
         document.querySelectorAll('.team-btn').forEach(btn => {
             btn.onclick = () => {
                 teamCount = parseInt(btn.dataset.teams);
-                initGame();
                 showScreen('game');
+                initGame();
                 if (window.SyncManager) window.SyncManager.notifyChange();
             };
         });
@@ -804,6 +804,8 @@ document.addEventListener('DOMContentLoaded', () => {
             this.gameWords = state.gameWords;
         }
 
+        const isHostWaiting = window.SyncManager && window.SyncManager.hasActiveChild && window.SyncManager.hasActiveChild();
+
         // Khôi phục màn hình hiển thị
         if (state.activeScreen === 'game') {
             showScreen('game');
@@ -815,6 +817,7 @@ document.addEventListener('DOMContentLoaded', () => {
             }
 
             renderTeams();
+            updateScores();
             renderGrid();
 
             // Khôi phục các ô chữ đã lật
@@ -874,13 +877,27 @@ document.addEventListener('DOMContentLoaded', () => {
             }
 
             // Khôi phục kết quả hoặc đồng hồ đếm ngược
-            if (state.resultModalActive && state.winnerText) {
-                endGame(state.winnerText);
+            if (state.isGameOver || (state.resultModalActive && state.winnerText)) {
+                stopTimer();
+                isGameOver = true;
+                const winnerTextEl = document.getElementById('winner-text');
+                if (winnerTextEl && state.winnerText) winnerTextEl.textContent = state.winnerText;
+                const reviewTableBody = document.getElementById('review-table-body');
+                if (reviewTableBody && hsk3Data[currentLesson]) {
+                    reviewTableBody.innerHTML = '';
+                    hsk3Data[currentLesson].words.forEach(w => {
+                        const tr = document.createElement('tr');
+                        tr.innerHTML = `<td class="hz" lang="zh-CN">${w.hz}</td><td class="py">${w.py}</td><td class="mn">${w.mn.toLowerCase()}</td>`;
+                        reviewTableBody.appendChild(tr);
+                    });
+                }
+                const resModal = document.getElementById('result-modal');
+                if (resModal) resModal.classList.add('active');
             } else {
                 const resModal = document.getElementById('result-modal');
                 if (resModal) resModal.classList.remove('active');
 
-                if (stage === 'PLAYING' && !isGameOver) {
+                if (stage === 'PLAYING' && !isGameOver && !isHostWaiting) {
                     const remaining = typeof state.timeLeft === 'number' && state.timeLeft > 0 ? state.timeLeft : 15;
                     startTimer(remaining, nextTurn);
                 }
@@ -900,7 +917,6 @@ document.addEventListener('DOMContentLoaded', () => {
         }
 
         // Tiếp tục phát nhạc nếu không mute và không có popup con đang hoạt động
-        const isHostWaiting = window.SyncManager && window.SyncManager.hasActiveChild && window.SyncManager.hasActiveChild();
         if (window.gameAudio && !window.gameAudio.isMuted && !isHostWaiting) {
             if (bgMusic && bgMusic.paused) {
                 window.safePlayAudio ? window.safePlayAudio(bgMusic) : bgMusic.play().catch(() => {});
